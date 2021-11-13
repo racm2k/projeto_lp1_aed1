@@ -30,7 +30,7 @@ typedef struct clientes{
 
 typedef struct lista_clientes{
     CLIENTES *head;
-    int num_clentes;
+    int num_clientes;
 }LISTA_CLIENTES;
 
 int mainProjeto();
@@ -44,6 +44,7 @@ void inserir_cliente_ordenado_nif(LISTA_CLIENTES *lc, int id, char *nome, char *
 void remover_cliente(LISTA_CLIENTES *lc, int id);
 CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome);
 CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif);
-
+void ordenar_lista_nif(LISTA_CLIENTES *lc);
+void imprimir_ordenado(LISTA_CLIENTES *st);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
