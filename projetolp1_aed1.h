@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <time.h>
 
 typedef struct data{
@@ -38,6 +39,7 @@ void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada
 void imprimir_cliente(LISTA_CLIENTES *slc);
 void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif);
 void inserir_cliente_ordenado_nome(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif);
+void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif,bool insNome);
 void inserir_cliente_ordenado_nif(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif);
 void remover_cliente(LISTA_CLIENTES *lc, int id);
 CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome);
