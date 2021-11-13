@@ -27,33 +27,21 @@ typedef struct clientes{
     struct clientes *next;
 }CLIENTES;
 
-/*typedef struct listClientes{
-    CLIENTES pclientes;
-    struct listClientes *next_cliente;
-}LISTCLIENTES;
-
-typedef struct struct_lista_clientes{
-    CLIENTES *head;
-    int num_clentes;
-}STRCUCT_LISTA_CLIENTES;*/
-
 typedef struct lista_clientes{
     CLIENTES *head;
     int num_clentes;
 }LISTA_CLIENTES;
 
-int mainProjeto(int argc,const char *argv);
-//void inserir_cliente_cabeca();
+int mainProjeto();
 void *criar_lista_clientes();
-//void *criar_no_clientes(STRCUCT_LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif);
-//void inserir_cliente_cabeca(STRCUCT_LISTA_CLIENTES *slc, CLIENTES c);
-void inserir_cliente_cabeca(LISTA_CLIENTES *slc, CLIENTES **head, CLIENTES *no, int id, char *nome, char *morada, int contacto, int nif);
-//void imprimir_cliente(STRCUCT_LISTA_CLIENTES *slc);
+void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif);
 void imprimir_cliente(LISTA_CLIENTES *slc);
-void inserir_cliente_cauda(LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif);
-void inserir_cliente_ordenado_nome(LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif);
-void inserir_cliente_ordenado_nif(LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif);
-void remover_cliente(CLIENTES **head, int id);
+void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif);
+void inserir_cliente_ordenado_nome(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif);
+void inserir_cliente_ordenado_nif(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif);
+void remover_cliente(LISTA_CLIENTES *lc, int id);
+CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome);
+CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif);
 
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

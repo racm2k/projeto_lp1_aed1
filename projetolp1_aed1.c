@@ -4,25 +4,24 @@
 
 #include "projetolp1_aed1.h"
 
-CLIENTES *headClientes = NULL;
+int mainProjeto() {
+    LISTA_CLIENTES *lc = NULL;
+    lc = criar_lista_clientes();
 
+    inserir_cliente_cabeca(lc, 1, "Diogo", "rua123", 12345, 99999);
+   // inserir_cliente_ordenado_nome(lc, 5, "agfga", "gargagg", 124234, 141341341);
 
-int mainProjeto(int argc, const char *argv) {
-    LISTA_CLIENTES *slc = NULL;
-    LISTA_CLIENTES lst = {NULL, 0};
-    slc = criar_lista_clientes();
+    inserir_cliente_cabeca(lc,3, "Ana", "homeless", 10010, 11111);
+    inserir_cliente_cauda(lc, 20, "Baguetes", "homeless part2", 10101010, 666666);
+  //  inserir_cliente_ordenado_nome(lc, 5, "Colega", "Fiat 205 turbo", 12345698, 741852963);
+  //  inserir_cliente_ordenado_nif(lc, 7, "Miguel", "Fim do mundo", 12345698, 11113);
 
-    //CLIENTES c = {1, "Diogo", "rua123", 12345, 99999};
-    inserir_cliente_cabeca(slc, &headClientes, headClientes, 1, "Diogo", "rua123", 12345, 99999);
-    //CLIENTES c1 = {2, "Ana", "homeless", 00000, 11111};
-    //inserir_cliente_cabeca(slc,c);
-    inserir_cliente_cabeca(slc, &headClientes, headClientes, 3, "Ana", "homeless", 10010, 11111);
-    inserir_cliente_cauda(slc, 20, "Baguetes", "homeless part2", 10101010, 666666);
-    inserir_cliente_ordenado_nome(slc, 5, "Colega", "Fiat 205 turbo", 12345698, 741852963);
-    inserir_cliente_ordenado_nif(slc, 7, "Miguel", "Fim do mundo", 12345698, 11113);
+    imprimir_cliente(lc);
+   // remover_cliente(lc, 1);
+   // imprimir_cliente(lc);
+   // procurar_cliente_nome(lc, "Baguetes");
+   procurar_cliente_nif(lc, 11111);
 
-
-    imprimir_cliente(slc);
 }
 
 void *criar_lista_clientes() {
@@ -32,44 +31,8 @@ void *criar_lista_clientes() {
     return node;
 }
 
-/*void *criar_no_clientes(STRCUCT_LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif){
-    LISTCLIENTES *lc = (LISTCLIENTES *) malloc(sizeof (LISTCLIENTES));
-    lc->pclientes.id = id;
-    lc->pclientes.nome = (char *) malloc(50 * sizeof (char));
-    strcpy(lc->pclientes.nome, nome);
-    lc->pclientes.contacto = contacto;
-    lc->pclientes.morada = (char *) malloc(50 * sizeof (char));
-    strcpy(lc->pclientes.morada, morada);
-    lc->pclientes.nif = nif;
-    lc->next_cliente = NULL;
-    return lc;
-}*/
-
-/*void inserir_cliente_cabeca(STRCUCT_LISTA_CLIENTES *slc, CLIENTES c){
-
-    LISTCLIENTES *lc = criar_no_clientes(slc, c.id, c.nome, c.morada, c.contacto, c.nif);
-
-    if (lc != NULL){
-        if (slc->head == NULL){
-            slc->head = lc;
-            slc->num_clentes++;
-            return;
-        }
-
-        LISTCLIENTES *current = slc->head;
-
-        if (current == slc->head){
-            lc->next_cliente = current;
-            slc->head = lc;
-            slc->num_clentes++;
-            return;
-        }
-    }
-}*/
-
-void inserir_cliente_cabeca(LISTA_CLIENTES *slc, CLIENTES **head, CLIENTES *no, int id, char *nome, char *morada, int contacto, int nif) {
-
-    CLIENTES *node = no;
+void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif) {
+    CLIENTES *node = lc->head;
     if (node == NULL) {
         CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
 
@@ -82,42 +45,39 @@ void inserir_cliente_cabeca(LISTA_CLIENTES *slc, CLIENTES **head, CLIENTES *no, 
         novo_no->nif = nif;
         novo_no->next = NULL;
 
-        novo_no->next = *head;
-        *head = novo_no;
-        slc->num_clentes++;
+        novo_no->next = lc->head;
+        lc->head = novo_no;
+        lc->num_clentes++;
         return;
     }
 
-    CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
+  //  while (node != NULL){ //ciclo inf
 
-    novo_no->id = id;
-    novo_no->nome = (char *) malloc(50 * sizeof(char));
-    strcpy(novo_no->nome, nome);
-    novo_no->morada = (char *) malloc(50 * sizeof(char));
-    strcpy(novo_no->morada, morada);
-    novo_no->contacto = contacto;
-    novo_no->nif = nif;
-    novo_no->next = NULL;
+      /*  if (node->id == id){
+            printf("Ja existe um cliente com esse id!!\nCliente nao foi introduzido");
+            return;
+        }*/
 
-    novo_no->next = *head;
-    *head = novo_no;
-    slc->num_clentes++;
+        CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
+
+        novo_no->id = id;
+        novo_no->nome = (char *) malloc(50 * sizeof(char));
+        strcpy(novo_no->nome, nome);
+        novo_no->morada = (char *) malloc(50 * sizeof(char));
+        strcpy(novo_no->morada, morada);
+        novo_no->contacto = contacto;
+        novo_no->nif = nif;
+        novo_no->next = NULL;
+
+        novo_no->next = lc->head;
+        lc->head = novo_no;
+        lc->num_clentes++;
+  //  }
 }
 
-/*void imprimir_cliente(STRCUCT_LISTA_CLIENTES *slc){
-    LISTCLIENTES *l = slc->head;
-    int i = 1;
-    while (l != NULL){
-        printf("Cliente: id: %d, nome: %s, morada: %s, contacto: %d, NIF: %d\n", l->pclientes.id, l->pclientes.nome,
-               l->pclientes.morada, l->pclientes.contacto, l->pclientes.nif);
-        i++;
-        l = l->next_cliente;
-    }
-}*/
-
-void imprimir_cliente(LISTA_CLIENTES *slc) {
-    CLIENTES *l = headClientes;
-    printf("Num Clientes: %d\n",slc->num_clentes);
+void imprimir_cliente(LISTA_CLIENTES *lc) {
+    CLIENTES *l = lc->head;
+    printf("Num Clientes: %d\n",lc->num_clentes);
     while (l != NULL) {
         printf("Cliente: id: %d, nome: %s, morada: %s, contacto: %d, NIF: %d\n", l->id, l->nome, l->morada,
                l->contacto, l->nif);
@@ -125,8 +85,8 @@ void imprimir_cliente(LISTA_CLIENTES *slc) {
     }
 }
 
-void inserir_cliente_cauda(LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif) {
-    CLIENTES *current = headClientes, *ant = NULL;
+void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif) {
+    CLIENTES *current = lc->head, *ant = NULL;
 
     ant = (CLIENTES *) malloc(sizeof (CLIENTES));
     ant->id = id;
@@ -137,16 +97,25 @@ void inserir_cliente_cauda(LISTA_CLIENTES *slc, int id, char *nome, char *morada
     ant->contacto = contacto;
     ant->nif = nif;
     ant->next = NULL;
-    slc->num_clentes++;
+    lc->num_clentes++;
 
-    while (current->next != NULL){
-        current = current->next;
+    if (current == NULL){
+        lc->head = ant;
+        lc->num_clentes++;
+        return;
     }
 
+    while (current->next != NULL){ //n esta a entrar
+        if (current->id == id){
+            printf("Ja existe um cliente com esse id!!\nCliente nao foi introduzido");
+            return;
+        }
+        current = current->next;
+    }
     current->next = ant;
 }
 
-void inserir_cliente_ordenado_nome(LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif) {
+void inserir_cliente_ordenado_nome(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif) {
     CLIENTES *c = (CLIENTES *) malloc(sizeof (CLIENTES));
     c->id = id;
     c->nome = (char *) malloc(50 * sizeof(char));
@@ -156,12 +125,17 @@ void inserir_cliente_ordenado_nome(LISTA_CLIENTES *slc, int id, char *nome, char
     c->contacto = contacto;
     c->nif = nif;
     c->next = NULL;
-    slc->num_clentes++;
 
-    CLIENTES *current = headClientes, *ant = NULL;
-    if (current == NULL){//lista vazia
-        current = c;
-        slc->num_clentes++;
+    if (lc->head == NULL || lc->num_clentes == 0){
+        lc->head = c;
+        lc->num_clentes++;
+        return;
+    }
+
+    CLIENTES *current = lc->head, *ant = NULL;
+
+    if (current->id == id){ //not
+        printf("Ja existe um cliente com esse id!!\nCliente nao foi introduzido");
         return;
     }
 
@@ -170,19 +144,19 @@ void inserir_cliente_ordenado_nome(LISTA_CLIENTES *slc, int id, char *nome, char
         current = current->next;
     }
 
-    if (current == slc->head){//cabeça
+    if (current == lc->head){//cabeça
         c->next = current;
-        slc->head = c;
-        slc->num_clentes++;
+        lc->head = c;
+        lc->num_clentes++;
         return;
     }
     //meio ou cauda
     ant->next = c;
     c->next = current;
-    slc->num_clentes++;
+    lc->num_clentes++;
 }
 
-void inserir_cliente_ordenado_nif(LISTA_CLIENTES *slc, int id, char *nome, char *morada, int contacto, int nif) {
+void inserir_cliente_ordenado_nif(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif) {
     CLIENTES *c = (CLIENTES *) malloc(sizeof (CLIENTES));
     c->id = id;
     c->nome = (char *) malloc(50 * sizeof(char));
@@ -192,33 +166,85 @@ void inserir_cliente_ordenado_nif(LISTA_CLIENTES *slc, int id, char *nome, char 
     c->contacto = contacto;
     c->nif = nif;
     c->next = NULL;
-    slc->num_clentes++;
 
-    CLIENTES *current = headClientes, *ant = NULL;
-    if (current == NULL){//lista vazia
-        current = c;
-        slc->num_clentes++;
+    if (lc->head == NULL || lc->num_clentes == 0){
+        lc->head = c;
+        lc->num_clentes++;
         return;
     }
+
+    CLIENTES *current = lc->head, *ant = NULL;
 
     while (current != NULL && nif > current->nif){//enquanto n chegar sitio certo
         ant = current;
         current = current->next;
     }
 
-    if (current == slc->head){//cabeça
+    if (current == lc->head){//cabeça
         c->next = current;
-        slc->head = c;
-        slc->num_clentes++;
+        lc->head = c;
+        lc->num_clentes++;
         return;
     }
     //meio ou cauda
     ant->next = c;
     c->next = current;
-    slc->num_clentes++;
+    lc->num_clentes++;
 }
 
-void remover_cliente(CLIENTES **head, int id){
+void remover_cliente(LISTA_CLIENTES *lc, int id){
+    if (lc->head == NULL){
+        printf("A lista esta vazia!!");
+        return;
+    }
 
+    CLIENTES *anterior = NULL, *current = lc->head;
+
+    while (current != NULL && current->id != id){
+        anterior = current;
+        current = current->next;
+    }
+
+    if (current == lc->head){
+        lc->head = lc->head->next;
+        free(current);
+        lc->num_clentes--;
+        return;
+    }
+
+    if (current == NULL){
+        printf("O cliente que quer eliminar nao existe!!\n");
+        return;
+    }
+
+    anterior->next = current->next;
+    free(current);
+    lc->num_clentes--;
 }
 
+CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome){
+    CLIENTES *current = lc->head;
+
+    for (int i = 0; i < lc->num_clentes; i++){
+        if (current->nome == nome){
+            return current;
+        }
+        current = current->next;
+    }
+    printf("Nao encontramos o cliente pedido!!");
+    return NULL;
+}
+
+CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif){
+    CLIENTES *current = lc->head;
+
+    for (int i = 0; i < lc->num_clentes; i++){
+        if (current->nif == nif){
+            printf("Encontramos o cliente!! %d", nif);
+            return current;
+        }
+        current = current->next;
+    }
+    printf("Nao encontramos o cliente pedido!!");
+    return NULL;
+}
