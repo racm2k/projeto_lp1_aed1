@@ -19,7 +19,8 @@ void *criar_lista_clientes() {
     return node;
 }
 
-void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay, int birthMon, int birthYear) {
+void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, struct tm data,
+                            int brithDay, int birthMon, int birthYear) {
     CLIENTES *node = lc->head;
     if (node == NULL) {
         CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
@@ -43,8 +44,7 @@ void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada
         lc->head = novo_no;
         lc->num_clientes++;
         return;
-    }
-    else {
+    } else {
         while (node != NULL) {//JA NAO É INFINITO
 
             if (node->id == id || node->nif == nif) {
@@ -90,7 +90,8 @@ void imprimir_cliente(LISTA_CLIENTES *lc) {
     printf("**************FIM DE LISTA**********\n");
 }
 
-void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay, int birthMon, int birthYear) {
+void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, struct tm data,
+                           int brithDay, int birthMon, int birthYear) {
     CLIENTES *current = lc->head, *ant = NULL;
 
     while (current->next != NULL) { //JA ENTROU
@@ -121,7 +122,8 @@ void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada,
     lc->num_clientes++;
 }
 
-void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, bool insNome, struct tm data, int brithDay, int birthMon, int birthYear) {
+void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, bool insNome,
+                              struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *c = (CLIENTES *) malloc(sizeof(CLIENTES));
     c->id = id;
     c->nome = (char *) malloc(50 * sizeof(char));
@@ -138,16 +140,15 @@ void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *mora
     c->data_registo.dia = data.tm_mday;
     c->next = NULL;
 
-    if (lc->head == NULL || lc->num_clientes == 0){
+    if (lc->head == NULL || lc->num_clientes == 0) {
         lc->head = c;
         lc->num_clientes++;
         return;
-    }
-    else {
+    } else {
         CLIENTES *current = lc->head, *ant = NULL;
 
-        while (current->next != NULL){
-            if (current->id == id || current->nif == nif){
+        while (current->next != NULL) {
+            if (current->id == id || current->nif == nif) {
                 printf("ERRO -> inserir_cliente_ord(): Ja existe um cliente com esse id/nif!! Cliente nao foi introduzido\n");
                 return;
             }
@@ -156,7 +157,7 @@ void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *mora
         current = lc->head;
 
         if (insNome == true) {  // INSERIR ORDENADO PELO NOME
-            while (current != NULL && strcmp(nome, current->nome) > 0){//enquanto n chegar sitio certo NOME
+            while (current != NULL && strcmp(nome, current->nome) > 0) {//enquanto n chegar sitio certo NOME
                 ant = current;
                 current = current->next;
             }
@@ -170,8 +171,7 @@ void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *mora
             ant->next = c;
             c->next = current;
             lc->num_clientes++;
-        }
-        else { // INSERIR ORDENADO PELO NIF
+        } else { // INSERIR ORDENADO PELO NIF
             while (current != NULL && nif > current->nif) {//enquanto n chegar sitio certo NIF
                 ant = current;
                 current = current->next;
@@ -223,7 +223,7 @@ void remover_cliente(LISTA_CLIENTES *lc, int id) {
 CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome) {
     CLIENTES *current = lc->head;
 
-    if (current == NULL){
+    if (current == NULL) {
         printf("A lista esta vazia!!\n");
         return 0;
     }
@@ -242,7 +242,7 @@ CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome) {
 CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif) {
     CLIENTES *current = lc->head;
 
-    if (current == NULL){
+    if (current == NULL) {
         printf("A lista esta vazia!!\n");
         return 0;
     }
@@ -290,3 +290,59 @@ void imprimir_ordenado(LISTA_CLIENTES *st) {
         current = current->next;
     }
 }
+
+/**
+ * cria lista de cidades
+ * @return node lista de cidades criada
+ */
+void *criar_lista_cidades() {
+    LISTA_CIDADES *node = (LISTA_CIDADES *) malloc(sizeof(LISTA_CIDADES));
+    node->head = NULL;
+    node->num_cidades = 0;
+    return node;
+}
+
+/**
+ * Pesquisa de cidade
+ * @param listaCidades lista de todas as cidades
+ * @param cidade cidade a ser pesquisada
+ * @return
+ */
+CIDADE *pesquisar_cidade(LISTA_CIDADES *listaCidades, const char *cidade) {
+    CIDADE *current = listaCidades->head;
+    if (current == NULL) {
+        printf("A lista esta vazia!!\n");
+        return 0;
+    }
+
+    for (int i = 0; i < listaCidades->num_cidades; i++) {
+        if(strcmp(current->nome,cidade)==0){
+            printf("Encotramos a cidade!! \nNome: %s\nDescricao: %s\n",current->nome,current->descricao);
+            return current;
+        }
+    }
+    printf("Nao encontramos a cidade pretendida!!\n");
+    return 0;
+}
+
+
+/**
+ * Editar informação da descricao de uma cidade
+ * @param listaCidades Lista de Cidades
+ * @param nome_cidade nome da cidade a editar
+ * @param nova_descricao nova descricao da cidade
+ */
+void edit_cidade(LISTA_CIDADES *listaCidades,const char *nome_cidade, const char *nova_descricao){
+
+    CIDADE *cidade = pesquisar_cidade(listaCidades,nome_cidade);
+
+    if(cidade==NULL){
+        return;
+    }else{
+        strcpy(cidade->descricao,nova_descricao);
+        printf("Info da cidade %s alterada!!\n",cidade->nome);
+    }
+}
+
+
+
