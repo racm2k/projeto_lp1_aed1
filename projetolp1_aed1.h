@@ -11,8 +11,6 @@
 #include <stdbool.h>
 #include <time.h>
 
-
-
 typedef struct data{
     int dia;
     int mes;
@@ -38,9 +36,9 @@ typedef struct lista_clientes{
 int mainProjeto();
 void *criar_lista_clientes();
 void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif,struct tm data, int brithDay, int birthMon, int birthYear);
-void imprimir_cliente(LISTA_CLIENTES *slc);
+void imprimir_cliente(LISTA_CLIENTES *lc);
 void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif,struct tm data, int brithDay, int birthMon, int birthYear);
-void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif,bool insNome,struct tm data, int brithDay, int birthMon, int birthYear);
+void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, bool insNome, struct tm data, int brithDay, int birthMon, int birthYear);
 void remover_cliente(LISTA_CLIENTES *lc, int id);
 CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome);
 CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif);
