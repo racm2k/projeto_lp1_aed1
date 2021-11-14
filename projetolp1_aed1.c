@@ -8,15 +8,19 @@ int mainProjeto() {
     LISTA_CLIENTES *lc = NULL;
     lc = criar_lista_clientes();
 
-    inserir_cliente_cabeca(lc, 1, "Diogo", "rua123", 12345, 99999);
+    time_t t = time(NULL);
+
+    struct tm tm=*localtime(&t);
+
+    inserir_cliente_cabeca(lc, 1, "Diogo", "rua123", 12345, 99999,tm,1,2,2000);
     // inserir_cliente_ordenado_nome(lc, 5, "agfga", "gargagg", 124234, 141341341);
 
-    inserir_cliente_cabeca(lc, 3, "Ana", "homeless", 10010, 11111);
-    inserir_cliente_cabeca(lc, 4, "Alfredo", "tua tia", 15150, 434313);
-    inserir_cliente_cauda(lc, 20, "Baguetes", "homeless part2", 10101010, 666666);
-    inserir_cliente_cabeca(lc, 17, "Joaquim", "tua prima", 69690, 420420);
-    inserir_cliente_ordenado(lc, 15, "Alberto", "tua mae", 42042, 6969, true);
-    inserir_cliente_ordenado(lc, 11, "Alberta", "tua mae", 42042, 6968, true);
+    inserir_cliente_cabeca(lc, 3, "Ana", "homeless", 10010, 11111,tm,2,4,1999);
+    inserir_cliente_cabeca(lc, 4, "Alfredo", "tua tia", 15150, 434313,tm,4,6,2001);
+    inserir_cliente_cauda(lc, 20, "Baguetes", "homeless part2", 10101010, 666666,tm,6,8,2000);
+    inserir_cliente_cabeca(lc, 17, "Joaquim", "tua prima", 69690, 420420,tm,8,10,1998);
+    inserir_cliente_ordenado(lc, 15, "Alberto", "tua mae", 42042, 6969, true,tm,10,12,2000);
+    inserir_cliente_ordenado(lc, 11, "Alberta", "tua mae", 42042, 6968, true,tm,20,7,2000);
     //  inserir_cliente_ordenado_nome(lc, 5, "Colega", "Fiat 205 turbo", 12345698, 741852963);
     //  inserir_cliente_ordenado_nif(lc, 7, "Miguel", "Fim do mundo", 12345698, 11113);
 
@@ -40,7 +44,7 @@ void *criar_lista_clientes() {
     return node;
 }
 
-void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif) {
+void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *node = lc->head;
     if (node == NULL) {
         CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
@@ -52,6 +56,12 @@ void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada
         strcpy(novo_no->morada, morada);
         novo_no->contacto = contacto;
         novo_no->nif = nif;
+        novo_no->data_nascimento.dia=brithDay;
+        novo_no->data_nascimento.mes=birthMon;
+        novo_no->data_nascimento.ano=birthYear;
+        novo_no->data_registo.ano=data.tm_year+1900;
+        novo_no->data_registo.mes=data.tm_mon+1;
+        novo_no->data_registo.dia=data.tm_mday;
         novo_no->next = NULL;
 
         novo_no->next = lc->head;
@@ -79,6 +89,12 @@ void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada
         strcpy(novo_no->morada, morada);
         novo_no->contacto = contacto;
         novo_no->nif = nif;
+        novo_no->data_nascimento.dia=brithDay;
+        novo_no->data_nascimento.mes=birthMon;
+        novo_no->data_nascimento.ano=birthYear;
+        novo_no->data_registo.ano=data.tm_year+1900;
+        novo_no->data_registo.mes=data.tm_mon+1;
+        novo_no->data_registo.dia=data.tm_mday;
         novo_no->next = NULL;
 
         novo_no->next = lc->head;
@@ -92,14 +108,14 @@ void imprimir_cliente(LISTA_CLIENTES *lc) {
     CLIENTES *l = lc->head;
     printf("**************CLIENTES*************num_clientes: %d\n", lc->num_clientes);
     while (l != NULL) {
-        printf("Cliente: id: %d, nome: %s, morada: %s, contacto: %d, NIF: %d\n", l->id, l->nome, l->morada,
-               l->contacto, l->nif);
+        printf("Cliente: id: %d ; nome: %s ; morada: %s ; contacto: %d ; NIF: %d ; Data Nascimento: %d/%d/%d ; Data Registo: %d/%d/%d\n", l->id, l->nome, l->morada,
+               l->contacto, l->nif,l->data_nascimento.dia,l->data_nascimento.mes,l->data_nascimento.ano,l->data_registo.dia,l->data_registo.mes,l->data_registo.ano);
         l = l->next;
     }
     printf("**************FIM DE LISTA**********\n");
 }
 
-void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif) {
+void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif,struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *current = lc->head, *ant = NULL;
 
     while (current->next != NULL) { //JA ENTROU
@@ -118,6 +134,12 @@ void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada,
     strcpy(ant->morada, morada);
     ant->contacto = contacto;
     ant->nif = nif;
+    ant->data_nascimento.dia=brithDay;
+    ant->data_nascimento.ano=birthYear;
+    ant->data_nascimento.mes=birthMon;
+    ant->data_registo.ano=data.tm_year+1900;
+    ant->data_registo.mes=data.tm_mon+1;
+    ant->data_registo.dia=data.tm_mday;
     ant->next = NULL;
 
 
@@ -125,7 +147,7 @@ void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada,
 }
 
 void
-inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, bool insNome) {
+inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, bool insNome,struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *c = (CLIENTES *) malloc(sizeof(CLIENTES));
     c->id = id;
     c->nome = (char *) malloc(50 * sizeof(char));
@@ -134,6 +156,12 @@ inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, i
     strcpy(c->morada, morada);
     c->contacto = contacto;
     c->nif = nif;
+    c->data_nascimento.dia=brithDay;
+    c->data_nascimento.ano=birthYear;
+    c->data_nascimento.mes=birthMon;
+    c->data_registo.ano=data.tm_year+1900;
+    c->data_registo.mes=data.tm_mon+1;
+    c->data_registo.dia=data.tm_mday;
     c->next = NULL;
 
     if (lc->head == NULL || lc->num_clientes == 0) {
