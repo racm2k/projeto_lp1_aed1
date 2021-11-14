@@ -224,11 +224,11 @@ CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome) {
     CLIENTES *current = lc->head;
 
     if (current == NULL){
-        printf("A lista esta vazia!!");
-        return NULL;
+        printf("A lista esta vazia!!\n");
+        return 0;
     }
 
-    for (int i = 0; i <= lc->num_clientes; i++) {
+    for (int i = 0; i < lc->num_clientes; i++) {
         if (strcmp(current->nome, nome) == 0) {
             printf("Encontramos o cliente!! Nome: %s\n", nome);
             return current;
@@ -236,13 +236,18 @@ CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome) {
         current = current->next;
     }
     printf("Nao encontramos o cliente pedido!!\n");
-    return NULL;
+    return 0;
 }
 
 CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif) {
     CLIENTES *current = lc->head;
 
-    for (int i = 0; i <= lc->num_clientes; i++) {
+    if (current == NULL){
+        printf("A lista esta vazia!!\n");
+        return 0;
+    }
+
+    for (int i = 0; i < lc->num_clientes; i++) {
         if (current->nif == nif) {
             printf("Encontramos o cliente!! Nif: %d\n", nif);
             return current;
@@ -250,12 +255,12 @@ CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif) {
         current = current->next;
     }
     printf("Nao encontramos o cliente pedido!!\n");
-    return NULL;
+    return 0;
 }
 
 void ordenar_lista_nif(LISTA_CLIENTES *lc) {
     CLIENTES *current = lc->head, *nova = NULL;
-    int temp;
+    int aux;
 
     if (current == NULL) {
         printf("Nao existe nenhum cliente na lista!");
@@ -267,9 +272,9 @@ void ordenar_lista_nif(LISTA_CLIENTES *lc) {
 
         while (nova != NULL) {
             if (current->nif > nova->nif) {  //se o nif for > q o nif da nova
-                temp = current->nif;        //guardo o valor do nif na variavel temp
+                aux = current->nif;        //guardo o valor do nif na variavel temp
                 current->nif = nova->nif;   //e mete no meu current nif a variavel q estava no nova
-                nova->nif = temp;           //ponho no nova a variavel q estava no temp q era o current nif
+                nova->nif = aux;           //ponho no nova a variavel q estava no temp q era o current nif
             }
             nova = nova->next;
         }
@@ -278,9 +283,10 @@ void ordenar_lista_nif(LISTA_CLIENTES *lc) {
 }
 
 void imprimir_ordenado(LISTA_CLIENTES *st) {
-    CLIENTES *temp = st->head;
-    while (temp != NULL) {
-        printf(" NIF: %d;\t Nome: %s \n", temp->nif, temp->nome);
-        temp = temp->next;
+    CLIENTES *current = st->head;
+    printf("**************Lista Ordenada*************\n");
+    while (current != NULL) {
+        printf("NIF: %d;\t Nome: %s \n", current->nif, current->nome);
+        current = current->next;
     }
 }
