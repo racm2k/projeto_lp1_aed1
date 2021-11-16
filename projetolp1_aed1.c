@@ -561,7 +561,6 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
         }
         cliente = cliente->next;
     }
-
 }
 
 /**

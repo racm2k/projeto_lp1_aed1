@@ -11,7 +11,7 @@ LISTA_PoI *listaPoI;
 LISTA_VIAGENS *listaViagens;
 
 int main_testes() {
-     lc = NULL;
+    lc = NULL;
     lc = criar_lista_clientes();
 
     listaCidades=NULL;
@@ -30,7 +30,7 @@ int main_testes() {
      * Testes sobre informaçao dos Clientes
      */
 
-    //INSERIR CLIENTES
+    ///INSERIR CLIENTES
     inserir_cliente_cabeca(1, "Diogo", "rua123", 12345, 99999, tm, 1, 2, 2000);
     inserir_cliente_cabeca(3, "Ana", "homeless", 10010, 11111, tm, 2, 4, 1999);
     inserir_cliente_cabeca(4, "Alfredo", "tua tia", 15150, 434313, tm, 4, 6, 2001);
@@ -40,11 +40,11 @@ int main_testes() {
     inserir_cliente_ordenado(11, "Alberta", "tua mae", 42042, 6968, false, tm, 20, 7, 2000);
     imprimir_cliente();
 
-    //REMOVER CLIENTES
+    ///REMOVER CLIENTES
      remover_cliente(1);
      imprimir_cliente();
 
-    //PROCURAR CLIENTES
+    ///PROCURAR CLIENTES
     CLIENTES *c1 = procurar_cliente_nome("Alberta");
     if (c1 != NULL){
         printf("Cliente: id: %d ; nome: %s ; morada: %s ; contacto: %d ; NIF: %d ; Data Nascimento: %d/%d/%d ; Data Registo: %d/%d/%d\n\n",
@@ -53,30 +53,30 @@ int main_testes() {
                c1->data_registo.dia, c1->data_registo.mes, c1->data_registo.ano);
     }
 
-    //ORDENAR LISTA LIGADA PELO NIF
+    ///ORDENAR LISTA LIGADA PELO NIF
     ordenar_lista_nif();
     imprimir_ordenado();
 
-    //INSERIR CIDADE
+    ///INSERIR CIDADE
 
-    //PESQUISAR CIDADE
+    ///PESQUISAR CIDADE
 
-    //EDITAR CIDADE
+    ///EDITAR CIDADE
 
-    //INSERIR VIAGEM
+    ///INSERIR VIAGEM
     inserir_viagem(6968,1,"Portugal");
     inserir_viagem(6968,2,"Espanha");
 //    inserir_viagem(420420,2,"Espanha");
 //    inserir_viagem(6968,1,"Portugal");
-//    imprimir_viagens_cliente(6968);
+    imprimir_viagens_cliente(6968);
 
-    //EDITAR VIAGENS
+    ///EDITAR VIAGENS
     edit_viagem(6968,2,"Italia");
 
-    //PESQUISAR VIAGENS
+    ///PESQUISAR VIAGENS
     pesquisar_viagem(2);
 
-    //REMOVER VIAGENS
+    ///REMOVER VIAGENS
     remove_viagem(2);
 
     imprimir_viagens_cliente(6968);
