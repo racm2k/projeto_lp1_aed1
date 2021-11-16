@@ -11,6 +11,7 @@ int mainProjeto() {
 
     return 0;
 }
+
 /**
  * Criar Lista ligada de clientes
  * @return node lista de clientes criada
@@ -45,7 +46,8 @@ void *criar_lista_PoI() {
  * @param birthMon mês nascimento do cliente
  * @param birthYear ano nascimento do cliente
  */
-void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay, int birthMon, int birthYear) {
+void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay,
+                            int birthMon, int birthYear) {
     CLIENTES *node = lc->head;
     if (node == NULL) {
         CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
@@ -63,14 +65,15 @@ void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int 
         novo_no->data_registo.ano = data.tm_year + 1900;
         novo_no->data_registo.mes = data.tm_mon + 1;
         novo_no->data_registo.dia = data.tm_mday;
+        novo_no->viagens_arr = NULL;
+        novo_no->num_viagens = 0;
         novo_no->next = NULL;
 
         novo_no->next = lc->head;
         lc->head = novo_no;
         lc->num_clientes++;
         return;
-    } else
-        {
+    } else {
         while (node != NULL) {
 
             if (node->id == id || node->nif == nif) {
@@ -95,6 +98,8 @@ void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int 
         novo_no->data_registo.ano = data.tm_year + 1900;
         novo_no->data_registo.mes = data.tm_mon + 1;
         novo_no->data_registo.dia = data.tm_mday;
+        novo_no->viagens_arr = NULL;
+        novo_no->num_viagens = 0;
         novo_no->next = NULL;
 
         novo_no->next = lc->head;
@@ -131,7 +136,8 @@ void imprimir_cliente() {
  * @param birthMon mês nascimento do cliente
  * @param birthYear ano nascimento do cliente
  */
-void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay, int birthMon, int birthYear) {
+void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay,
+                           int birthMon, int birthYear) {
     CLIENTES *current = lc->head, *ant = NULL;
 
     while (current->next != NULL) {
@@ -156,6 +162,8 @@ void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int n
     ant->data_registo.ano = data.tm_year + 1900;
     ant->data_registo.mes = data.tm_mon + 1;
     ant->data_registo.dia = data.tm_mday;
+    ant->viagens_arr = NULL;
+    ant->num_viagens = 0;
     ant->next = NULL;
 
     current->next = ant;
@@ -175,7 +183,8 @@ void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int n
  * @param birthMon mês nascimento do cliente
  * @param birthYear ano nascimento do cliente
  */
-void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome, struct tm data, int brithDay, int birthMon, int birthYear) {
+void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome, struct tm data,
+                              int brithDay, int birthMon, int birthYear) {
     CLIENTES *c = (CLIENTES *) malloc(sizeof(CLIENTES));
     c->id = id;
     c->nome = (char *) malloc(50 * sizeof(char));
@@ -190,14 +199,15 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
     c->data_registo.ano = data.tm_year + 1900;
     c->data_registo.mes = data.tm_mon + 1;
     c->data_registo.dia = data.tm_mday;
+    c->viagens_arr = NULL;
+    c->num_viagens = 0;
     c->next = NULL;
 
     if (lc->head == NULL || lc->num_clientes == 0) {
         lc->head = c;
         lc->num_clientes++;
         return;
-    }
-    else {
+    } else {
         CLIENTES *current = lc->head, *ant = NULL;
 
         while (current->next != NULL) {
@@ -224,8 +234,7 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
             ant->next = c;
             c->next = current;
             lc->num_clientes++;
-        }
-        else { // INSERIR ORDENADO PELO NIF
+        } else { // INSERIR ORDENADO PELO NIF
             while (current != NULL && nif > current->nif) {//enquanto n chegar sitio certo NIF
                 ant = current;
                 current = current->next;
@@ -431,9 +440,11 @@ void insert_PoI(char *nome_cidade, char *nome_PoI) {
         return;
     } else {
         if (check_dups_PoI(nome_cidade, nome_PoI) == 0) {
-            PoI *arr_PoI = (PoI *) malloc(sizeof(PoI));
-            strcpy(arr_PoI[cidade->num_PoI].nome, nome_PoI);
-            addPoItoGlobalList(&arr_PoI[cidade->num_PoI]);
+            PoI *poI = (PoI *) malloc(sizeof(PoI));
+            strcpy(poI->nome, nome_PoI);
+            addPoItoGlobalList(poI);
+            poI->next = cidade->pontos_interesse;
+            cidade->pontos_interesse = poI;
             cidade->num_PoI++;
         } else
             return;
@@ -449,17 +460,8 @@ void insert_PoI(char *nome_cidade, char *nome_PoI) {
 void edit_PoI(char *nome_cidade, char *nome_PoI, char *novoNome_PoI) {
     CIDADE *cidade = pesquisar_cidade(nome_cidade);
     if (cidade != NULL) {
-        if (pesquisar_PoI(nome_cidade, novoNome_PoI) == NULL) {
-            PoI *poI = pesquisar_PoI(nome_cidade, nome_PoI);
-            if (poI != NULL) {
-                strcpy(poI->nome, novoNome_PoI);
-                return;
-            } else
-                printf("Ponto de interesse nao encontrado!!\n");
-        } else
-            printf("Alteracao cancelada pois ja existe um Ponto de Interesse igual!!\n");
-    } else
-        printf("Cidade nao encontrada!!\n");
+        // TO DO
+    }
 }
 
 /**
@@ -471,11 +473,7 @@ void edit_PoI(char *nome_cidade, char *nome_PoI, char *novoNome_PoI) {
 PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
     CIDADE *cidade = pesquisar_cidade(nome_cidade);
     if (cidade != NULL) {
-        for (int i = 0; i < cidade->num_PoI; i++) {
-            if (strcmp(cidade->pontos_interesse[i].nome, nome_PoI) == 0) {
-                return &cidade->pontos_interesse[i];
-            }
-        }
+        //TO DO
     }
     return NULL;
 }
@@ -485,51 +483,28 @@ PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
  * @param nome_PoI nome do PoI a ser removido
  */
 void remove_PoI(char *nome_PoI) {
-    int id = -1;
-    CIDADE *cidade = NULL;
-    cidade = listaCidades->head;
-    while (cidade->next != NULL) {
-        id = check_dups_PoI(cidade->nome, nome_PoI);
-        if (id >= 0)
-            break;
-        cidade = cidade->next;
-    }
-    cidade->pontos_interesse[id].nome = NULL;
-    /*  for (int i = 0; i < cidade->num_PoI; i++) {
-          if (strcmp(cidade->pontos_interesse[i].nome, nome_PoI) == 0) {
-              cidade->pontos_interesse[i].nome = NULL;
-              id = i;
-              break;
-          }
-      }*/
-    for (int i = id; i < cidade->num_PoI; i++) {
-        cidade->pontos_interesse[i] = cidade->pontos_interesse[i + 1];
-    }
-    cidade->num_PoI--;
+        //TO DO
 }
 
 /**
  * Verifica existencia de PoI duplicados numa cidade
  * @param nome_cidade cidade a procurar duplicados
  * @param nome_PoI PoI a verificar
- * @return retorna a sua posicao se existir , -1 se nao existir e -2 se a cidade nao existir
+ * @return retorna 1 se existir , 0 se nao existir e -1 se a cidade nao existir
  */
 int check_dups_PoI(char *nome_cidade, char *nome_PoI) {
     CIDADE *cidade = pesquisar_cidade(nome_cidade);
     if (cidade == NULL) {
         printf("Cidade nao existe!!\n");
-        return -2;
-    }
-    else {
-        int size = cidade->num_PoI;
-        for (int i = 0; i < size; i++) {
-            if (strcmp(cidade->pontos_interesse[i].nome, nome_PoI) == 0) {
-                printf("Ponto de Interesse já existente!!\n");
-                return i;
-            }
+        return -1;
+    } else {
+        PoI *poI = cidade->pontos_interesse;
+        while (poI != NULL) {
+            if (strcmp(poI->nome, nome_PoI) == 0)
+                return 1;
         }
     }
-    return -1;
+    return 0;
 }
 
 /**
@@ -551,6 +526,79 @@ void addPoItoGlobalList(PoI *poI) {
 }
 
 /**
+ * Funcao para adicionar uma viagem a um cliente
+ * @param nif nif do cliente
+ * @param id_viagem id escolhido para a viagem
+ * @param pais_destino pais de destino da viagem
+ */
+void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
+    CLIENTES *cliente = procurar_cliente_nif(nif);
+    VIAGEM *node = cliente->viagens_arr;
+    if (node == NULL) {
+        VIAGEM *novo_no = (VIAGEM *) malloc(sizeof(VIAGEM));
+
+        novo_no->id = id_viagem;
+        novo_no->pais = (char *) malloc(50 * sizeof(char));
+        strcpy(novo_no->pais, pais_destino);
+        novo_no->nif_cliente = nif;
+        novo_no->next = NULL;
+
+        novo_no->next = cliente->viagens_arr;
+        cliente->viagens_arr = novo_no;
+        cliente->num_viagens++;
+        printf("Viagem Inserida!!\n");
+        return;
+    } else {
+        while (node != NULL) {
+
+            if (node->id == id_viagem) {
+                printf("ERRO -> inserir_viagem(): Ja existe uma viagem com esse id!! Viagem nao foi introduzido\n");
+                return;
+            }
+            node = node->next;
+        }
+
+        VIAGEM *novo_no = (VIAGEM *) malloc(sizeof(VIAGEM));
+
+        novo_no->id = id_viagem;
+        novo_no->pais = (char *) malloc(50 * sizeof(char));
+        strcpy(novo_no->pais, pais_destino);
+        novo_no->nif_cliente = nif;
+        novo_no->next = NULL;
+
+        novo_no->next = cliente->viagens_arr;
+        cliente->viagens_arr = novo_no;
+        cliente->num_viagens++;
+        printf("Viagem Inserida!!\n");
+
+    }
+}
+
+/**
+ * Funcao para imprimir as viagens de um cliente
+ * @param nif nif do cliente
+ */
+void imprimir_viagens_cliente(int nif) {
+    CLIENTES *cliente = procurar_cliente_nif(nif);
+    VIAGEM *current = cliente->viagens_arr;
+    while (current != NULL) {
+        printf("ID: %d\tPais: %s\tNIF Cliente: %d\n", current->id, current->pais, current->nif_cliente);
+        current = current->next;
+    }
+}
+
+/**
+ * Funcao para criar uma lista global para as viagens
+ * @return retorna uma lista para viagens
+ */
+void *criar_lista_Viagens() {
+    LISTA_VIAGENS *node = (LISTA_VIAGENS *) malloc(sizeof(LISTA_VIAGENS));
+    node->head = NULL;
+    node->num_viagens = 0;
+    return node;
+}
+
+/**
  * Funcao que cria ou redimensiona um array dinamico de Viagens
  * Se o array nao tiver memoria: criamos e inicializamos o array
  * senao retorna o array com o novo tamanho, e com as novas posicoes a 0
@@ -559,10 +607,10 @@ void addPoItoGlobalList(PoI *poI) {
  * @param newsize novo tamanho
  * @return retorna o array com o novo tamanho
  */
-VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr,int size, int newsize){
-    VIAGEM *new_arr = (VIAGEM*) calloc(newsize, sizeof(VIAGEM));
+VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int newsize) {
+    VIAGEM *new_arr = (VIAGEM *) calloc(newsize, sizeof(VIAGEM));
     for (int i = 0; i < size; i++) {
-        *(new_arr+i)=*(viagem_arr+i);
+        *(new_arr + i) = *(viagem_arr + i);
     }
     free(viagem_arr);
     return new_arr;
