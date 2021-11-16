@@ -77,7 +77,7 @@ int main_testes() {
     ///REMOVER CIDADE
 //    remove_cidade(1,2);
 
-
+    printf("boas\n");
 
     imprimir_viagens_cliente(6968);
 
