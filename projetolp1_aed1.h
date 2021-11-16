@@ -43,6 +43,7 @@ typedef struct viagem{
     CIDADE *cidades;
     int num_cidades;
     struct viagem *next;
+    int cap_cidades;
 }VIAGEM;
 
 typedef struct lista_viagens{

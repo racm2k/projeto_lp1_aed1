@@ -376,7 +376,6 @@ void imprimir_ordenado() {
 
 /**
  * Funcao para inserir uma cidade numa viagem
- *
  * @param id_viagem id da viagem onde vamos inserir a cidade
  * @param id_cidade id da cidade escolhido para identificacao
  * @param nome_cidade nome da cidade inserida
@@ -397,7 +396,7 @@ void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descr
                 arr_cidades[0].pontos_interesse = NULL;
                 arr_cidades[0].num_PoI = 0;
                 viagem->cidades = arr_cidades;
-                viagem->num_cidades++;
+               // viagem->num_cidades++;
                 printf("Cidade inserida!!\n");
                 return;
             } else {
