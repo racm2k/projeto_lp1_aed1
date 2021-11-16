@@ -11,7 +11,10 @@ int mainProjeto() {
 
     return 0;
 }
-
+/**
+ * Criar Lista ligada de clientes
+ * @return node lista de clientes criada
+ */
 void *criar_lista_clientes() {
     LISTA_CLIENTES *node = (LISTA_CLIENTES *) malloc(sizeof(LISTA_CLIENTES));
     node->head = NULL;
@@ -19,6 +22,10 @@ void *criar_lista_clientes() {
     return node;
 }
 
+/**
+ * Criar Lista ligada de pontos de interesse das cidades
+ * @return node lista de pontos de interesse das cidades criada
+ */
 void *criar_lista_PoI() {
     LISTA_PoI *node = (LISTA_PoI *) malloc(sizeof(LISTA_PoI));
     node->head = NULL;
@@ -26,8 +33,19 @@ void *criar_lista_PoI() {
     return node;
 }
 
-void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, struct tm data,
-                            int brithDay, int birthMon, int birthYear) {
+/**
+ * Inserir os clientes à cabeça
+ * @param id id do cliente
+ * @param nome nome do cliente
+ * @param morada morada do cliente
+ * @param contacto contacto do cliente
+ * @param nif nif do cliente
+ * @param data data de registo do cliente
+ * @param brithDay dia nascimento do cliente
+ * @param birthMon mês nascimento do cliente
+ * @param birthYear ano nascimento do cliente
+ */
+void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *node = lc->head;
     if (node == NULL) {
         CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
@@ -51,8 +69,9 @@ void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int 
         lc->head = novo_no;
         lc->num_clientes++;
         return;
-    } else {
-        while (node != NULL) {//JA NAO É INFINITO
+    } else
+        {
+        while (node != NULL) {
 
             if (node->id == id || node->nif == nif) {
                 printf("ERRO -> inserir_cliente_cabeca(): Ja existe um cliente com esse id/nif!! Cliente nao foi introduzido\n");
@@ -84,6 +103,9 @@ void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int 
     }
 }
 
+/**
+ * Imprimir os clientes
+ */
 void imprimir_cliente() {
     CLIENTES *l = lc->head;
     printf("**************CLIENTES*************\nnum_clientes: %d\n", lc->num_clientes);
@@ -97,11 +119,22 @@ void imprimir_cliente() {
     printf("**************FIM DE LISTA**********\n");
 }
 
-void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, struct tm data,
-                           int brithDay, int birthMon, int birthYear) {
+/**
+ * Inserir os clientes à cauda
+ * @param id id do cliente
+ * @param nome nome do cliente
+ * @param morada morada do cliente
+ * @param contacto contacto do cliente
+ * @param nif nif do cliente
+ * @param data data de registo do cliente
+ * @param brithDay dia nascimento do cliente
+ * @param birthMon mês nascimento do cliente
+ * @param birthYear ano nascimento do cliente
+ */
+void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *current = lc->head, *ant = NULL;
 
-    while (current->next != NULL) { //JA ENTROU
+    while (current->next != NULL) {
         if (current->id == id || current->nif == nif) {
             printf("ERRO -> inserir_cliente_cauda(): Ja existe um cliente com esse id/nif!! Cliente nao foi introduzido\n");
             return;
@@ -129,8 +162,20 @@ void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int n
     lc->num_clientes++;
 }
 
-void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome,
-                              struct tm data, int brithDay, int birthMon, int birthYear) {
+/**
+ * Inserir os clientes ordenados pelo nome ou nif
+ * @param id id do cliente
+ * @param nome nome do cliente
+ * @param morada morada do cliente
+ * @param contacto contacto do cliente
+ * @param nif nif do cliente
+ * @param insNome variavel que identifica se é para ordenar por nome ou nif (TRUE = nome, False = nif)
+ * @param data data de registo do cliente
+ * @param brithDay dia nascimento do cliente
+ * @param birthMon mês nascimento do cliente
+ * @param birthYear ano nascimento do cliente
+ */
+void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome, struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *c = (CLIENTES *) malloc(sizeof(CLIENTES));
     c->id = id;
     c->nome = (char *) malloc(50 * sizeof(char));
@@ -151,7 +196,8 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
         lc->head = c;
         lc->num_clientes++;
         return;
-    } else {
+    }
+    else {
         CLIENTES *current = lc->head, *ant = NULL;
 
         while (current->next != NULL) {
@@ -178,7 +224,8 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
             ant->next = c;
             c->next = current;
             lc->num_clientes++;
-        } else { // INSERIR ORDENADO PELO NIF
+        }
+        else { // INSERIR ORDENADO PELO NIF
             while (current != NULL && nif > current->nif) {//enquanto n chegar sitio certo NIF
                 ant = current;
                 current = current->next;
@@ -197,6 +244,10 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
     }
 }
 
+/**
+ * Remover cliente
+ * @param id id do cliente
+ */
 void remover_cliente(int id) {
     if (lc->head == NULL) {
         printf("A lista esta vazia!!");
@@ -227,6 +278,11 @@ void remover_cliente(int id) {
     lc->num_clientes--;
 }
 
+/**
+ * procurar cliente por nome
+ * @param nome nome do cliente
+ * @return cliente encontrado com esse nome
+ */
 CLIENTES *procurar_cliente_nome(const char *nome) {
     CLIENTES *current = lc->head;
 
@@ -246,6 +302,11 @@ CLIENTES *procurar_cliente_nome(const char *nome) {
     return 0;
 }
 
+/**
+ * procurar cliente por nif
+ * @param nome nome do cliente
+ * @return cliente encontrado com esse nif
+ */
 CLIENTES *procurar_cliente_nif(int nif) {
     CLIENTES *current = lc->head;
 
@@ -265,6 +326,9 @@ CLIENTES *procurar_cliente_nif(int nif) {
     return 0;
 }
 
+/**
+ * Ordenar lista ligada por nif
+ */
 void ordenar_lista_nif() {
     CLIENTES *current = lc->head, *nova = NULL;
     int aux;
@@ -289,6 +353,9 @@ void ordenar_lista_nif() {
     }
 }
 
+/**
+ * Imprimir lista ligada ordenada
+ */
 void imprimir_ordenado() {
     CLIENTES *current = lc->head;
     printf("**************Lista Ordenada*************\n");
@@ -452,7 +519,8 @@ int check_dups_PoI(char *nome_cidade, char *nome_PoI) {
     if (cidade == NULL) {
         printf("Cidade nao existe!!\n");
         return -2;
-    } else {
+    }
+    else {
         int size = cidade->num_PoI;
         for (int i = 0; i < size; i++) {
             if (strcmp(cidade->pontos_interesse[i].nome, nome_PoI) == 0) {
