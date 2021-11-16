@@ -375,36 +375,81 @@ void imprimir_ordenado() {
 }
 
 /**
- * cria lista de cidades
- * @return node lista de cidades criada
+ * Funcao para inserir uma cidade numa viagem
+ *
+ * @param id_viagem id da viagem onde vamos inserir a cidade
+ * @param id_cidade id da cidade escolhido para identificacao
+ * @param nome_cidade nome da cidade inserida
+ * @param descricao descricao da cidade inserida
  */
-void *criar_lista_cidades() {
-    LISTA_CIDADES *node = (LISTA_CIDADES *) malloc(sizeof(LISTA_CIDADES));
-    node->head = NULL;
-    node->num_cidades = 0;
-    return node;
+void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descricao) {
+    VIAGEM *viagem = pesquisar_viagem(id_viagem);
+
+    while (viagem != NULL) {
+        if (viagem->id == id_viagem) {
+            if (viagem->cidades == NULL) {
+                viagem->num_cidades = 1;
+                CIDADE *arr_cidades = (CIDADE *) malloc(1 + sizeof(CIDADE));
+                arr_cidades[0].nome = (char *)malloc(50 * sizeof(char));
+                strcpy(arr_cidades[0].nome, nome_cidade);
+                arr_cidades[0].descricao = (char *)malloc(150 * sizeof(char));
+                strcpy(arr_cidades[0].descricao, descricao);
+                arr_cidades[0].pontos_interesse = NULL;
+                arr_cidades[0].num_PoI = 0;
+                viagem->cidades = arr_cidades;
+                viagem->num_cidades++;
+                printf("Cidade inserida!!\n");
+                return;
+            } else {
+                CIDADE *arr_cidades = viagem->cidades;
+                for (int i = 0; i < viagem->num_cidades; i++) {
+                    if (arr_cidades[i].id == id_cidade) {
+                        printf("Cidade já existente!!\n");
+                        return;
+                    }
+                }
+
+                viagem->cidades = realloc(viagem->cidades, 150 * viagem->num_cidades * sizeof(CIDADE));
+                arr_cidades[viagem->num_cidades].nome = malloc(50 * sizeof(char));
+                strcpy(arr_cidades[viagem->num_cidades].nome, nome_cidade);
+                arr_cidades[viagem->num_cidades].descricao = malloc(150 * sizeof(char));
+                strcpy(arr_cidades[viagem->num_cidades].descricao, descricao);
+                arr_cidades[viagem->num_cidades].pontos_interesse = NULL;
+                arr_cidades[viagem->num_cidades].num_PoI = 0;
+                viagem->cidades = arr_cidades;
+                viagem->num_cidades++;
+                printf("Cidade inserida!!\n");
+                return;
+            }
+        }
+
+        viagem = viagem->next;
+    }
 }
+
 
 /**
  * Pesquisa de cidade
- * @param listaCidades lista de todas as cidades
- * @param cidade cidade a ser pesquisada
- * @return cidade pesquisada
+ * @param cidade nome da cidade a ser pesquisada
+ * @return array das cidades pesquisada
  */
-CIDADE *pesquisar_cidade(const char *cidade) {
-    CIDADE *current = listaCidades->head;
-    if (current == NULL) {
-        printf("A lista esta vazia!!\n");
-        return 0;
-    }
+CIDADE *pesquisar_cidade_nome(int id_viagem,  char *cidade) {
+    CLIENTES *clientes = lc->head;
 
-    for (int i = 0; i < listaCidades->num_cidades; i++) {
-        if (strcmp(current->nome, cidade) == 0) {
-            printf("Encotramos a cidade!! \nNome: %s\nDescricao: %s\n", current->nome, current->descricao);
-            return current;
-        }
+    if (clientes == NULL) {
+        printf("Lista de Clientes Vazia!!\n");
+        return NULL;
     }
-    printf("Nao encontramos a cidade pretendida!!\n");
+    char** nome_cidade= (char **) malloc(50*sizeof(char *));
+
+    VIAGEM *viagem = pesquisar_viagem(id_viagem);
+    if (viagem != NULL) {
+        CIDADE *arr_cidades = viagem->cidades;
+
+
+        printf("Nao encontramos a cidade pretendida!!\n");
+        return NULL;
+    }
     return NULL;
 }
 
@@ -415,114 +460,46 @@ CIDADE *pesquisar_cidade(const char *cidade) {
  * @param nome_cidade nome da cidade a editar
  * @param nova_descricao nova descricao da cidade
  */
-void edit_cidade(const char *nome_cidade, const char *nova_descricao) {
+void edit_cidade(int id_viagem, int id_cidade, const char *nome_cidade, const char *nova_descricao) {
 
-    CIDADE *cidade = pesquisar_cidade(nome_cidade);
-
-    if (cidade == NULL) {
-        return;
-    } else {
-        strcpy(cidade->descricao, nova_descricao);
-        printf("Info da cidade %s alterada!!\n", cidade->nome);
-    }
-}
-
-/**
- * Inserir um Ponto de Interesse a uma cidade
- * @param listaCidades Lista de todas as cidades
- * @param nome_cidade cidade onde queremos inserir o PoI
- * @param nome_PoI PoI a inserir
- */
-void insert_PoI(char *nome_cidade, char *nome_PoI) {
-    CIDADE *cidade = pesquisar_cidade(nome_cidade);
-    if (cidade == NULL) {
-        printf("Cidade nao existe!!\n");
-        return;
-    } else {
-        if (check_dups_PoI(nome_cidade, nome_PoI) == 0) {
-            PoI *poI = (PoI *) malloc(sizeof(PoI));
-            strcpy(poI->nome, nome_PoI);
-            addPoItoGlobalList(poI);
-            poI->next = cidade->pontos_interesse;
-            cidade->pontos_interesse = poI;
-            cidade->num_PoI++;
-        } else
-            return;
-    }
-}
-
-/**
- * Editar um Ponto de Interesse de uma cidade
- * @param nome_cidade nome da cidade que contem o ponto de interesse
- * @param nome_PoI nome do ponto de interesse
- * @param novoNome_PoI novo nome do ponto de interesse
- */
-void edit_PoI(char *nome_cidade, char *nome_PoI, char *novoNome_PoI) {
-    CIDADE *cidade = pesquisar_cidade(nome_cidade);
-    if (cidade != NULL) {
-        // TO DO
-    }
-}
-
-/**
- * Pesquisar um Ponto de Interesse de uma cidade
- * @param nome_cidade cidade onde vamos procurar o PoI
- * @param nome_PoI nome do PoI a ser procurado
- * @return retorna um PoI
- */
-PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
-    CIDADE *cidade = pesquisar_cidade(nome_cidade);
-    if (cidade != NULL) {
-        //TO DO
-    }
-    return NULL;
-}
-
-/**
- * Remover um PoI da cidade
- * @param nome_PoI nome do PoI a ser removido
- */
-void remove_PoI(char *nome_PoI) {
-    //TO DO
-}
-
-/**
- * Verifica existencia de PoI duplicados numa cidade
- * @param nome_cidade cidade a procurar duplicados
- * @param nome_PoI PoI a verificar
- * @return retorna 1 se existir , 0 se nao existir e -1 se a cidade nao existir
- */
-int check_dups_PoI(char *nome_cidade, char *nome_PoI) {
-    CIDADE *cidade = pesquisar_cidade(nome_cidade);
-    if (cidade == NULL) {
-        printf("Cidade nao existe!!\n");
-        return -1;
-    } else {
-        PoI *poI = cidade->pontos_interesse;
-        while (poI != NULL) {
-            if (strcmp(poI->nome, nome_PoI) == 0)
-                return 1;
+    CIDADE *current = pesquisar_cidade_nome(id_viagem, nome_cidade);
+    VIAGEM *viagem = pesquisar_viagem(id_viagem);
+    if (current != NULL) {
+        for (int i = 0; i < viagem->num_cidades; i++) {
+            if (current[i].id == id_cidade) {
+                if (strlen(nome_cidade) > 0)
+                    strcpy(current[i].nome, nome_cidade);
+                if (strlen(nova_descricao) > 0) {
+                    strcpy(current[i].descricao, nova_descricao);
+                }
+                printf("Info da cidade %s alterada!!\n", current[i].nome);
+                return;
+            }
         }
     }
-    return 0;
 }
 
 /**
- * Funcao complementar que adiciona um PoI a estrutura global de PoI's
- * @param poI PoI a ser adicionado
+ * Funcao para remover uma cidade de uma viagem
+ * @param id_viagem id da viagem de onde vamos remover a cidade
+ * @param id_cidade id da cidade a ser removida
  */
-void addPoItoGlobalList(PoI *poI) {
-    PoI *current = listaPoI->head;
-
-    while (current->next != NULL) { //JA ENTROU
-        if (strcmp(current->nome, poI->nome) != 0) {
-            printf("ERRO -> Ja existe um PoI com esse nome!! PoI nao foi introduzido\n");
-            return;
-        }
-        current = current->next;
+void remove_cidade(int id_viagem, int id_cidade) {
+    VIAGEM *viagem = pesquisar_viagem(id_viagem);
+    CIDADE *current = viagem->cidades;
+    if (current == NULL) {
+        printf("Nao ha cidades para remover!!\n");
+        return;
     }
-    current->next = poI;
-    listaPoI->num_PoI++;
+    int id = bSearch_cidade(current, 0, viagem->num_cidades - 1, id_cidade);
+
+    if (id >= 0) {
+        for (int i = id; i < viagem->num_cidades; i++) {
+            current[i] = current[i + 1];
+        }
+        printf("Cidade removida da Viagem com id: %d\n", id_viagem);
+    }
+    viagem->num_cidades--;
 }
 
 /**
@@ -547,8 +524,14 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
                 cliente->viagens_arr = arr_viagens;
                 return;
             } else {
-                cliente->viagens_arr = realloc(cliente->viagens_arr, 100 * cliente->num_viagens * sizeof(VIAGEM));
                 VIAGEM *arr_viagens = cliente->viagens_arr;
+                for (int i = 0; i < cliente->num_viagens; i++) {
+                    if (arr_viagens[i].id == id_viagem) {
+                        printf("Viagem já existente!!\n");
+                        return;
+                    }
+                }
+                cliente->viagens_arr = realloc(cliente->viagens_arr, 100 * cliente->num_viagens * sizeof(VIAGEM));
                 arr_viagens[cliente->num_viagens].id = id_viagem;
                 arr_viagens[cliente->num_viagens].pais = malloc(50 * sizeof(char));
                 strcpy(arr_viagens[cliente->num_viagens].pais, pais_destino);
@@ -579,17 +562,6 @@ void imprimir_viagens_cliente(int nif) {
 
 //    free(current);
 
-}
-
-/**
- * Funcao para criar uma lista global para as viagens
- * @return retorna uma lista para viagens
- */
-void *criar_lista_Viagens() {
-    LISTA_VIAGENS *node = (LISTA_VIAGENS *) malloc(sizeof(LISTA_VIAGENS));
-    node->head = NULL;
-    node->num_viagens = 0;
-    return node;
 }
 
 /**
@@ -628,7 +600,7 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
         VIAGEM *viagens = clientes->viagens_arr;
 
         for (int i = 0; i < clientes->num_viagens; i++) {
-            if(viagens!=NULL){
+            if (viagens != NULL) {
                 if (viagens[i].id == id_viagem) {
                     printf("Viagem encontrada!!\n");
                     return &viagens[i];
@@ -639,7 +611,7 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
     }
     printf("Viagem nao encontrada!!\n");
 
-return NULL;
+    return NULL;
 }
 
 /**
@@ -654,10 +626,10 @@ void remove_viagem(int id_viagem) {
         return;
     }
     VIAGEM *current = clientes->viagens_arr;
-    int id= bSearch_viagem(current,0,clientes->num_viagens-1,id_viagem);
+    int id = bSearch_viagem(current, 0, clientes->num_viagens - 1, id_viagem);
 
     for (int i = id; i < clientes->num_viagens; i++) {
-        current[i]=current[i+1];
+        current[i] = current[i + 1];
     }
     printf("Viagem removida!!\n");
     clientes->num_viagens--;
@@ -672,20 +644,41 @@ void remove_viagem(int id_viagem) {
  * @param id_viagem id da viagem a procurar
  * @return  retorna o id da viagem procurada
  */
-int bSearch_viagem(VIAGEM *array_viagens,int lo,int hi,int id_viagem){
-    if(hi>=1){
-        int mid= 1 +(hi-1)/2;
-        if(array_viagens[mid].id==id_viagem)
+int bSearch_viagem(VIAGEM *array_viagens, int lo, int hi, int id_viagem) {
+    if (hi >= 1) {
+        int mid = 1 + (hi - 1) / 2;
+        if (array_viagens[mid].id == id_viagem)
             return mid;
 
-        if(array_viagens[mid].id> id_viagem)
-            return bSearch_viagem(array_viagens,lo,mid-1,id_viagem);
+        if (array_viagens[mid].id > id_viagem)
+            return bSearch_viagem(array_viagens, lo, mid - 1, id_viagem);
         else
-            return bSearch_viagem(array_viagens,mid+1,hi,id_viagem);
+            return bSearch_viagem(array_viagens, mid + 1, hi, id_viagem);
     }
     return -1;
 }
 
+/**
+ * Funcao de pesquisa binaria que retorna o id da cidade procurada
+ * @param array_cidades array dinamico de cidades
+ * @param lo minimo
+ * @param hi maximo
+ * @param id_cidade id da cidade a procurar
+ * @return  se existir,retorna o id da cidade procurada, senao retorna -1;
+ */
+int bSearch_cidade(CIDADE *array_cidades, int lo, int hi, int id_cidade) {
+    if (hi >= 1) {
+        int mid = 1 + (hi - 1) / 2;
+        if (array_cidades[mid].id == id_cidade)
+            return mid;
+
+        if (array_cidades[mid].id > id_cidade)
+            return bSearch_cidade(array_cidades, lo, mid - 1, id_cidade);
+        else
+            return bSearch_cidade(array_cidades, mid + 1, hi, id_cidade);
+    }
+    return -1;
+}
 
 CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int newsize) {
     CIDADE *new_arr = (CIDADE *) calloc(newsize, sizeof(CIDADE));
@@ -695,3 +688,6 @@ CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int news
     free(cidade_arr);
     return new_arr;
 }
+
+
+
