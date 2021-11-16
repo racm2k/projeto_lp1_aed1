@@ -50,36 +50,35 @@ int main_testes() {
     ///INSERIR VIAGEM
     inserir_viagem(6968, 1, "Portugal");
     inserir_viagem(6968,2,"Espanha");
-//    inserir_viagem(420420,2,"Espanha");
-//    inserir_viagem(6968,1,"Portugal");
-//    imprimir_viagens_cliente(6968);
+    inserir_viagem(420420,2,"Espanha");
+   // inserir_viagem(6968,1,"Portugal");
+    imprimir_viagens_cliente(6968);
 
     ///EDITAR VIAGENS
-    edit_viagem(6968,2,"Italia");
+   // edit_viagem(6968,2,"Italia");
 
     ///PESQUISAR VIAGENS
-    VIAGEM *viagem = (VIAGEM *) malloc(sizeof(VIAGEM));
+   // VIAGEM *viagem = (VIAGEM *) malloc(sizeof(VIAGEM));
 
-    viagem=pesquisar_viagem(1);
+  // viagem=pesquisar_viagem(1);
     ///REMOVER VIAGENS
 //    remove_viagem(2);
 
     ///INSERIR CIDADE
-    inserir_cidade(1, 2, "Braga", "uma merda");
-    inserir_cidade(1, 1, "Porto", "Porto ");
-    inserir_cidade(2, 4, "Coimbra", "asdasd ");
+   // inserir_cidade(1, 2, "Braga", "uma merda");
+   // inserir_cidade(1, 1, "Porto", "Porto ");
+   // inserir_cidade(2, 4, "Coimbra", "asdasd ");
 //    inserir_cidade(1, 5, "asdasdwtwf", "asw5j7dasd ");
 //    inserir_cidade(1, 6, "nfhgjr", "metyu ");
     ///PESQUISAR CIDADE
-    pesquisar_cidade_nome(1,"Porto");
+   // pesquisar_cidade_nome(1,"Porto");
     ///EDITAR CIDADE
-    edit_cidade(1,1,"Porto","BEST CITY IN DA WORLDS");
+   // edit_cidade(1,1,"Porto","BEST CITY IN DA WORLDS");
     ///REMOVER CIDADE
 //    remove_cidade(1,2);
 
-    printf("boas\n");
 
-    imprimir_viagens_cliente(6968);
+    //imprimir_viagens_cliente(6968);
 
     return 0;
 }

@@ -67,6 +67,7 @@ void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int 
         novo_no->data_registo.dia = data.tm_mday;
         novo_no->viagens_arr = NULL;
         novo_no->num_viagens = 0;
+        novo_no->maxNum_viagens = 0;
         novo_no->next = NULL;
 
         novo_no->next = lc->head;
@@ -100,6 +101,7 @@ void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int 
         novo_no->data_registo.dia = data.tm_mday;
         novo_no->viagens_arr = NULL;
         novo_no->num_viagens = 0;
+        novo_no->maxNum_viagens = 0;
         novo_no->next = NULL;
 
         novo_no->next = lc->head;
@@ -164,6 +166,7 @@ void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int n
     ant->data_registo.dia = data.tm_mday;
     ant->viagens_arr = NULL;
     ant->num_viagens = 0;
+    ant->maxNum_viagens = 0;
     ant->next = NULL;
 
     current->next = ant;
@@ -201,6 +204,7 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
     c->data_registo.dia = data.tm_mday;
     c->viagens_arr = NULL;
     c->num_viagens = 0;
+    c->maxNum_viagens = 0;
     c->next = NULL;
 
     if (lc->head == NULL || lc->num_clientes == 0) {
@@ -404,8 +408,6 @@ void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descr
                     return;
                 }
             }
-
-
             arr_cidades[viagem->num_cidades].nome = (char *) malloc(50 * sizeof(char));
             strcpy(arr_cidades[viagem->num_cidades].nome, nome_cidade);
             arr_cidades[viagem->num_cidades].descricao = (char *) malloc(50 * sizeof(char));
@@ -417,9 +419,7 @@ void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descr
             viagem->num_cidades++;
             printf("Cidade inserida!!\n");
             return;
-
         }
-
         viagem = viagem->next;
     }
 }
@@ -447,7 +447,6 @@ CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade) {
                 return &arr_cidades[i];
             }
         }
-
         printf("Nao encontramos a cidade pretendida!!\n");
         return NULL;
     }
@@ -494,7 +493,6 @@ void remove_cidade(int id_viagem, int id_cidade) {
             id = i;
         }
     }
-
     if (id >= 0) {
         for (int i = id; i < viagem->num_cidades; i++) {
             current[i] = current[i + 1];
@@ -521,7 +519,6 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
                 } else {
                     cliente->maxNum_viagens *= 2;
                 }
-
                 cliente->viagens_arr = (VIAGEM *) realloc(cliente->viagens_arr,
                                                           cliente->maxNum_viagens * sizeof(VIAGEM));
             }
@@ -532,7 +529,6 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
                     return;
                 }
             }
-            cliente->viagens_arr = realloc(cliente->viagens_arr, cliente->maxNum_viagens * sizeof(VIAGEM));
             arr_viagens[cliente->num_viagens].id = id_viagem;
             arr_viagens[cliente->num_viagens].pais = (char *) malloc(50 * sizeof(char));
             strcpy(arr_viagens[cliente->num_viagens].pais, pais_destino);
@@ -544,10 +540,8 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
             cliente->num_viagens++;
             return;
         }
-
         cliente = cliente->next;
     }
-
 }
 
 /**
@@ -560,18 +554,13 @@ void imprimir_viagens_cliente(int nif) {
     printf("Cliente %d\tNome: %s\tNIF: %d\tNumero de Viagens: %d\n", cliente->id, cliente->nome, cliente->nif,
            cliente->num_viagens);
     for (int i = 0; i < cliente->num_viagens; i++) {
-        printf("ID: %d\tPais: %s Num Cidades: %d\n", current[i].id, current[i].pais, current[i].num_cidades);
+        printf("ID: %d\tPais: %s\tNum Cidades: %d\n", current[i].id, current[i].pais, current[i].num_cidades);
         if(current[i].cidades!=NULL){
             for (int j = 0; j < current[i].num_cidades; j++) {
                 printf(" Cidade: %s\tDescricao: %s\n", current[i].cidades[j].nome, current[i].cidades[j].descricao);
             }
-
         }
-
     }
-
-//    free(current);
-
 }
 
 /**
@@ -666,7 +655,7 @@ CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int news
     return new_arr;
 }
 
-void inserir_PoI()
+void inserir_PoI(){}
 
 
 
