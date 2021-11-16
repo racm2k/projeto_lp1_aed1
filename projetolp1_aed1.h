@@ -23,6 +23,7 @@ typedef struct pontos_interesse{
 }PoI;
 
 typedef struct cidade{
+    int id;
     char *nome;
     char *descricao;
     PoI *pontos_interesse;
@@ -40,6 +41,7 @@ typedef struct viagem{
     char *pais;
     int nif_cliente;
     CIDADE *cidades;
+    int num_cidades;
     struct viagem *next;
 }VIAGEM;
 
@@ -87,9 +89,11 @@ void ordenar_lista_nif();
 void imprimir_ordenado();
 
 
-void *criar_lista_cidades();
-CIDADE *pesquisar_cidade(const char *cidade);
-void edit_cidade(const char *nome_cidade, const char *nova_descricao);
+void inserir_cidade(int id_viagem,int id_cidade, char *nome_cidade, char *descricao);
+CIDADE *pesquisar_cidade_nome(int id_viagem,  char *cidade);
+void edit_cidade(int id_viagem,int id_cidade, const char *nome_cidade, const char *nova_descricao);
+int bSearch_cidade(CIDADE *array_cidades, int lo, int hi, int id_cidade);
+void remove_cidade(int id_viagem, int id_cidade);
 
 VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int newsize);
 void inserir_viagem(int nif, int id_viagem, char *pais_destino);
