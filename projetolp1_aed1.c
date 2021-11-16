@@ -533,83 +533,35 @@ void addPoItoGlobalList(PoI *poI) {
  */
 void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
-    VIAGEM *node = cliente->viagens_arr;
-    if (node == NULL) {
-        CLIENTES *clientes_arr = lc->head;
 
-        /**
-         * Verificar se o id escolhido para a viagem é igual a algum id de alguma viagem de qualquer cliente
-         * (ID da viagem é unico globalmente)
-         */
-        while (clientes_arr != NULL) {
-            VIAGEM *cl_viagem = clientes_arr->viagens_arr;
-            while (cl_viagem != NULL) {
-                if (cl_viagem->id == id_viagem) {
-                    printf("\"ERRO -> inserir_viagem(): Ja existe uma viagem com esse id!! Viagem nao foi introduzido\n");
-                    return;
-                }
-                cl_viagem = cl_viagem->next;
-            }
-            clientes_arr = clientes_arr->next;
-        }
-        VIAGEM *novo_no = (VIAGEM *) malloc(sizeof(VIAGEM));
-
-        novo_no->id = id_viagem;
-        novo_no->pais = (char *) malloc(50 * sizeof(char));
-        strcpy(novo_no->pais, pais_destino);
-        novo_no->nif_cliente = nif;
-        novo_no->cidades = NULL;
-
-        novo_no->next = NULL;
-
-        novo_no->next = cliente->viagens_arr;
-        cliente->viagens_arr = novo_no;
-        cliente->num_viagens++;
-        printf("Viagem Inserida!!\n");
-        return;
-    } else {
-        while (node != NULL) {
-
-            if (node->id == id_viagem) {
-                printf("ERRO -> inserir_viagem(): Ja existe uma viagem com esse id!! Viagem nao foi introduzido\n");
+    while (cliente != NULL) {
+        if (cliente->nif == nif) {
+            if (cliente->viagens_arr == NULL) {
+                cliente->num_viagens = 1;
+                VIAGEM *arr_viagens = (VIAGEM *) malloc(1 * sizeof(VIAGEM));
+                arr_viagens[0].id = id_viagem;
+                arr_viagens[0].pais = malloc(50 * sizeof(char));
+                strcpy(arr_viagens[0].pais, pais_destino);
+                arr_viagens[0].nif_cliente = nif;
+                arr_viagens[0].cidades = NULL;
+                cliente->viagens_arr = arr_viagens;
+                return;
+            } else {
+                cliente->viagens_arr = realloc(cliente->viagens_arr, 100 * cliente->num_viagens * sizeof(VIAGEM));
+                VIAGEM *arr_viagens = cliente->viagens_arr;
+                arr_viagens[cliente->num_viagens].id = id_viagem;
+                arr_viagens[cliente->num_viagens].pais = malloc(50 * sizeof(char));
+                strcpy(arr_viagens[cliente->num_viagens].pais, pais_destino);
+                arr_viagens[cliente->num_viagens].nif_cliente = nif;
+                arr_viagens[cliente->num_viagens].cidades = NULL;
+                cliente->viagens_arr = arr_viagens;
+                cliente->num_viagens++;
                 return;
             }
-            node = node->next;
         }
-
-        CLIENTES *clientes_arr = lc->head;
-
-        /**
-         * Verificar se o id escolhido para a viagem é igual a algum id de alguma viagem de qualquer cliente
-         * (ID da viagem é unico globalmente)
-         */
-        while (clientes_arr != NULL) {
-            VIAGEM *cl_viagem = clientes_arr->viagens_arr;
-            while (cl_viagem != NULL) {
-                if (cl_viagem->id == id_viagem) {
-                    printf("\"ERRO -> inserir_viagem(): Ja existe uma viagem com esse id!! Viagem nao foi introduzido\\n");
-                    return;
-                }
-                cl_viagem = cl_viagem->next;
-            }
-            clientes_arr = clientes_arr->next;
-        }
-
-        VIAGEM *novo_no = (VIAGEM *) malloc(sizeof(VIAGEM));
-
-        novo_no->id = id_viagem;
-        novo_no->pais = (char *) malloc(50 * sizeof(char));
-        strcpy(novo_no->pais, pais_destino);
-        novo_no->nif_cliente = nif;
-        novo_no->cidades = NULL;
-        novo_no->next = NULL;
-
-        novo_no->next = cliente->viagens_arr;
-        cliente->viagens_arr = novo_no;
-        cliente->num_viagens++;
-        printf("Viagem Inserida!!\n");
-
+        cliente = cliente->next;
     }
+
 }
 
 /**
@@ -619,13 +571,15 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
 void imprimir_viagens_cliente(int nif) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
     VIAGEM *current = cliente->viagens_arr;
-    if (current == NULL) {
-        printf("Cliente com o NIF: %d nao tem viagens marcadas!!\n", nif);
+    printf("Cliente %d\tNome: %s\tNIF: %d\tNumero de Viagens: %d\n", cliente->id, cliente->nome, cliente->nif,
+           cliente->num_viagens);
+    for (int i = 0; i < cliente->num_viagens; i++) {
+        printf("ID: %d\tPais: %s\n", current[i].id, current[i].pais);
+
     }
-    while (current != NULL) {
-        printf("ID: %d\tPais: %s\tNIF Cliente: %d\n", current->id, current->pais, current->nif_cliente);
-        current = current->next;
-    }
+
+//    free(current);
+
 }
 
 /**
@@ -640,24 +594,6 @@ void *criar_lista_Viagens() {
 }
 
 /**
- * Funcao que cria ou redimensiona um array dinamico de Viagens
- * Se o array nao tiver memoria: criamos e inicializamos o array
- * senao retorna o array com o novo tamanho, e com as novas posicoes a 0
- * @param viagem_arr array a ser criado ou redimensionado
- * @param size tamanho do array antes de chamar a funcao
- * @param newsize novo tamanho
- * @return retorna o array com o novo tamanho
- */
-VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int newsize) {
-    VIAGEM *new_arr = (VIAGEM *) calloc(newsize, sizeof(VIAGEM));
-    for (int i = 0; i < size; i++) {
-        *(new_arr + i) = *(viagem_arr + i);
-    }
-    free(viagem_arr);
-    return new_arr;
-}
-
-/**
  * Funcao para editar uma viagem de um cliente
  * @param nif_cliente nif do cliente
  * @param id_viagem id da viagem a editar
@@ -667,12 +603,14 @@ void edit_viagem(int nif_cliente, int id_viagem, char *novo_pais) {
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
     VIAGEM *current = cliente->viagens_arr;
 
-    while (current != NULL) {
-        if (current->id == id_viagem) {
-            strcpy(current->pais, novo_pais);
-            return;
+    if (current != NULL) {
+        for (int i = 0; i < cliente->num_viagens; i++) {
+
+            if (current[i].id == id_viagem) {
+                strcpy(current[i].pais, novo_pais);
+                return;
+            }
         }
-        current = current->next;
     }
 }
 
@@ -689,20 +627,20 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
     }
     while (clientes != NULL) {
         VIAGEM *viagens = clientes->viagens_arr;
-        if (viagens == NULL) {
-            printf("Cliente %s ainda nao tem viagens marcadas!!\n", clientes->nome);
-            return NULL;
-        }
-        while (viagens != NULL) {
-            if (viagens->id == id_viagem) {
-                printf("Viagem encontrada!!\n");
-                return viagens;
+
+        for (int i = 0; i < clientes->num_viagens; i++) {
+            if(viagens!=NULL){
+                if (viagens[i].id == id_viagem) {
+                    printf("Viagem encontrada!!\n");
+                    return &viagens[i];
+                }
             }
-            viagens = viagens->next;
         }
         clientes = clientes->next;
     }
-    return NULL;
+    printf("Viagem nao encontrada!!\n");
+
+return NULL;
 }
 
 /**
@@ -716,25 +654,45 @@ void remove_viagem(int id_viagem) {
         printf("Cliente nao existe!!\n");
         return;
     }
-    VIAGEM *current = clientes->viagens_arr, *anterior = NULL;
-    while (current != NULL && current->id != id_viagem) {
-        anterior = current;
-        current = current->next;
-    }
-    if (current == clientes->viagens_arr) {
-        clientes->viagens_arr = clientes->viagens_arr->next;
-        free(current);
-        printf("Viagem removida!!\n");
-        clientes->num_viagens--;
-        return;
-    }
+    VIAGEM *current = clientes->viagens_arr;
+    int id= bSearch_viagem(current,0,clientes->num_viagens-1,id_viagem);
 
-    if (current == NULL) {
-        printf("A viagem que quer eliminar nao existe!!\n");
+    for (int i = id; i < clientes->num_viagens; i++) {
+        current[i]=current[i+1];
     }
-
-    anterior->next = current->next;
-    free(current);
     printf("Viagem removida!!\n");
     clientes->num_viagens--;
+
+}
+
+/**
+ * Funcao de pesquisa binaria que retorna o id da viagem procurada
+ * @param array_viagens array dinamico de viagens
+ * @param lo minimo
+ * @param hi maximo
+ * @param id_viagem id da viagem a procurar
+ * @return  retorna o id da viagem procurada
+ */
+int bSearch_viagem(VIAGEM *array_viagens,int lo,int hi,int id_viagem){
+    if(hi>=1){
+        int mid= 1 +(hi-1)/2;
+        if(array_viagens[mid].id==id_viagem)
+            return mid;
+
+        if(array_viagens[mid].id> id_viagem)
+            return bSearch_viagem(array_viagens,lo,mid-1,id_viagem);
+        else
+            return bSearch_viagem(array_viagens,mid+1,hi,id_viagem);
+    }
+    return -1;
+}
+
+
+CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int newsize) {
+    CIDADE *new_arr = (CIDADE *) calloc(newsize, sizeof(CIDADE));
+    for (int i = 0; i < size; i++) {
+        *(new_arr + i) = *(cidade_arr + i);
+    }
+    free(cidade_arr);
+    return new_arr;
 }

@@ -91,10 +91,12 @@ void *criar_lista_cidades();
 CIDADE *pesquisar_cidade(const char *cidade);
 void edit_cidade(const char *nome_cidade, const char *nova_descricao);
 
+VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int newsize);
 void inserir_viagem(int nif, int id_viagem, char *pais_destino);
 void edit_viagem(int nif_cliente, int id_viagem,char*novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);
 void remove_viagem(int id_viagem);
+int bSearch_viagem(VIAGEM *array_viagens,int lo,int hi,int id_viagem);
 
 int check_dups_PoI(char *nome_cidade, char *nome_PoI);
 void insert_PoI(char *nome_cidade, char *nome_PoI);
