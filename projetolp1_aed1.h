@@ -42,6 +42,7 @@ typedef struct viagem{
     int nif_cliente;
     CIDADE *cidades;
     int num_cidades;
+    int maxNum_cidades;
     struct viagem *next;
 }VIAGEM;
 
@@ -60,6 +61,7 @@ typedef struct clientes{
     DATA data_registo;
     VIAGEM *viagens_arr;
     int num_viagens;
+    int maxNum_viagens;
     struct clientes *next;
 }CLIENTES;
 
@@ -91,7 +93,7 @@ void imprimir_ordenado();
 
 void inserir_cidade(int id_viagem,int id_cidade, char *nome_cidade, char *descricao);
 CIDADE *pesquisar_cidade_nome(int id_viagem,  char *cidade);
-void edit_cidade(int id_viagem,int id_cidade, const char *nome_cidade, const char *nova_descricao);
+void edit_cidade(int id_viagem,int id_cidade,  char *nome_cidade, const char *nova_descricao);
 int bSearch_cidade(CIDADE *array_cidades, int lo, int hi, int id_cidade);
 void remove_cidade(int id_viagem, int id_cidade);
 
