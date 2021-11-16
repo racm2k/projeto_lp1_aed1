@@ -609,7 +609,6 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
         clientes = clientes->next;
     }
     printf("Viagem nao encontrada!!\n");
-
     return NULL;
 }
 
@@ -642,7 +641,6 @@ void remove_viagem(int id_viagem) {
         printf("Viagem removida!!\n");
         clientes->num_viagens--;
     }
-
 }
 
 
