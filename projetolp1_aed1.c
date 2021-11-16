@@ -666,5 +666,7 @@ CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int news
     return new_arr;
 }
 
+void inserir_PoI()
+
 
 
