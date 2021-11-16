@@ -19,7 +19,14 @@ void *criar_lista_clientes() {
     return node;
 }
 
-void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, struct tm data,
+void *criar_lista_PoI() {
+    LISTA_PoI *node = (LISTA_PoI *) malloc(sizeof(LISTA_PoI));
+    node->head = NULL;
+    node->num_PoI = 0;
+    return node;
+}
+
+void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, struct tm data,
                             int brithDay, int birthMon, int birthYear) {
     CLIENTES *node = lc->head;
     if (node == NULL) {
@@ -77,7 +84,7 @@ void inserir_cliente_cabeca(LISTA_CLIENTES *lc, int id, char *nome, char *morada
     }
 }
 
-void imprimir_cliente(LISTA_CLIENTES *lc) {
+void imprimir_cliente() {
     CLIENTES *l = lc->head;
     printf("**************CLIENTES*************\nnum_clientes: %d\n", lc->num_clientes);
     while (l != NULL) {
@@ -90,7 +97,7 @@ void imprimir_cliente(LISTA_CLIENTES *lc) {
     printf("**************FIM DE LISTA**********\n");
 }
 
-void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, struct tm data,
+void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, struct tm data,
                            int brithDay, int birthMon, int birthYear) {
     CLIENTES *current = lc->head, *ant = NULL;
 
@@ -122,7 +129,7 @@ void inserir_cliente_cauda(LISTA_CLIENTES *lc, int id, char *nome, char *morada,
     lc->num_clientes++;
 }
 
-void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *morada, int contacto, int nif, bool insNome,
+void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome,
                               struct tm data, int brithDay, int birthMon, int birthYear) {
     CLIENTES *c = (CLIENTES *) malloc(sizeof(CLIENTES));
     c->id = id;
@@ -190,7 +197,7 @@ void inserir_cliente_ordenado(LISTA_CLIENTES *lc, int id, char *nome, char *mora
     }
 }
 
-void remover_cliente(LISTA_CLIENTES *lc, int id) {
+void remover_cliente(int id) {
     if (lc->head == NULL) {
         printf("A lista esta vazia!!");
         return;
@@ -220,7 +227,7 @@ void remover_cliente(LISTA_CLIENTES *lc, int id) {
     lc->num_clientes--;
 }
 
-CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome) {
+CLIENTES *procurar_cliente_nome(const char *nome) {
     CLIENTES *current = lc->head;
 
     if (current == NULL) {
@@ -239,7 +246,7 @@ CLIENTES *procurar_cliente_nome(LISTA_CLIENTES *lc, const char *nome) {
     return 0;
 }
 
-CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif) {
+CLIENTES *procurar_cliente_nif(int nif) {
     CLIENTES *current = lc->head;
 
     if (current == NULL) {
@@ -258,7 +265,7 @@ CLIENTES *procurar_cliente_nif(LISTA_CLIENTES *lc, int nif) {
     return 0;
 }
 
-void ordenar_lista_nif(LISTA_CLIENTES *lc) {
+void ordenar_lista_nif() {
     CLIENTES *current = lc->head, *nova = NULL;
     int aux;
 
@@ -282,8 +289,8 @@ void ordenar_lista_nif(LISTA_CLIENTES *lc) {
     }
 }
 
-void imprimir_ordenado(LISTA_CLIENTES *st) {
-    CLIENTES *current = st->head;
+void imprimir_ordenado() {
+    CLIENTES *current = lc->head;
     printf("**************Lista Ordenada*************\n");
     while (current != NULL) {
         printf("NIF: %d;\t Nome: %s \n", current->nif, current->nome);
@@ -306,9 +313,9 @@ void *criar_lista_cidades() {
  * Pesquisa de cidade
  * @param listaCidades lista de todas as cidades
  * @param cidade cidade a ser pesquisada
- * @return
+ * @return cidade pesquisada
  */
-CIDADE *pesquisar_cidade(LISTA_CIDADES *listaCidades, const char *cidade) {
+CIDADE *pesquisar_cidade(const char *cidade) {
     CIDADE *current = listaCidades->head;
     if (current == NULL) {
         printf("A lista esta vazia!!\n");
@@ -316,13 +323,13 @@ CIDADE *pesquisar_cidade(LISTA_CIDADES *listaCidades, const char *cidade) {
     }
 
     for (int i = 0; i < listaCidades->num_cidades; i++) {
-        if(strcmp(current->nome,cidade)==0){
-            printf("Encotramos a cidade!! \nNome: %s\nDescricao: %s\n",current->nome,current->descricao);
+        if (strcmp(current->nome, cidade) == 0) {
+            printf("Encotramos a cidade!! \nNome: %s\nDescricao: %s\n", current->nome, current->descricao);
             return current;
         }
     }
     printf("Nao encontramos a cidade pretendida!!\n");
-    return 0;
+    return NULL;
 }
 
 
@@ -332,17 +339,163 @@ CIDADE *pesquisar_cidade(LISTA_CIDADES *listaCidades, const char *cidade) {
  * @param nome_cidade nome da cidade a editar
  * @param nova_descricao nova descricao da cidade
  */
-void edit_cidade(LISTA_CIDADES *listaCidades,const char *nome_cidade, const char *nova_descricao){
+void edit_cidade(const char *nome_cidade, const char *nova_descricao) {
 
-    CIDADE *cidade = pesquisar_cidade(listaCidades,nome_cidade);
+    CIDADE *cidade = pesquisar_cidade(nome_cidade);
 
-    if(cidade==NULL){
+    if (cidade == NULL) {
         return;
-    }else{
-        strcpy(cidade->descricao,nova_descricao);
-        printf("Info da cidade %s alterada!!\n",cidade->nome);
+    } else {
+        strcpy(cidade->descricao, nova_descricao);
+        printf("Info da cidade %s alterada!!\n", cidade->nome);
     }
 }
 
+/**
+ * Inserir um Ponto de Interesse a uma cidade
+ * @param listaCidades Lista de todas as cidades
+ * @param nome_cidade cidade onde queremos inserir o PoI
+ * @param nome_PoI PoI a inserir
+ */
+void insert_PoI(char *nome_cidade, char *nome_PoI) {
+    CIDADE *cidade = pesquisar_cidade(nome_cidade);
+    if (cidade == NULL) {
+        printf("Cidade nao existe!!\n");
+        return;
+    } else {
+        if (check_dups_PoI(nome_cidade, nome_PoI) == 0) {
+            PoI *arr_PoI = (PoI *) malloc(sizeof(PoI));
+            strcpy(arr_PoI[cidade->num_PoI].nome, nome_PoI);
+            addPoItoGlobalList(&arr_PoI[cidade->num_PoI]);
+            cidade->num_PoI++;
+        } else
+            return;
+    }
+}
 
+/**
+ * Editar um Ponto de Interesse de uma cidade
+ * @param nome_cidade nome da cidade que contem o ponto de interesse
+ * @param nome_PoI nome do ponto de interesse
+ * @param novoNome_PoI novo nome do ponto de interesse
+ */
+void edit_PoI(char *nome_cidade, char *nome_PoI, char *novoNome_PoI) {
+    CIDADE *cidade = pesquisar_cidade(nome_cidade);
+    if (cidade != NULL) {
+        if (pesquisar_PoI(nome_cidade, novoNome_PoI) == NULL) {
+            PoI *poI = pesquisar_PoI(nome_cidade, nome_PoI);
+            if (poI != NULL) {
+                strcpy(poI->nome, novoNome_PoI);
+                return;
+            } else
+                printf("Ponto de interesse nao encontrado!!\n");
+        } else
+            printf("Alteracao cancelada pois ja existe um Ponto de Interesse igual!!\n");
+    } else
+        printf("Cidade nao encontrada!!\n");
+}
 
+/**
+ * Pesquisar um Ponto de Interesse de uma cidade
+ * @param nome_cidade cidade onde vamos procurar o PoI
+ * @param nome_PoI nome do PoI a ser procurado
+ * @return retorna um PoI
+ */
+PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
+    CIDADE *cidade = pesquisar_cidade(nome_cidade);
+    if (cidade != NULL) {
+        for (int i = 0; i < cidade->num_PoI; i++) {
+            if (strcmp(cidade->pontos_interesse[i].nome, nome_PoI) == 0) {
+                return &cidade->pontos_interesse[i];
+            }
+        }
+    }
+    return NULL;
+}
+
+/**
+ * Remover um PoI da cidade
+ * @param nome_PoI nome do PoI a ser removido
+ */
+void remove_PoI(char *nome_PoI) {
+    int id = -1;
+    CIDADE *cidade = NULL;
+    cidade = listaCidades->head;
+    while (cidade->next != NULL) {
+        id = check_dups_PoI(cidade->nome, nome_PoI);
+        if (id >= 0)
+            break;
+        cidade = cidade->next;
+    }
+    cidade->pontos_interesse[id].nome = NULL;
+    /*  for (int i = 0; i < cidade->num_PoI; i++) {
+          if (strcmp(cidade->pontos_interesse[i].nome, nome_PoI) == 0) {
+              cidade->pontos_interesse[i].nome = NULL;
+              id = i;
+              break;
+          }
+      }*/
+    for (int i = id; i < cidade->num_PoI; i++) {
+        cidade->pontos_interesse[i] = cidade->pontos_interesse[i + 1];
+    }
+    cidade->num_PoI--;
+}
+
+/**
+ * Verifica existencia de PoI duplicados numa cidade
+ * @param nome_cidade cidade a procurar duplicados
+ * @param nome_PoI PoI a verificar
+ * @return retorna a sua posicao se existir , -1 se nao existir e -2 se a cidade nao existir
+ */
+int check_dups_PoI(char *nome_cidade, char *nome_PoI) {
+    CIDADE *cidade = pesquisar_cidade(nome_cidade);
+    if (cidade == NULL) {
+        printf("Cidade nao existe!!\n");
+        return -2;
+    } else {
+        int size = cidade->num_PoI;
+        for (int i = 0; i < size; i++) {
+            if (strcmp(cidade->pontos_interesse[i].nome, nome_PoI) == 0) {
+                printf("Ponto de Interesse já existente!!\n");
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+/**
+ * Funcao complementar que adiciona um PoI a estrutura global de PoI's
+ * @param poI PoI a ser adicionado
+ */
+void addPoItoGlobalList(PoI *poI) {
+    PoI *current = listaPoI->head;
+
+    while (current->next != NULL) { //JA ENTROU
+        if (strcmp(current->nome, poI->nome) != 0) {
+            printf("ERRO -> Ja existe um PoI com esse nome!! PoI nao foi introduzido\n");
+            return;
+        }
+        current = current->next;
+    }
+    current->next = poI;
+    listaPoI->num_PoI++;
+}
+
+/**
+ * Funcao que cria ou redimensiona um array dinamico de Viagens
+ * Se o array nao tiver memoria: criamos e inicializamos o array
+ * senao retorna o array com o novo tamanho, e com as novas posicoes a 0
+ * @param viagem_arr array a ser criado ou redimensionado
+ * @param size tamanho do array antes de chamar a funcao
+ * @param newsize novo tamanho
+ * @return retorna o array com o novo tamanho
+ */
+VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr,int size, int newsize){
+    VIAGEM *new_arr = (VIAGEM*) calloc(newsize, sizeof(VIAGEM));
+    for (int i = 0; i < size; i++) {
+        *(new_arr+i)=*(viagem_arr+i);
+    }
+    free(viagem_arr);
+    return new_arr;
+}

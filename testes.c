@@ -5,12 +5,19 @@
 #include <stdio.h>
 #include "projetolp1_aed1.h"
 
+LISTA_CLIENTES *lc;
+LISTA_CIDADES *listaCidades;
+LISTA_PoI *listaPoI;
+
 int main_testes() {
-    LISTA_CLIENTES *lc = NULL;
+     lc = NULL;
     lc = criar_lista_clientes();
 
-    LISTA_CIDADES *listaCidades=NULL;
+    listaCidades=NULL;
     listaCidades=criar_lista_cidades();
+
+    listaPoI=NULL;
+    listaPoI=criar_lista_PoI();
 
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
