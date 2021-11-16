@@ -483,7 +483,7 @@ PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
  * @param nome_PoI nome do PoI a ser removido
  */
 void remove_PoI(char *nome_PoI) {
-        //TO DO
+    //TO DO
 }
 
 /**
@@ -535,12 +535,31 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
     VIAGEM *node = cliente->viagens_arr;
     if (node == NULL) {
+        CLIENTES *clientes_arr = lc->head;
+
+        /**
+         * Verificar se o id escolhido para a viagem é igual a algum id de alguma viagem de qualquer cliente
+         * (ID da viagem é unico globalmente)
+         */
+        while (clientes_arr != NULL) {
+            VIAGEM *cl_viagem = clientes_arr->viagens_arr;
+            while (cl_viagem != NULL) {
+                if (cl_viagem->id == id_viagem) {
+                    printf("\"ERRO -> inserir_viagem(): Ja existe uma viagem com esse id!! Viagem nao foi introduzido\n");
+                    return;
+                }
+                cl_viagem = cl_viagem->next;
+            }
+            clientes_arr = clientes_arr->next;
+        }
         VIAGEM *novo_no = (VIAGEM *) malloc(sizeof(VIAGEM));
 
         novo_no->id = id_viagem;
         novo_no->pais = (char *) malloc(50 * sizeof(char));
         strcpy(novo_no->pais, pais_destino);
         novo_no->nif_cliente = nif;
+        novo_no->cidades = NULL;
+
         novo_no->next = NULL;
 
         novo_no->next = cliente->viagens_arr;
@@ -558,12 +577,31 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
             node = node->next;
         }
 
+        CLIENTES *clientes_arr = lc->head;
+
+        /**
+         * Verificar se o id escolhido para a viagem é igual a algum id de alguma viagem de qualquer cliente
+         * (ID da viagem é unico globalmente)
+         */
+        while (clientes_arr != NULL) {
+            VIAGEM *cl_viagem = clientes_arr->viagens_arr;
+            while (cl_viagem != NULL) {
+                if (cl_viagem->id == id_viagem) {
+                    printf("\"ERRO -> inserir_viagem(): Ja existe uma viagem com esse id!! Viagem nao foi introduzido\\n");
+                    return;
+                }
+                cl_viagem = cl_viagem->next;
+            }
+            clientes_arr = clientes_arr->next;
+        }
+
         VIAGEM *novo_no = (VIAGEM *) malloc(sizeof(VIAGEM));
 
         novo_no->id = id_viagem;
         novo_no->pais = (char *) malloc(50 * sizeof(char));
         strcpy(novo_no->pais, pais_destino);
         novo_no->nif_cliente = nif;
+        novo_no->cidades = NULL;
         novo_no->next = NULL;
 
         novo_no->next = cliente->viagens_arr;
@@ -581,6 +619,9 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
 void imprimir_viagens_cliente(int nif) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
     VIAGEM *current = cliente->viagens_arr;
+    if (current == NULL) {
+        printf("Cliente com o NIF: %d nao tem viagens marcadas!!\n", nif);
+    }
     while (current != NULL) {
         printf("ID: %d\tPais: %s\tNIF Cliente: %d\n", current->id, current->pais, current->nif_cliente);
         current = current->next;
@@ -614,4 +655,86 @@ VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int news
     }
     free(viagem_arr);
     return new_arr;
+}
+
+/**
+ * Funcao para editar uma viagem de um cliente
+ * @param nif_cliente nif do cliente
+ * @param id_viagem id da viagem a editar
+ * @param novo_pais alteracao a ser feita
+ */
+void edit_viagem(int nif_cliente, int id_viagem, char *novo_pais) {
+    CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
+    VIAGEM *current = cliente->viagens_arr;
+
+    while (current != NULL) {
+        if (current->id == id_viagem) {
+            strcpy(current->pais, novo_pais);
+            return;
+        }
+        current = current->next;
+    }
+}
+
+/**
+ * Funcao para pesquisar uma viagem enviando o seu id por parametro
+ * @param id_viagem id da viagem a procurar
+ * @return Se existir, retorna a estrutura da viagem procurada, senao retorna NULL
+ */
+VIAGEM *pesquisar_viagem(int id_viagem) {
+    CLIENTES *clientes = lc->head;
+    if (clientes == NULL) {
+        printf("Lista de Clientes vazia!!\n");
+        return NULL;
+    }
+    while (clientes != NULL) {
+        VIAGEM *viagens = clientes->viagens_arr;
+        if (viagens == NULL) {
+            printf("Cliente %s ainda nao tem viagens marcadas!!\n", clientes->nome);
+            return NULL;
+        }
+        while (viagens != NULL) {
+            if (viagens->id == id_viagem) {
+                printf("Viagem encontrada!!\n");
+                return viagens;
+            }
+            viagens = viagens->next;
+        }
+        clientes = clientes->next;
+    }
+    return NULL;
+}
+
+/**
+ * Funcao para remover uma viagem enviando o seu id por parametro
+ * @param id_viagem id da viagem a remover
+ */
+void remove_viagem(int id_viagem) {
+    VIAGEM *viagem = pesquisar_viagem(id_viagem);
+    CLIENTES *clientes = procurar_cliente_nif(viagem->nif_cliente);
+    if (clientes == NULL) {
+        printf("Cliente nao existe!!\n");
+        return;
+    }
+    VIAGEM *current = clientes->viagens_arr, *anterior = NULL;
+    while (current != NULL && current->id != id_viagem) {
+        anterior = current;
+        current = current->next;
+    }
+    if (current == clientes->viagens_arr) {
+        clientes->viagens_arr = clientes->viagens_arr->next;
+        free(current);
+        printf("Viagem removida!!\n");
+        clientes->num_viagens--;
+        return;
+    }
+
+    if (current == NULL) {
+        printf("A viagem que quer eliminar nao existe!!\n");
+    }
+
+    anterior->next = current->next;
+    free(current);
+    printf("Viagem removida!!\n");
+    clientes->num_viagens--;
 }

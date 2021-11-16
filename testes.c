@@ -66,7 +66,18 @@ int main_testes() {
     //INSERIR VIAGEM
     inserir_viagem(6968,1,"Portugal");
     inserir_viagem(6968,2,"Espanha");
+    inserir_viagem(420420,2,"Espanha");
 //    inserir_viagem(6968,1,"Portugal");
+    imprimir_viagens_cliente(6968);
+
+    //EDITAR VIAGENS
+    edit_viagem(6968,2,"Italia");
+
+    //PESQUISAR VIAGENS
+    pesquisar_viagem(2);
+
+    //REMOVER VIAGENS
+    remove_viagem(2);
 
     imprimir_viagens_cliente(6968);
 

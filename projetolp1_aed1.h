@@ -17,10 +17,29 @@ typedef struct data{
     int ano;
 }DATA;
 
+typedef struct pontos_interesse{
+    char *nome;
+    struct pontos_interesse *next;
+}PoI;
+
+typedef struct cidade{
+    char *nome;
+    char *descricao;
+    PoI *pontos_interesse;
+    int num_PoI;
+    struct cidade *next;
+}CIDADE;
+
+typedef struct lista_cidades{
+    CIDADE *head;
+    int num_cidades;
+}LISTA_CIDADES;
+
 typedef struct viagem{
     int id;
     char *pais;
     int nif_cliente;
+    CIDADE *cidades;
     struct viagem *next;
 }VIAGEM;
 
@@ -42,11 +61,6 @@ typedef struct clientes{
     struct clientes *next;
 }CLIENTES;
 
-typedef struct pontos_interesse{
-    char *nome;
-    struct pontos_interesse *next;
-}PoI;
-
 typedef struct lista_PoI{
     PoI *head;
     int num_PoI;
@@ -56,19 +70,6 @@ typedef struct lista_clientes{
     CLIENTES *head;
     int num_clientes;
 }LISTA_CLIENTES;
-
-typedef struct cidade{
-    char *nome;
-    char *descricao;
-    PoI *pontos_interesse;
-    int num_PoI;
-    struct cidade *next;
-}CIDADE;
-
-typedef struct lista_cidades{
-    CIDADE *head;
-    int num_cidades;
-}LISTA_CIDADES;
 
 int mainProjeto();
 void *criar_lista_clientes();
@@ -91,6 +92,9 @@ CIDADE *pesquisar_cidade(const char *cidade);
 void edit_cidade(const char *nome_cidade, const char *nova_descricao);
 
 void inserir_viagem(int nif, int id_viagem, char *pais_destino);
+void edit_viagem(int nif_cliente, int id_viagem,char*novo_pais);
+VIAGEM *pesquisar_viagem(int id_viagem);
+void remove_viagem(int id_viagem);
 
 int check_dups_PoI(char *nome_cidade, char *nome_PoI);
 void insert_PoI(char *nome_cidade, char *nome_PoI);
