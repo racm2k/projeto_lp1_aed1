@@ -1,0 +1,24 @@
+Numero de Clientes: 7
+Cliente: id: 11; nome: Alberta; morada: tua mae; contacto: 42042; NIF: 6968; Data Nascimento: 20/7/2000; Data Registo: 17/11/2231
+		Viagens: ID_viagem: 1, Pais: Portugal
+		Viagens: ID_viagem: 5, Pais: Italia
+
+Cliente: id: 15; nome: Alberto; morada: tua mae; contacto: 42042; NIF: 6969; Data Nascimento: 10/12/2000; Data Registo: 30/12/2222
+		Viagens: ID_viagem: 2, Pais: Espanha
+
+Cliente: id: 17; nome: Joaquim; morada: tua prima; contacto: 69690; NIF: 420420; Data Nascimento: 8/10/1998; Data Registo: 5/6/1999
+		Viagens: ID_viagem: 2, Pais: Espanha
+		Viagens: ID_viagem: 3, Pais: ahdbahd
+
+Cliente: id: 4; nome: Alfredo; morada: tua tia; contacto: 15150; NIF: 434313; Data Nascimento: 4/6/2001; Data Registo: 3/4/2005
+		Nao ha viagens marcadas para este cliente!!
+
+Cliente: id: 3; nome: Ana; morada: homeless; contacto: 10010; NIF: 11111; Data Nascimento: 2/4/1999; Data Registo: 20/21/2021
+		Nao ha viagens marcadas para este cliente!!
+
+Cliente: id: 1; nome: Diogo; morada: rua123; contacto: 12345; NIF: 99999; Data Nascimento: 1/2/2000; Data Registo: 10/10/2010
+		Nao ha viagens marcadas para este cliente!!
+
+Cliente: id: 20; nome: Baguetes; morada: homeless part2; contacto: 10101010; NIF: 666666; Data Nascimento: 6/8/2000; Data Registo: 1/2/2001
+		Nao ha viagens marcadas para este cliente!!
+
