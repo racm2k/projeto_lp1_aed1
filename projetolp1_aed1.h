@@ -120,6 +120,6 @@ void escrever_clientes_ficheiro_txt(char *filename);
 void ler_ficheiro_txt_(char *filename);
 void ler_ficheiro_txt_formatado(char *filename);
 void escrever_clientes_ficheiro_txt_formatado(char *filename);
-void edit_PoI(char *nome_cidade, char *nome_poi);
+void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
