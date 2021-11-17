@@ -109,6 +109,7 @@ VIAGEM *pesquisar_viagem(int id_viagem);
 void remove_viagem(int id_cliente,int id_viagem);
 
 void imprimir_pois(char *nome_cidade);
+void remover_PoI_cidade(char *nome_cidade,char *nome_poi);
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

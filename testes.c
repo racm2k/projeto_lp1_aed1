@@ -79,7 +79,7 @@ int main_testes() {
 //    inserir_cidade(1, 5, "asdasdwtwf", "asw5j7dasd ");
 //    inserir_cidade(1, 6, "nfhgjr", "metyu ");
     ///PESQUISAR CIDADE
-//    pesquisar_cidade_nome(1,"Porto");
+    pesquisar_cidadeOfViagem_nome(1,"Porto");
     ///EDITAR CIDADE
 //    edit_cidade(1,1,"Porto","BEST CITY IN DA WORLDS");
     ///REMOVER CIDADE
@@ -92,6 +92,10 @@ int main_testes() {
 
     inserir_PoI("Porto",1,"Estádio do Dragão");
     inserir_PoI("Porto",2,"Aliados");
+    inserir_PoI("Porto",3,"Clérigos");
+    inserir_PoI("Porto",4,"UFP");
+    imprimir_pois("Porto");
+    remover_PoI_cidade("Porto","UFP");
     imprimir_pois("Porto");
     return 0;
 }

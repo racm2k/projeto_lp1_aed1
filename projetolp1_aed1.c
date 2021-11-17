@@ -804,6 +804,54 @@ void imprimir_pois(char *nome_cidade) {
 }
 
 
+void remover_PoI_cidade(char *nome_cidade,char *nome_poi){
+    CIDADE *node= lcidades->cidades;
 
+    if(node!=NULL){
+        while (node->next!=NULL){
+            if(strcmp(node->nome,nome_cidade)==0){
+                break;
+            }
+            node=node->next;
+        }
+        CIDADE *cidade=node;
+        PoI *current=cidade->pontos_interesse, *anterior=NULL;
 
+        if(current!=NULL){
+            while (current->next!=NULL && strcmp(current->nome,nome_poi)!=0){
+                anterior=current;
+                current=current->next;
+            }
 
+            if(current==cidade->pontos_interesse){
+                cidade->pontos_interesse=cidade->pontos_interesse->next;
+                free(current);
+                cidade->num_PoI--;
+                return;
+            }
+        } else{
+            printf("O PoI que quer eliminar nao existe!!\n");
+        }
+
+        anterior->next=current->next;
+        free(current);
+        cidade->num_PoI--;
+    }
+}
+
+void edit_PoI(char *nome_cidade, char *nome_poi) {
+    CIDADE *node = lcidades->cidades;
+
+    if (node != NULL) {
+        while (node->next != NULL) {
+            if (strcmp(node->nome, nome_cidade) == 0) {
+                break;
+            }
+            node = node->next;
+        }
+        CIDADE *cidade = node;
+        PoI *current = cidade->pontos_interesse, *anterior = NULL;
+
+    }
+
+}
