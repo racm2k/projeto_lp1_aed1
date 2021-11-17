@@ -6,12 +6,23 @@
 #include "projetolp1_aed1.h"
 
 LISTA_CLIENTES *lc;
+LISTA_VIAGENS *lv;
+LISTA_CIDADES *lcidades;
+LISTA_PoI *listaPoI;
 
 
 int main_testes() {
     lc = NULL;
     lc = criar_lista_clientes();
 
+    lv = NULL;
+    lv = criar_lista_viagens();
+
+    lcidades = NULL;
+    lcidades = criar_lista_cidades();
+
+    listaPoI = NULL;
+    listaPoI = criar_lista_PoI();
 
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -30,11 +41,12 @@ int main_testes() {
     inserir_cliente_cabeca(17, "Joaquim", "tua prima", 69690, 420420, tm, 8, 10, 1998);
     inserir_cliente_ordenado(15, "Alberto", "tua mae", 42042, 6969, true, tm, 10, 12, 2000);
     inserir_cliente_ordenado(11, "Alberta", "tua mae", 42042, 6968, false, tm, 20, 7, 2000);
-    imprimir_cliente();*/
+    imprimir_clientes(); */
+
 
     ///REMOVER CLIENTES
    // remover_cliente(1);
-   // imprimir_cliente();
+   // imprimir_clientes();
 
     ///PROCURAR CLIENTES
     CLIENTES *c1 = procurar_cliente_nome("Alberta");
@@ -72,6 +84,7 @@ int main_testes() {
     ///PESQUISAR VIAGENS
    // VIAGEM *viagem = pesquisar_viagem(1);
 
+  // viagem=pesquisar_viagem(1);
     ///REMOVER VIAGENS
    // remove_viagem(2,6968);
    // remove_viagem(2,420420);
@@ -105,6 +118,13 @@ int main_testes() {
    // remove_cidade(1,2);
    // imprimir_viagens_cliente(6968);
 
+    inserir_PoI("Porto",1,"Estádio do Dragão");
+    inserir_PoI("Porto",2,"Aliados");
+    inserir_PoI("Porto",3,"Clérigos");
+    inserir_PoI("Porto",4,"UFP");
+    imprimir_pois("Porto");
+    remover_PoI_cidade("Porto","UFP");
+    imprimir_pois("Porto");
 
    // escrever_clientes_ficheiro_txt("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens.txt");
     escrever_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
