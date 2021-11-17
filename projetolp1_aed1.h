@@ -41,6 +41,7 @@ typedef struct lista_cidades{
 typedef struct viagem{
     int id;
     char *pais;
+    bool concluida;
     int nif_cliente;
     CIDADE *cidades;
     int num_cidades;
@@ -83,8 +84,7 @@ void *criar_lista_clientes();
 void *criar_lista_PoI();
 void *criar_lista_viagens();
 void *criar_lista_cidades();
-void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, int brithDay,
-                            int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto);
+void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, int brithDay, int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto);
 void imprimir_clientes();
 void imprimir_viagens_cliente(int nif);
 void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, int brithDay,
@@ -103,7 +103,7 @@ void edit_cidade(int id_viagem,int id_cidade,  char *nome_cidade, const char *no
 void remove_cidade(int id_viagem, int id_cidade);
 
 VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int newsize);
-void inserir_viagem(int nif, int id_viagem, char *pais_destino);
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida);
 void edit_viagem(int nif_cliente, int id_viagem,char*novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);
 void remove_viagem(int id_cliente,int id_viagem);
@@ -111,6 +111,10 @@ void remove_viagem(int id_cliente,int id_viagem);
 void imprimir_pois(char *nome_cidade);
 void remover_PoI_cidade(char *nome_cidade,char *nome_poi);
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI);
+void edit_PoI(char *nome_cidade, char *nome_poi, char* novo_nomePoi);
+PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI);
+
+void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPesquisa);
 
 void escrever_clientes_ficheiro_txt(char *filename);
 void ler_ficheiro_txt_(char *filename);

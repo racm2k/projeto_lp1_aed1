@@ -426,11 +426,14 @@ void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descr
                     return;
                 }
             }
+
+
             arr_cidades[viagem->num_cidades].nome = (char *) malloc(50 * sizeof(char));
             strcpy(arr_cidades[viagem->num_cidades].nome, nome_cidade);
             arr_cidades[viagem->num_cidades].descricao = (char *) malloc(50 * sizeof(char));
             strcpy(arr_cidades[viagem->num_cidades].descricao, descricao);
             arr_cidades[viagem->num_cidades].id = id_cidade;
+
             arr_cidades[viagem->num_cidades].pontos_interesse = NULL;
             arr_cidades[viagem->num_cidades].num_PoI = 0;
             arr_cidades[viagem->num_cidades].next = NULL;
@@ -483,6 +486,7 @@ void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descr
             return;
 
         }
+
         viagem = viagem->next;
     }
 }
@@ -571,7 +575,7 @@ void remove_cidade(int id_viagem, int id_cidade) {
  * @param id_viagem id escolhido para a viagem
  * @param pais_destino pais de destino da viagem
  */
-void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
 
     while (cliente != NULL) {
@@ -599,6 +603,7 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
             arr_viagens[cliente->num_viagens].cidades = NULL;
             arr_viagens[cliente->num_viagens].num_cidades = 0;
             arr_viagens[cliente->num_viagens].maxNum_cidades = 0;
+            arr_viagens[cliente->num_viagens].concluida = isConcluída;
             arr_viagens[cliente->num_viagens].next = NULL;
             cliente->viagens_arr = arr_viagens;
             cliente->num_viagens++;
@@ -725,6 +730,10 @@ CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int news
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI) {
     CIDADE *current = lcidades->cidades;
     while (current->next != NULL) {
+        if (strcmp(current->nome, nome_cidade) == 0)
+
+    CIDADE *current = lcidades->cidades;
+    while (current != NULL) {
         if (strcmp(current->nome, nome_cidade) == 0)
             break;
         current = current->next;
@@ -944,7 +953,7 @@ void imprimir_pois(char *nome_cidade) {
     while (node != NULL) {
         if (strcmp(node->nome, nome_cidade) == 0)
             break;
-        node = node->next;
+        node=node->next;
     }
 
     PoI *current = node->pontos_interesse;
@@ -990,11 +999,11 @@ void remover_PoI_cidade(char *nome_cidade, char *nome_poi) {
     }
 }
 
-void edit_PoI(char *nome_cidade, char *nome_poi) {
+void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi) {
     CIDADE *node = lcidades->cidades;
 
     if (node != NULL) {
-        while (node->next != NULL) {
+        while (node != NULL) {
             if (strcmp(node->nome, nome_cidade) == 0) {
                 break;
             }
@@ -1003,6 +1012,72 @@ void edit_PoI(char *nome_cidade, char *nome_poi) {
         CIDADE *cidade = node;
         PoI *current = cidade->pontos_interesse, *anterior = NULL;
 
+        while (current != NULL) {
+            if (strcmp(current->nome, nome_poi) == 0) {
+                strcpy(current->nome, novo_nomePoi);
+                return;
+            }
+            current = current->next;
+        }
     }
 
+}
+
+PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
+    CIDADE *node = lcidades->cidades;
+    if (node != NULL) {
+        while (node != NULL) {
+            if (strcmp(node->nome, nome_cidade) == 0) {
+                break;
+            }
+            node = node->next;
+        }
+        CIDADE *cidade = node;
+        PoI *current = cidade->pontos_interesse;
+        while (current != NULL) {
+            if (strcmp(current->nome, nome_PoI) == 0) {
+                printf("PoI %s da cidade %s encontrado!!\n", current->nome, node->nome);
+                return current;
+            }
+            current = current->next;
+        }
+    }
+    printf("PoI nao encontrado!!\n");
+    return NULL;
+}
+
+
+void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPesquisa) {
+    CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
+    VIAGEM *viagens = cliente->viagens_arr;
+    printf("Historico do Cliente %s com id [%d]:\n", cliente->nome, cliente->nif);
+    if (viagens != NULL) {
+        while (viagens != NULL && viagens->concluida) {
+            if (tipoPesquisa == 0) {
+                CIDADE *cidade = pesquisar_cidadeOfViagem_nome(viagens->id, pesquisa);
+                if (cidade != NULL) {
+                    printf("Viagem ao pais %s e visitou a cidade %s\n", viagens->pais, cidade->nome);
+                    return;
+                }
+            }
+            if (tipoPesquisa == 1) {
+                CIDADE *cidades = lcidades->cidades;
+                if (cidades != NULL) {
+                    while (cidades != NULL) {
+                        PoI *poI = pesquisar_PoI(cidades->nome, pesquisa);
+                        if (poI != NULL) {
+                            printf("Viagem ao pais %s e visitou o PoI %s\n", viagens->pais, poI->nome);
+                            return;
+                        }
+                        cidades = cidades->next;
+                    }
+                }
+            }
+
+            viagens = viagens->next;
+        }
+    }
+
+
+}
 }

@@ -127,6 +127,12 @@ int main_testes() {
    // ler_ficheiro_txt_("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens.txt");
     ler_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
 
+//    remover_PoI_cidade("Porto","Estadio do Dragao");
+    edit_PoI("Porto","UFP","UFP Caralho!");
+    imprimir_pois("Porto");
+    pesquisar_PoI("Porto","Estadio do Dragao");
+
+    print_HistoricoViagens_cliente(6968,"Porto",0);
     return 0;
 }
 
