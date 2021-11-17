@@ -83,11 +83,13 @@ void *criar_lista_clientes();
 void *criar_lista_PoI();
 void *criar_lista_viagens();
 void *criar_lista_cidades();
-void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif,struct tm data, int brithDay, int birthMon, int birthYear);
+void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, int brithDay,
+                            int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto);
 void imprimir_clientes();
 void imprimir_viagens_cliente(int nif);
-void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif,struct tm data, int brithDay, int birthMon, int birthYear);
-void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome, struct tm data, int brithDay, int birthMon, int birthYear);
+void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, int brithDay,
+                           int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto);
+void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome, int brithDay, int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto);
 void remover_cliente(int id);
 CLIENTES *procurar_cliente_nome(const char *nome);
 CLIENTES *procurar_cliente_nif(int nif);
@@ -96,27 +98,24 @@ void imprimir_ordenado();
 
 
 void inserir_cidade(int id_viagem,int id_cidade, char *nome_cidade, char *descricao);
-void inserir_cidade_lista_global(CIDADE *cidade);
-CIDADE *pesquisar_cidade_nome(int id_viagem,  char *cidade);
+CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem,int id_cidade,  char *nome_cidade, const char *nova_descricao);
-int bSearch_cidade(CIDADE *array_cidades, int lo, int hi, int id_cidade);
 void remove_cidade(int id_viagem, int id_cidade);
 
 VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int newsize);
 void inserir_viagem(int nif, int id_viagem, char *pais_destino);
-void inserir_viagem_lista_global(VIAGEM *viagem);
 void edit_viagem(int nif_cliente, int id_viagem,char*novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);
-void remove_viagem(int id_viagem);
-int bSearch_viagem(VIAGEM *array_viagens,int lo,int hi,int id_viagem);
+void remove_viagem(int id_cliente,int id_viagem);
 
 void imprimir_pois(char *nome_cidade);
 void remover_PoI_cidade(char *nome_cidade,char *nome_poi);
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI);
 
 void escrever_clientes_ficheiro_txt(char *filename);
-void escrever_clientes_ficheiro_txt_formatado(char *filename);
 void ler_ficheiro_txt_(char *filename);
 void ler_ficheiro_txt_formatado(char *filename);
+void escrever_clientes_ficheiro_txt_formatado(char *filename);
+void edit_PoI(char *nome_cidade, char *nome_poi);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

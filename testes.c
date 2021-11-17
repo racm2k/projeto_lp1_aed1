@@ -24,9 +24,6 @@ int main_testes() {
     listaPoI = NULL;
     listaPoI = criar_lista_PoI();
 
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-
     /**
      * Testes sobre informaçao dos Clientes
      */
@@ -34,28 +31,27 @@ int main_testes() {
     printf("Testes dos Clientes:\n");
 
     ///INSERIR CLIENTES
-   /* inserir_cliente_cabeca(1, "Diogo", "rua123", 12345, 99999, tm, 1, 2, 2000);
-    inserir_cliente_cabeca(3, "Ana", "homeless", 10010, 11111, tm, 2, 4, 1999);
-    inserir_cliente_cabeca(4, "Alfredo", "tua tia", 15150, 434313, tm, 4, 6, 2001);
-    inserir_cliente_cauda(20, "Baguetes", "homeless part2", 10101010, 666666, tm, 6, 8, 2000);
-    inserir_cliente_cabeca(17, "Joaquim", "tua prima", 69690, 420420, tm, 8, 10, 1998);
-    inserir_cliente_ordenado(15, "Alberto", "tua mae", 42042, 6969, true, tm, 10, 12, 2000);
-    inserir_cliente_ordenado(11, "Alberta", "tua mae", 42042, 6968, false, tm, 20, 7, 2000);
-    imprimir_clientes(); */
-
+   /* inserir_cliente_cabeca(1, "Diogo", "rua123", 12345, 99999, 1, 2, 2000, 10, 10, 2010);
+    inserir_cliente_cabeca(3, "Ana", "homeless", 10010, 11111, 2, 4, 1999, 20, 21, 2021);
+    inserir_cliente_cabeca(4, "Alfredo", "tua tia", 15150, 434313, 4, 6, 2001, 3, 4, 2005);
+    inserir_cliente_cauda(20, "Baguetes", "homeless part2", 10101010, 666666, 6, 8, 2000, 1, 2, 2001);
+    inserir_cliente_cabeca(17, "Joaquim", "tua prima", 69690, 420420, 8, 10, 1998, 5, 6, 1999);
+    inserir_cliente_ordenado(15, "Alberto", "tua mae", 42042, 6969, true, 10, 12, 2000, 30, 12, 2222);
+    inserir_cliente_ordenado(11, "Alberta", "tua mae", 42042, 6968, false, 20, 7, 2000, 17, 11, 2231);
+    imprimir_clientes();*/
 
     ///REMOVER CLIENTES
    // remover_cliente(1);
    // imprimir_clientes();
 
     ///PROCURAR CLIENTES
-    CLIENTES *c1 = procurar_cliente_nome("Alberta");
+   /* CLIENTES *c1 = procurar_cliente_nome("Alberta");
     if (c1 != NULL) {
         printf("Cliente: id: %d; nome: %s; morada: %s; contacto: %d; NIF: %d; Data Nascimento: %d/%d/%d; Data Registo: %d/%d/%d\n\n",
                c1->id, c1->nome, c1->morada,
                c1->contacto, c1->nif, c1->data_nascimento.dia, c1->data_nascimento.mes, c1->data_nascimento.ano,
                c1->data_registo.dia, c1->data_registo.mes, c1->data_registo.ano);
-    }
+    }*/
 
     ///ORDENAR LISTA LIGADA PELO NIF
    // ordenar_lista_nif();
@@ -98,14 +94,14 @@ int main_testes() {
      * Testes sobre Cidades das Cidades
      */
 
-    printf("\nTestes das Ciadades:\n");
+    printf("\nTestes das Cidades:\n");
 
     ///INSERIR CIDADE
-   // inserir_cidade(1, 2, "Braga", "uma merda");
-   // inserir_cidade(1, 1, "Porto", "Porto ");
-   // inserir_cidade(2, 4, "Coimbra", "asdasd ");
-   // inserir_cidade(1, 5, "asdasdwtwf", "asw5j7dasd ");
-   // inserir_cidade(1, 6, "nfhgjr", "metyu ");
+   /* inserir_cidade(1, 2, "Braga", "uma merda");
+    inserir_cidade(1, 1, "Porto", "Porto ");
+    inserir_cidade(2, 4, "Coimbra", "asdasd ");
+    inserir_cidade(1, 5, "asdasdwtwf", "asw5j7dasd ");
+    inserir_cidade(1, 6, "nfhgjr", "metyu ");*/
 
     ///PESQUISAR CIDADE
    // pesquisar_cidade_nome(1,"Porto");
@@ -118,19 +114,18 @@ int main_testes() {
    // remove_cidade(1,2);
    // imprimir_viagens_cliente(6968);
 
-    inserir_PoI("Porto",1,"Estádio do Dragão");
+   /* inserir_PoI("Porto",1,"Estádio do Dragão");
     inserir_PoI("Porto",2,"Aliados");
     inserir_PoI("Porto",3,"Clérigos");
     inserir_PoI("Porto",4,"UFP");
     imprimir_pois("Porto");
     remover_PoI_cidade("Porto","UFP");
-    imprimir_pois("Porto");
+    imprimir_pois("Porto");*/
 
    // escrever_clientes_ficheiro_txt("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens.txt");
-    escrever_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
+   // escrever_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
    // ler_ficheiro_txt_("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens.txt");
     ler_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
-
 
     return 0;
 }
