@@ -46,6 +46,7 @@ typedef struct viagem{
     int num_cidades;
     int maxNum_cidades;
     struct viagem *next;
+    int cap_cidades;
 }VIAGEM;
 
 typedef struct lista_viagens{
