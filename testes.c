@@ -54,7 +54,7 @@ int main_testes() {
 //    imprimir_ordenado();
 
     ///INSERIR VIAGEM
-    inserir_viagem(6968, 1, "Portugal");
+    inserir_viagem(6968, 1, "Portugal",true);
 //    inserir_viagem(6968,2,"Espanha");
 //    inserir_viagem(420420,2,"Espanha");
 //    inserir_viagem(6968,1,"Portugal");
@@ -90,13 +90,17 @@ int main_testes() {
 //    imprimir_viagens_cliente(6968);
 //    imprimir_viagens_cliente(420420);
 
-    inserir_PoI("Porto",1,"Estádio do Dragão");
+    inserir_PoI("Porto",1,"Estadio do Dragao");
     inserir_PoI("Porto",2,"Aliados");
     inserir_PoI("Porto",3,"Clérigos");
     inserir_PoI("Porto",4,"UFP");
     imprimir_pois("Porto");
-    remover_PoI_cidade("Porto","UFP");
+//    remover_PoI_cidade("Porto","Estadio do Dragao");
+    edit_PoI("Porto","UFP","UFP Caralho!");
     imprimir_pois("Porto");
+    pesquisar_PoI("Porto","Estadio do Dragao");
+
+    print_HistoricoViagens_cliente(6968,"Porto",0);
     return 0;
 }
 

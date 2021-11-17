@@ -441,43 +441,43 @@ void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descr
             viagem->cidades = arr_cidades;
             viagem->num_cidades++;
 
-            CIDADE *node=lcidades->cidades;
-            if(node==NULL){
-                CIDADE *novo_no = (CIDADE*) malloc(sizeof(CIDADE));
-                novo_no->id=id_cidade;
-                novo_no->num_PoI=0;
-                novo_no->pontos_interesse=NULL;
-                novo_no->next=NULL;
-                novo_no->nome=(char *) malloc(sizeof (char ));
-                strcpy(novo_no->nome,nome_cidade);
-                novo_no->descricao=(char*) malloc(sizeof(char ));
-                strcpy(novo_no->descricao,descricao);
+            CIDADE *node = lcidades->cidades;
+            if (node == NULL) {
+                CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
+                novo_no->id = id_cidade;
+                novo_no->num_PoI = 0;
+                novo_no->pontos_interesse = NULL;
+                novo_no->next = NULL;
+                novo_no->nome = (char *) malloc(sizeof(char));
+                strcpy(novo_no->nome, nome_cidade);
+                novo_no->descricao = (char *) malloc(sizeof(char));
+                strcpy(novo_no->descricao, descricao);
 
-                novo_no->next=lcidades->cidades;
-                lcidades->cidades=novo_no;
+                novo_no->next = lcidades->cidades;
+                lcidades->cidades = novo_no;
                 lcidades->num_cidades++;
                 printf("cidade inserida na lista global!!\n");
 
                 return;
-            }else{
-                while (node!=NULL){
-                    if(strcmp(node->nome,nome_cidade)==0){
+            } else {
+                while (node != NULL) {
+                    if (strcmp(node->nome, nome_cidade) == 0) {
                         return;
                     }
-                    node=node->next;
+                    node = node->next;
                 }
-                CIDADE *novo_no = (CIDADE*) malloc(sizeof(CIDADE));
-                novo_no->id=id_cidade;
-                novo_no->num_PoI=0;
-                novo_no->pontos_interesse=NULL;
-                novo_no->next=NULL;
-                novo_no->nome=(char *) malloc(sizeof (char ));
-                strcpy(novo_no->nome,nome_cidade);
-                novo_no->descricao=(char*) malloc(sizeof(char ));
-                strcpy(novo_no->descricao,descricao);
+                CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
+                novo_no->id = id_cidade;
+                novo_no->num_PoI = 0;
+                novo_no->pontos_interesse = NULL;
+                novo_no->next = NULL;
+                novo_no->nome = (char *) malloc(sizeof(char));
+                strcpy(novo_no->nome, nome_cidade);
+                novo_no->descricao = (char *) malloc(sizeof(char));
+                strcpy(novo_no->descricao, descricao);
 
-                novo_no->next=lcidades->cidades;
-                lcidades->cidades=novo_no;
+                novo_no->next = lcidades->cidades;
+                lcidades->cidades = novo_no;
                 lcidades->num_cidades++;
                 printf("cidade inserida na lista global!!\n");
 
@@ -577,7 +577,7 @@ void remove_cidade(int id_viagem, int id_cidade) {
  * @param id_viagem id escolhido para a viagem
  * @param pais_destino pais de destino da viagem
  */
-void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluída) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
 
     while (cliente != NULL) {
@@ -607,6 +607,7 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
             arr_viagens[cliente->num_viagens].cidades = NULL;
             arr_viagens[cliente->num_viagens].num_cidades = 0;
             arr_viagens[cliente->num_viagens].maxNum_cidades = 0;
+            arr_viagens[cliente->num_viagens].concluida = isConcluída;
             arr_viagens[cliente->num_viagens].next = NULL;
             cliente->viagens_arr = arr_viagens;
             cliente->num_viagens++;
@@ -741,11 +742,11 @@ CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int news
 
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI) {
 
-    CIDADE *current=lcidades->cidades;
-    while (current->next!=NULL){
-        if(strcmp(current->nome,nome_cidade)==0)
+    CIDADE *current = lcidades->cidades;
+    while (current != NULL) {
+        if (strcmp(current->nome, nome_cidade) == 0)
             break;
-        current=current->next;
+        current = current->next;
     }
 
     PoI *node = current->pontos_interesse;
@@ -766,7 +767,7 @@ void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI) {
     } else {
         while (node != NULL) {
 
-            if (strcmp(node->nome,nome_poI)==0) {
+            if (strcmp(node->nome, nome_poI) == 0) {
                 printf("ERRO -> inserir_poi(): Ja existe um poi com esse nome!! poi nao foi introduzido\n");
                 return;
             }
@@ -789,57 +790,22 @@ void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI) {
 
 
 void imprimir_pois(char *nome_cidade) {
-    CIDADE *node=lcidades->cidades;
-    while (node!=NULL){
-        if(strcmp(node->nome,nome_cidade)==0)
+    CIDADE *node = lcidades->cidades;
+    while (node != NULL) {
+        if (strcmp(node->nome, nome_cidade) == 0)
             break;
-        node=node->next;
+        node = node->next;
     }
 
     PoI *current = node->pontos_interesse;
-    while (current!=NULL){
-        printf("Cidade: %s\tPoI:%s\n",node->nome,current->nome);
-        current=current->next;
+    while (current != NULL) {
+        printf("Cidade: %s\tPoI:%s\n", node->nome, current->nome);
+        current = current->next;
     }
 }
 
 
-void remover_PoI_cidade(char *nome_cidade,char *nome_poi){
-    CIDADE *node= lcidades->cidades;
-
-    if(node!=NULL){
-        while (node->next!=NULL){
-            if(strcmp(node->nome,nome_cidade)==0){
-                break;
-            }
-            node=node->next;
-        }
-        CIDADE *cidade=node;
-        PoI *current=cidade->pontos_interesse, *anterior=NULL;
-
-        if(current!=NULL){
-            while (current->next!=NULL && strcmp(current->nome,nome_poi)!=0){
-                anterior=current;
-                current=current->next;
-            }
-
-            if(current==cidade->pontos_interesse){
-                cidade->pontos_interesse=cidade->pontos_interesse->next;
-                free(current);
-                cidade->num_PoI--;
-                return;
-            }
-        } else{
-            printf("O PoI que quer eliminar nao existe!!\n");
-        }
-
-        anterior->next=current->next;
-        free(current);
-        cidade->num_PoI--;
-    }
-}
-
-void edit_PoI(char *nome_cidade, char *nome_poi) {
+void remover_PoI_cidade(char *nome_cidade, char *nome_poi) {
     CIDADE *node = lcidades->cidades;
 
     if (node != NULL) {
@@ -852,6 +818,106 @@ void edit_PoI(char *nome_cidade, char *nome_poi) {
         CIDADE *cidade = node;
         PoI *current = cidade->pontos_interesse, *anterior = NULL;
 
+        if (current != NULL) {
+            while (current->next != NULL && strcmp(current->nome, nome_poi) != 0) {
+                anterior = current;
+                current = current->next;
+            }
+
+            if (current == cidade->pontos_interesse) {
+                cidade->pontos_interesse = cidade->pontos_interesse->next;
+                free(current);
+                cidade->num_PoI--;
+                return;
+            }
+        } else {
+            printf("O PoI que quer eliminar nao existe!!\n");
+        }
+
+        anterior->next = current->next;
+        free(current);
+        cidade->num_PoI--;
     }
+}
+
+void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi) {
+    CIDADE *node = lcidades->cidades;
+
+    if (node != NULL) {
+        while (node != NULL) {
+            if (strcmp(node->nome, nome_cidade) == 0) {
+                break;
+            }
+            node = node->next;
+        }
+        CIDADE *cidade = node;
+        PoI *current = cidade->pontos_interesse, *anterior = NULL;
+
+        while (current != NULL) {
+            if (strcmp(current->nome, nome_poi) == 0) {
+                strcpy(current->nome, novo_nomePoi);
+                return;
+            }
+            current = current->next;
+        }
+    }
+
+}
+
+PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
+    CIDADE *node = lcidades->cidades;
+    if (node != NULL) {
+        while (node != NULL) {
+            if (strcmp(node->nome, nome_cidade) == 0) {
+                break;
+            }
+            node = node->next;
+        }
+        CIDADE *cidade = node;
+        PoI *current = cidade->pontos_interesse;
+        while (current != NULL) {
+            if (strcmp(current->nome, nome_PoI) == 0) {
+                printf("PoI %s da cidade %s encontrado!!\n", current->nome, node->nome);
+                return current;
+            }
+            current = current->next;
+        }
+    }
+    printf("PoI nao encontrado!!\n");
+    return NULL;
+}
+
+
+void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPesquisa) {
+    CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
+    VIAGEM *viagens = cliente->viagens_arr;
+    printf("Historico do Cliente %s com id [%d]:\n", cliente->nome, cliente->nif);
+    if (viagens != NULL) {
+        while (viagens != NULL && viagens->concluida) {
+            if (tipoPesquisa == 0) {
+                CIDADE *cidade = pesquisar_cidadeOfViagem_nome(viagens->id, pesquisa);
+                if (cidade != NULL) {
+                    printf("Viagem ao pais %s e visitou a cidade %s\n", viagens->pais, cidade->nome);
+                    return;
+                }
+            }
+            if (tipoPesquisa == 1) {
+                CIDADE *cidades = lcidades->cidades;
+                if (cidades != NULL) {
+                    while (cidades != NULL) {
+                        PoI *poI = pesquisar_PoI(cidades->nome, pesquisa);
+                        if (poI != NULL) {
+                            printf("Viagem ao pais %s e visitou o PoI %s\n", viagens->pais, poI->nome);
+                            return;
+                        }
+                        cidades = cidades->next;
+                    }
+                }
+            }
+
+            viagens = viagens->next;
+        }
+    }
+
 
 }
