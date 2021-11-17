@@ -417,7 +417,7 @@ void inserir_cidade(int id_viagem, int id_cidade, char *nome_cidade, char *descr
             arr_cidades[viagem->num_cidades].num_PoI = 0;
             viagem->cidades = arr_cidades;
             viagem->num_cidades++;
-            printf("Cidade inserida!!\n");
+            printf("Cidade inserida com sucesso!!\n");
             return;
         }
         viagem = viagem->next;
@@ -443,7 +443,7 @@ CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade) {
         CIDADE *arr_cidades = viagem->cidades;
         for (int i = 0; i < viagem->num_cidades; i++) {
             if (strcmp(arr_cidades[i].nome, cidade) == 0) {
-                printf("Cidade Encontrada!!\n");
+                printf("Cidade Encontrada!! Cidade: %s\n", viagem->cidades[i].nome);
                 return &arr_cidades[i];
             }
         }
@@ -481,6 +481,7 @@ void edit_cidade(int id_viagem, int id_cidade, char *nome_cidade, const char *no
  * @param id_cidade id da cidade a ser removida
  */
 void remove_cidade(int id_viagem, int id_cidade) {
+    printf("sup\n");
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
     CIDADE *current = viagem->cidades;
     if (current == NULL) {
@@ -525,7 +526,7 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
             VIAGEM *arr_viagens = cliente->viagens_arr;
             for (int i = 0; i < cliente->num_viagens; i++) {
                 if (arr_viagens[i].id == id_viagem) {
-                    printf("Viagem já existente!!\n");
+                    printf("Viagem ja existente!!\n");
                     return;
                 }
             }
@@ -551,7 +552,7 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino) {
 void imprimir_viagens_cliente(int nif) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
     VIAGEM *current = cliente->viagens_arr;
-    printf("Cliente %d\tNome: %s\tNIF: %d\tNumero de Viagens: %d\n", cliente->id, cliente->nome, cliente->nif,
+    printf("Cliente id[%d]\tNome: %s\tNIF: %d\tNumero de Viagens: %d\n", cliente->id, cliente->nome, cliente->nif,
            cliente->num_viagens);
     for (int i = 0; i < cliente->num_viagens; i++) {
         printf("ID: %d\tPais: %s\tNum Cidades: %d\n", current[i].id, current[i].pais, current[i].num_cidades);
@@ -601,7 +602,7 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
         for (int i = 0; i < clientes->num_viagens; i++) {
             if (viagens != NULL) {
                 if (viagens[i].id == id_viagem) {
-                    printf("Viagem encontrada!!\n");
+                    printf("Viagem encontrada!!\t ID_viagem: %d\t Pais: %s\n",viagens->id ,viagens->pais);
                     return &viagens[i];
                 }
             }
@@ -616,9 +617,8 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
  * Funcao para remover uma viagem enviando o seu id por parametro
  * @param id_viagem id da viagem a remover
  */
-void remove_viagem(int id_viagem) {
-    VIAGEM *viagem = pesquisar_viagem(id_viagem);
-    CLIENTES *clientes = procurar_cliente_nif(viagem->nif_cliente);
+void remove_viagem(int id_viagem, int nif_cliente) {
+    CLIENTES *clientes = procurar_cliente_nif(nif_cliente);
     if (clientes == NULL) {
         printf("Cliente nao existe!!\n");
         return;
@@ -630,7 +630,7 @@ void remove_viagem(int id_viagem) {
  * dá fail na verificacao abaixo e nao elimina nenhuma posicao por engano
 */
     for (int i = 0; i < clientes->num_viagens; i++) {
-        if (current->id == id_viagem) {
+        if (current[i].id == id_viagem) {
             id = i;
         }
     }
@@ -654,6 +654,156 @@ CIDADE *create_or_resize_dyn_cidade_array(CIDADE *cidade_arr, int size, int news
 }
 
 void inserir_PoI(){}
+
+/**
+ * Funçao que escreve para ficheiro txt a informaçao do cliente e das suas viagens
+ * @param filename
+ */
+void escrever_clientes_ficheiro_txt(char *filename){
+    FILE *fp = fopen(filename, "w");
+
+    if (fp != NULL){
+        fprintf(fp, "Numero de Clientes: %d\n", lc->num_clientes);
+
+        CLIENTES *c = lc->head;
+        while (c != NULL){
+            fprintf(fp, "Cliente: id: %d; nome: %s; morada: %s; contacto: %d; NIF: %d; Data Nascimento: %d/%d/%d; Data Registo: %d/%d/%d\n",
+                    c->id, c->nome, c->morada,
+                    c->contacto, c->nif, c->data_nascimento.dia, c->data_nascimento.mes, c->data_nascimento.ano,
+                    c->data_registo.dia, c->data_registo.mes, c->data_registo.ano);
+            if (c->viagens_arr == NULL){
+                fprintf(fp, "\t\tNao ha viagens marcadas para este cliente!!\n\n");
+            } else{
+                for (int i = 0; i < c->num_viagens; i++) {
+                    fprintf(fp, "\t\tViagens: ID_viagem: %d, Pais: %s\n",
+                            c->viagens_arr[i].id, c->viagens_arr[i].pais);
+                }
+                fprintf(fp,"\n");
+            }
+            c = c->next;
+        }
+    }
+    fclose(fp);
+}
+
+/**
+ * Funçao que lê de ficheiro txt a informação do cliente e das suas viagens
+ * @param filename
+ */
+
+void ler_ficheiro_txt_(char *filename){
+    FILE *fp = fopen(filename, "r");
+    int num_clientes = 0;
+    int num_viagens = 0;
+
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+    if (filename != NULL){
+        fscanf(fp, "%*s %*s %*s %d\n", &num_clientes);
+
+    int id_clientes = 0;
+    int id_viagens = 0;
+    char nome[100];
+    char morada[100];
+    int contacto = 0, nif = 0;
+    int dia_nascimento = 0, mes_nascimento = 0, ano_nascimento = 0;
+    char pais[100];
+
+    for (int i = 0; i < num_clientes; i++) {
+        fscanf(fp, "%*s %*s %d;", &id_clientes);
+        fscanf(fp, "%*s %s;", nome);
+        fscanf(fp, "%*s %s;", morada);
+        fscanf(fp, "%*s %d;", contacto);
+        fscanf(fp, "%*s %d;", nif);
+        fscanf(fp, "%*s %*s %d/%d/%d;",dia_nascimento,mes_nascimento,ano_nascimento);
+        fscanf(fp, "%*s %*s %d/%d/%d\n",tm.tm_mday,tm.tm_mon,tm.tm_year);
+
+        inserir_cliente_ordenado(id_clientes, nome, morada, contacto, nif, true, tm, dia_nascimento, mes_nascimento, ano_nascimento);
+
+    }
+    imprimir_cliente();
+        for (int i = 0; i < num_viagens; i++) {
+            fscanf(fp, "%*s %*s %d", &id_viagens);
+            fscanf(fp, "%*s %s", pais);
+            inserir_viagem(nif, id_viagens, pais);
+
+        }
+        imprimir_viagens_cliente(nif);
+    fclose(fp);
+    }
+}
+
+void ler_ficheiro_txt_formatado(char *filename){
+    FILE *fp = fopen(filename, "r");
+    int num_clientes = 0;
+    int num_viagens = 0;
+
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+    if (fp != NULL){
+        fscanf(fp, "%*s %*s %*s %d\n", &num_clientes);
+
+        int id_clientes = 0;
+        int id_viagens = 0;
+        char nome[100];
+        char morada[100];
+        int contacto = 0, nif = 0;
+        int dia_nascimento = 0, mes_nascimento = 0, ano_nascimento = 0;
+        char pais[100];
+
+        for (int i = 0; i < num_clientes; i++) {
+            fscanf(fp, "%d;", &id_clientes);
+            fscanf(fp, "%*c%*c%s", nome);
+            fscanf(fp, "%*c%*c%s", nome);
+            fscanf(fp, "%*c%*c%s", morada);
+            fscanf(fp, "%*c%*c%d", contacto);
+            fscanf(fp, "%*c%*c%d", nif);
+            fscanf(fp, "%*c%*c%d%*c%d%*c%d", tm.tm_mday, tm.tm_mon, tm.tm_year);
+            fscanf(fp, "%*c%*c%d%*c%d%*c%d", dia_nascimento, mes_nascimento, ano_nascimento);
+
+            inserir_cliente_ordenado(id_clientes, nome, morada, contacto, nif, true, tm, dia_nascimento, mes_nascimento, ano_nascimento);
+        }
+
+
+
+        imprimir_cliente();
+        fclose(fp);
+    }
+}
+/**
+ * Função que escreve para ficheiro txt a informaçao do cliente e das suas viagens
+ * (formatado)
+ * @param filename
+ */
+void escrever_clientes_ficheiro_txt_formatado(char *filename){
+    FILE *fp = fopen(filename, "w");
+
+    if (fp != NULL){
+        fprintf(fp, "Numero de Clientes: %d\n", lc->num_clientes);
+
+        CLIENTES *c = lc->head;
+        while (c != NULL){
+            fprintf(fp, "%d; %s; %s; %d; %d; %d/%d/%d; %d/%d/%d\n",
+                    c->id, c->nome, c->morada,
+                    c->contacto, c->nif, c->data_nascimento.dia, c->data_nascimento.mes, c->data_nascimento.ano,
+                    c->data_registo.dia, c->data_registo.mes, c->data_registo.ano);
+            if (c->viagens_arr == NULL){
+                fprintf(fp,"Numero de viagens: %d\n\n",c->num_viagens);
+            } else{
+                fprintf(fp,"Numero de viagens: %d\n",c->num_viagens);
+                for (int i = 0; i < c->num_viagens; i++) {
+                    fprintf(fp, "%d, %s\n",
+                            c->viagens_arr[i].id, c->viagens_arr[i].pais);
+                }
+                fprintf(fp,"\n");
+            }
+            c = c->next;
+        }
+    }
+    fclose(fp);
+}
 
 
 

@@ -102,7 +102,7 @@ VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int news
 void inserir_viagem(int nif, int id_viagem, char *pais_destino);
 void edit_viagem(int nif_cliente, int id_viagem,char*novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);
-void remove_viagem(int id_viagem);
+void remove_viagem(int id_viagem, int nif_cliente);
 int bSearch_viagem(VIAGEM *array_viagens,int lo,int hi,int id_viagem);
 
 int check_dups_PoI(char *nome_cidade, char *nome_PoI);
@@ -111,5 +111,10 @@ void addPoItoGlobalList(PoI *poI);
 void edit_PoI(char *nome_cidade, char *nome_PoI, char *novoNome_PoI);
 PoI *pesquisar_PoI(char *nome_cidade,char *nome_PoI);
 void remove_PoI(char *nome_PoI);
+
+void escrever_clientes_ficheiro_txt(char *filename);
+void escrever_clientes_ficheiro_txt_formatado(char *filename);
+void ler_ficheiro_txt_(char *filename);
+void ler_ficheiro_txt_formatado(char *filename);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
