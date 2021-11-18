@@ -1,0 +1,20 @@
+5
+6,nfhgjr,metyu 
+0
+
+5,asdasdwtwf,asw5j7dasd 
+0
+
+4,Coimbra,asdasd 
+0
+
+1,Porto,Porto 
+4
+Porto,4,UFP
+Porto,3,Clérigos
+Porto,2,Aliados
+Porto,1,Estádio do Dragão
+
+2,Braga,uma merda
+0
+

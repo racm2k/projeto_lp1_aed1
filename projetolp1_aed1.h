@@ -97,7 +97,8 @@ void ordenar_lista_nif();
 void imprimir_ordenado();
 
 
-void inserir_cidade(int id_viagem,int id_cidade, char *nome_cidade, char *descricao);
+void inserir_cidade_numa_viagem(int id_viagem,int id_cidade, char *nome_cidade, char *descricao);
+void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao);
 CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem,int id_cidade,  char *nome_cidade, const char *nova_descricao);
 void remove_cidade(int id_viagem, int id_cidade);
@@ -111,12 +112,13 @@ void remove_viagem(int id_cliente,int id_viagem);
 void imprimir_pois(char *nome_cidade);
 void remover_PoI_cidade(char *nome_cidade,char *nome_poi);
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI);
-void edit_PoI(char *nome_cidade, char *nome_poi, char* novo_nomePoi);
 PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI);
 
 void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPesquisa);
 
 void escrever_clientes_ficheiro_txt(char *filename);
+void escrever_cidades_ficheiro_txt(char *filename);
+void ler_cidade_ficheiro_txt(char *filename);
 void ler_ficheiro_txt_(char *filename);
 void ler_ficheiro_txt_formatado(char *filename);
 void escrever_clientes_ficheiro_txt_formatado(char *filename);
