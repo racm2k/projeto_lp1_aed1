@@ -131,7 +131,7 @@ int main_testes() {
 //     imprimir_viagens_cliente(6968);
 
 //    remover_PoI_cidade("Porto","Estadio do Dragao");
-//    edit_PoI("Porto","UFP","UFP Caralho!");
+    edit_PoI("Porto","UFP","UFP Caralho!");
     imprimir_pois("Porto");
     pesquisar_PoI("Porto","Estádio do Dragão");
 //imprimir_clientes();
