@@ -97,14 +97,14 @@ int main_testes() {
     printf("\nTestes das Cidades:\n");
 
     ///INSERIR CIDADE
-   /* inserir_cidade(1, 2, "Braga", "uma merda");
-    inserir_cidade(1, 1, "Porto", "Porto ");
-    inserir_cidade(2, 4, "Coimbra", "asdasd ");
-    inserir_cidade(1, 5, "asdasdwtwf", "asw5j7dasd ");
-    inserir_cidade(1, 6, "nfhgjr", "metyu ");*/
+//    inserir_cidade_lista_global(2, "Braga", "uma merda");
+//    inserir_cidade_lista_global(1, "Porto", "Porto ");
+//    inserir_cidade_lista_global(4, "Coimbra", "asdasd ");
+//    inserir_cidade_lista_global(5, "asdasdwtwf", "asw5j7dasd ");
+//    inserir_cidade_lista_global(6, "nfhgjr", "metyu ");
 
     ///PESQUISAR CIDADE
-   // pesquisar_cidade_nome(1,"Porto");
+//    pesquisar_cidade_nome(1,"Porto");
 
     ///EDITAR CIDADE
    // edit_cidade(1,1,"Porto","BEST CITY IN DA WORLDS");
@@ -113,26 +113,28 @@ int main_testes() {
     ///REMOVER CIDADE
    // remove_cidade(1,2);
 
-    /* inserir_PoI("Porto",1,"Estádio do Dragão");
-     inserir_PoI("Porto",2,"Aliados");
-     inserir_PoI("Porto",3,"Clérigos");
-     inserir_PoI("Porto",4,"UFP");
-     imprimir_pois("Porto");
-     remover_PoI_cidade("Porto","UFP");
-     imprimir_pois("Porto");*/
-
+//     inserir_PoI("Porto",1,"Estádio do Dragão");
+//     inserir_PoI("Porto",2,"Aliados");
+//     inserir_PoI("Porto",3,"Clérigos");
+//     inserir_PoI("Porto",4,"UFP");
+//     imprimir_pois("Porto");
+//     remover_PoI_cidade("Porto","UFP");
+//     imprimir_pois("Porto");
+//    escrever_cidades_ficheiro_txt("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/cidades_pois.txt");
+    ler_cidade_ficheiro_txt("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/cidades_pois.txt");
     // escrever_clientes_ficheiro_txt("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens.txt");
     // escrever_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
     // ler_ficheiro_txt_("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens.txt");
 //    ler_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
-    ler_ficheiro_txt_formatado("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_formatado.txt");
+//    ler_ficheiro_txt_formatado("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_formatado.txt");
+
 //     imprimir_viagens_cliente(6968);
 
 //    remover_PoI_cidade("Porto","Estadio do Dragao");
 //    edit_PoI("Porto","UFP","UFP Caralho!");
-//    imprimir_pois("Porto");
-//    pesquisar_PoI("Porto","Estadio do Dragao");
-imprimir_clientes();
+    imprimir_pois("Porto");
+    pesquisar_PoI("Porto","Estádio do Dragão");
+//imprimir_clientes();
 //    print_HistoricoViagens_cliente(6968,"Porto",0);
     return 0;
 }
