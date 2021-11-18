@@ -813,66 +813,16 @@ void escrever_clientes_ficheiro_txt(char *filename) {
     }
     fclose(fp);
 }
-/**
- * Funçao que lê de ficheiro txt a informação do cliente e das suas viagens
- * @param filename
- */
-//not feito
-/*    void ler_ficheiro_txt_(char *filename) {
-        FILE *fp = fopen(filename, "r");
-        int num_clientes = 0;
-        int num_viagens = 0;
-
-        time_t t = time(NULL);
-        struct tm tm = *localtime(&t);
-
-        if (filename != NULL) {
-            fscanf(fp, "%*s %*s %*s %d\n", &num_clientes);
-
-            int id_clientes = 0;
-            int id_viagens = 0;
-            char nome[100];
-            char morada[100];
-            int contacto = 0, nif = 0;
-            int dia_nascimento = 0, mes_nascimento = 0, ano_nascimento = 0;
-            char pais[100];
-
-            for (int i = 0; i < num_clientes; i++) {
-                fscanf(fp, "%*s %*s %d;", &id_clientes);
-                fscanf(fp, "%*s %s;", nome);
-                fscanf(fp, "%*s %s;", morada);
-                fscanf(fp, "%*s %d;", contacto);
-                fscanf(fp, "%*s %d;", nif);
-                fscanf(fp, "%*s %*s %d/%d/%d;", dia_nascimento, mes_nascimento, ano_nascimento);
-                fscanf(fp, "%*s %*s %d/%d/%d\n", tm.tm_mday, tm.tm_mon, tm.tm_year);
-
-                // inserir_cliente_ordenado(id_clientes, nome, morada, contacto, nif, true, tm, dia_nascimento,
-                //                          mes_nascimento, ano_nascimento);
-
-            }
-            imprimir_clientes();
-            for (int i = 0; i < num_viagens; i++) {
-                fscanf(fp, "%*s %*s %d", &id_viagens);
-                fscanf(fp, "%*s %s", pais);
-                inserir_viagem(nif, id_viagens, pais);
-
-            }
-            imprimir_viagens_cliente(nif);
-            fclose(fp);
-        }
-    }*/
 
 /**
  * Funçao que lê de ficheiro txt a informação do cliente e das suas viagens (formatado)
  * @param filename
  */
 //so le direito se a morada tiver 2 palavras
-void ler_ficheiro_txt_formatado(char *filename) {
+/*void ler_ficheiro_txt_formatado(char *filename) {
     FILE *fp = fopen(filename, "r");
     int num_clientes = 0;
     char line[256];
-
-
 
     if (fp != NULL) {
         fgets(line, sizeof(line),fp);
@@ -982,6 +932,45 @@ void ler_ficheiro_txt_formatado(char *filename) {
             fgets(line, sizeof(line),fp);
         }
 
+        fclose(fp);
+    }
+}*/
+
+//so le direito se a morada tiver 2 palavras
+void ler_ficheiro_txt_formatado(char *filename) {
+    FILE *fp = fopen(filename, "r");
+    int num_clientes = 0;
+    int num_viagens = 0;
+
+    if (fp != NULL) {
+        fscanf(fp, "%*s %*s %*s %d\n", &num_clientes);
+
+        int id_clientes = 0;
+        int *id_viagens = (int *) malloc(sizeof(int));
+        char *nome = (char *) malloc(100 * sizeof (char));
+        char *morada = (char *) malloc(100 * sizeof (char));
+        int contacto = 0, nif = 0;
+        int dia_nascimento = 0, mes_nascimento = 0, ano_nascimento = 0;
+        int dia_registo = 0, mes_registo = 0, ano_registo = 0;
+        char pais[100];
+
+
+        for (int i = 0; i < num_clientes; i++) {
+            fscanf(fp, "%d; %99[^;]; %99[^;]; %d; %d; %d/%d/%d; %d/%d/%d\n", &id_clientes, nome, morada, &contacto, &nif, &dia_nascimento,
+                   &mes_nascimento, &ano_nascimento, &dia_registo, &mes_registo, &ano_registo);
+
+            inserir_cliente_ordenado(id_clientes, nome, morada, contacto, nif, true, dia_nascimento,
+                                     mes_nascimento, ano_nascimento, dia_registo, mes_registo, ano_registo);
+
+            fscanf(fp, "%*s %*s %*s %d\n", &num_viagens);
+
+            for (int j = 0; j < num_viagens; j++) {
+                fscanf(fp, "%d, %s", &id_viagens[j], pais);
+                inserir_viagem(nif, id_viagens[j], pais, true);
+            }
+            imprimir_viagens_cliente(nif);
+        }
+        imprimir_clientes();
         fclose(fp);
     }
 }
