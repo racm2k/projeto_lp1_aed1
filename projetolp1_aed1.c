@@ -870,49 +870,117 @@ void escrever_clientes_ficheiro_txt(char *filename) {
 void ler_ficheiro_txt_formatado(char *filename) {
     FILE *fp = fopen(filename, "r");
     int num_clientes = 0;
-    int num_viagens = 0;
+    char line[256];
+
+
 
     if (fp != NULL) {
-        fscanf(fp, "%*s %*s %*s %d\n", &num_clientes);
-
-        int id_clientes = 0;
-        int *id_viagens = (int *) malloc(sizeof(int));
-
-        char nome[100];
-        char morada[100];
-        char morada2[100];
-        int contacto = 0, nif = 0;
-        int dia_nascimento = 0, mes_nascimento = 0, ano_nascimento = 0;
-        int dia_registo = 0, mes_registo = 0, ano_registo = 0;
-        char *pais = (char *) malloc(sizeof(char));
-        char temp;
-
+        fgets(line, sizeof(line),fp);
+        size_t last_idx = strlen(line) - 1;
+        if (line[last_idx] == '\n')
+        {
+            line[last_idx] = '\0';
+        }
+        num_clientes= atoi(line);
         for (int i = 0; i < num_clientes; i++) {
-            fscanf(fp, "%d; %s %s %s %d %*s %d %*s %d/%d/%d %*s %d/%d/%d\n", &id_clientes, nome, morada,
-                   morada2,
-                   &contacto, &nif,
-                   &dia_nascimento, &mes_nascimento, &ano_nascimento, &dia_registo, &mes_registo, &ano_registo);
 
-            nome[strlen(nome) - 1] = '\0'; //tirar o ";"
-            morada2[strlen(morada2) - 1] = '\0'; //tirar o ";"
-            sprintf(morada, "%s %s", morada, morada2);
-            inserir_cliente_ordenado(id_clientes, nome, morada, contacto, nif, true, dia_nascimento,
-                                     mes_nascimento, ano_nascimento, dia_registo, mes_registo, ano_registo);
+            char *temp;
+            int num_viagens = 0;
+            int campo=0;
+            int id_cliente=0;
+            char *nome= malloc(50* sizeof(char));
+            char *morada= malloc(150* sizeof(char ));
+            int contato_cliente=0;
+            int nif_cliente=0;
+            int dia_nascimento=0;
+            int mes_nascimento=0;
+            int ano_nascimento=0;
+            int dia_registo=0;
+            int mes_registo=0;
+            int ano_registo=0;
+            int id_viagem=0;
+            char *pais= malloc(50* sizeof(char ));
+            fgets(line, sizeof(line),fp);
+            last_idx = strlen(line) - 1;
+            if (line[last_idx] == '\n')
+            {
+                line[last_idx] = '\0';
+            }
+            temp= strtok(line,";");
+            while (temp!=NULL){
+                if(campo==0){
+                    id_cliente= atoi(temp);
+                }
+                if(campo==1){
+                    strcpy(nome,temp);
+                }
+                if(campo==2){
+                    strcpy(morada,temp);
+                }
+                if(campo==3){
+                    contato_cliente= atoi(temp);
+                }
+                if(campo==4){
+                    nif_cliente= atoi(temp);
+                }
+                if(campo==5){
+                    sscanf(temp,"%d/%d/%d",&dia_nascimento,&mes_nascimento,&ano_nascimento);
+                }
+                if(campo==6){
+                    sscanf(temp,"%d/%d/%d",&dia_registo,&mes_registo,&ano_registo);
+                }
+                    campo++;
+                temp= strtok(NULL,";");
+            }
+            inserir_cliente_cabeca(id_cliente,nome,morada,contato_cliente,nif_cliente,dia_nascimento,mes_nascimento,ano_nascimento,dia_registo,mes_registo,ano_registo);
+            campo=0;
 
-            fscanf(fp, "%*s %*s %*s %d\n", &num_viagens);
+
+            fgets(line, sizeof(line),fp);
+            last_idx = strlen(line) - 1;
+            if (line[last_idx] == '\n')
+            {
+                line[last_idx] = '\0';
+            }
+            sscanf(line,"%d",&num_viagens);
 
             for (int j = 0; j < num_viagens; j++) {
-                fscanf(fp, "%d, %s", &id_viagens[j], pais);
-
-
+                fgets(line, sizeof(line),fp);
+                last_idx = strlen(line) - 1;
+                if (line[last_idx] == '\n')
+                {
+                    line[last_idx] = '\0';
+                }
+                temp= strtok(line,", ");
+                while (temp!=NULL){
+                    if(campo==0){
+                        id_viagem= atoi(temp);
+                    }
+                    if(campo==1){
+                        pais= malloc(strlen(temp)* sizeof(char ));
+                        strcpy(pais,temp);
+                    }
+                    campo++;
+                    temp= strtok(NULL,", ");
+                }
+                inserir_viagem(nif_cliente,id_viagem,pais,true);
+                id_viagem=0;
+                campo=0;
+                pais="";
             }
-            for (int z = 0; z < num_viagens; z++) { //entra 2x seguidas, a 2 antes do for de cima, dai o erro
-                inserir_viagem(nif, id_viagens[z], pais, true);
-            }
-
-            imprimir_viagens_cliente(nif);
+            id_cliente=0;
+            nome=NULL;
+            morada=NULL;
+            contato_cliente=0;
+            nif_cliente=0;
+            dia_nascimento=0;
+            mes_nascimento=0;
+            ano_nascimento=0;
+            dia_registo=0;
+            mes_registo=0;
+            ano_registo=0;
+            fgets(line, sizeof(line),fp);
         }
-        imprimir_clientes();
 
         fclose(fp);
     }
