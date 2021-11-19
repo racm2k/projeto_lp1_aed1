@@ -388,7 +388,7 @@ void imprimir_ordenado() {
  * @param nome_cidade nome da cidade inserida
  * @param descricao descricao da cidade inserida
  */
-void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade, char *descricao) {
+void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade, char *descricao, float x, float y) {
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
 
     while (viagem != NULL) {
@@ -417,7 +417,8 @@ void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade,
             arr_cidades[viagem->num_cidades].descricao = (char *) malloc(50 * sizeof(char));
             strcpy(arr_cidades[viagem->num_cidades].descricao, descricao);
             arr_cidades[viagem->num_cidades].id = id_cidade;
-
+            arr_cidades[viagem->num_cidades].localizacao.x = x;
+            arr_cidades[viagem->num_cidades].localizacao.y = y;
             arr_cidades[viagem->num_cidades].pontos_interesse = NULL;
             arr_cidades[viagem->num_cidades].num_PoI = 0;
             arr_cidades[viagem->num_cidades].next = NULL;
@@ -431,7 +432,7 @@ void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade,
     }
 }
 
-void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao) {
+void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao, float x, float y) {
     CIDADE *node = lcidades->head_cidades;
     if (node == NULL) {
         CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
@@ -443,7 +444,8 @@ void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descric
         strcpy(novo_no->nome, nome_cidade);
         novo_no->descricao = (char *) malloc(sizeof(char));
         strcpy(novo_no->descricao, descricao);
-
+        novo_no->localizacao.x = x;
+        novo_no->localizacao.y = y;
         novo_no->next = lcidades->head_cidades;
         lcidades->head_cidades = novo_no;
         lcidades->num_cidades++;
@@ -466,7 +468,8 @@ void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descric
         strcpy(novo_no->nome, nome_cidade);
         novo_no->descricao = (char *) malloc(sizeof(char));
         strcpy(novo_no->descricao, descricao);
-
+        novo_no->localizacao.x = x;
+        novo_no->localizacao.y = y;
         novo_no->next = lcidades->head_cidades;
         lcidades->head_cidades = novo_no;
         lcidades->num_cidades++;
@@ -483,7 +486,7 @@ void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descric
  * @return array das head_cidades pesquisada
  */
 CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade) {
-    CLIENTES *clientes = lc->head_clientes;
+    CLIENTES *clientes = lc->head;
 
     if (clientes == NULL) {
         printf("Lista de Clientes Vazia!!\n");
@@ -536,7 +539,7 @@ void remove_cidade(int id_viagem, int id_cidade) {
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
     CIDADE *current = viagem->cidades;
     if (current == NULL) {
-        printf("Nao ha head_cidades para remover!!\n");
+        printf("Nao ha cidades para remover!!\n");
         return;
     }
     int id = -1;
@@ -560,7 +563,7 @@ void remove_cidade(int id_viagem, int id_cidade) {
  * @param id_viagem id escolhido para a viagem
  * @param pais_destino pais de destino da viagem
  */
-void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida) {
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida,int beginDay,int beginMon, int beginYear, int endDay, int endMon, int endYear) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
 
     while (cliente != NULL) {
@@ -587,6 +590,12 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida
             arr_viagens[cliente->num_viagens].nif_cliente = nif;
             arr_viagens[cliente->num_viagens].cidades = NULL;
             arr_viagens[cliente->num_viagens].num_cidades = 0;
+            arr_viagens[cliente->num_viagens].data_inicio.dia = beginDay;
+            arr_viagens[cliente->num_viagens].data_inicio.mes = beginMon;
+            arr_viagens[cliente->num_viagens].data_inicio.ano = beginYear;
+            arr_viagens[cliente->num_viagens].data_fim.dia = endDay;
+            arr_viagens[cliente->num_viagens].data_fim.mes = endMon;
+            arr_viagens[cliente->num_viagens].data_fim.ano = endYear;
             arr_viagens[cliente->num_viagens].maxNum_cidades = 0;
             arr_viagens[cliente->num_viagens].concluida = isConcluida;
             arr_viagens[cliente->num_viagens].next = NULL;
@@ -924,8 +933,8 @@ void ler_ficheiro_txt_formatado(char *filename) {
 
         int id_clientes = 0;
         int *id_viagens = (int *) malloc(sizeof(int));
-        char *nome = (char *) malloc(100 * sizeof (char));
-        char *morada = (char *) malloc(100 * sizeof (char));
+        char *nome = (char *) malloc(100 * sizeof(char));
+        char *morada = (char *) malloc(100 * sizeof(char));
         int contacto = 0, nif = 0;
         int dia_nascimento = 0, mes_nascimento = 0, ano_nascimento = 0;
         int dia_registo = 0, mes_registo = 0, ano_registo = 0;
@@ -993,14 +1002,15 @@ void escrever_cidades_ficheiro_txt(char *filename) {
         CIDADE *cidade = lcidades->head_cidades;
         if (cidade != NULL) {
             while (cidade != NULL) {
-                fprintf(fp, "%d, %s, %s,\n", cidade->id, cidade->nome, cidade->descricao);
+                fprintf(fp, "%d, %s, %s, %.2f, %.2f\n", cidade->id, cidade->nome, cidade->descricao, cidade->localizacao.x,
+                        cidade->localizacao.y);
                 PoI *poI = cidade->pontos_interesse;
                 if (poI == NULL) {
                     fprintf(fp, "Numero Pontos Interesse: %d\n", cidade->num_PoI);
                 } else {
                     fprintf(fp, "Numero Pontos Interesse: %d\n", cidade->num_PoI);
                     while (poI != NULL) {
-                        fprintf(fp, "%s, %s, %d\n", cidade->nome, poI->nome, poI->id_PoI );
+                        fprintf(fp, "%s, %s, %d\n", cidade->nome, poI->nome, poI->id_PoI);
                         poI = poI->next;
                     }
                 }
@@ -1023,18 +1033,19 @@ void ler_cidade_ficheiro_txt(char *filename) {
 
         int id_cidades = 0;
         int *id_poI = (int *) malloc(sizeof(int));
-        char *nome_cidade = (char *) malloc(100 * sizeof (char));
-        char *descricao = (char *) malloc(100 * sizeof (char));
+        char *nome_cidade = (char *) malloc(100 * sizeof(char));
+        char *descricao = (char *) malloc(100 * sizeof(char));
+        float x, y;
         char ponto_interesse[100];
 
         for (int i = 0; i < num_cidades; i++) {
-            fscanf(fp, "%d, %99[^,], %99[^,],\n", &id_cidades, nome_cidade, descricao);
-            inserir_cidade_lista_global(id_cidades, nome_cidade, descricao);
+            fscanf(fp, "%d, %99[^,], %99[^,], %f, %f\n", &id_cidades, nome_cidade, descricao, &x, &y);
+            inserir_cidade_lista_global(id_cidades, nome_cidade, descricao, x, y);
 
             fscanf(fp, "%*s %*s %*s %d\n", &numero_poI);
 
             for (int j = 0; j < numero_poI; j++) {
-                fscanf(fp, "%99[^,], %99[^,], %d\n",nome_cidade,  ponto_interesse, &id_poI[j]);
+                fscanf(fp, "%99[^,], %99[^,], %d\n", nome_cidade, ponto_interesse, &id_poI[j]);
                 inserir_PoI(nome_cidade, id_poI[j], ponto_interesse);
             }
             imprimir_pois(nome_cidade);
@@ -1042,100 +1053,6 @@ void ler_cidade_ficheiro_txt(char *filename) {
         fclose(fp);
     }
 }
-/*
-void ler_cidade_ficheiro_txt1(char *filename){
-    FILE *fp = fopen(filename,"r");
-    int num_cidades=0;
-    char line[256];
-
-    if(fp!=NULL){
-        fgets(line,sizeof(line),fp);
-        size_t last_idx = strlen(line) - 1;
-        if (line[last_idx] == '\n') {
-            line[last_idx] = '\0';
-        }
-        num_cidades= atoi(line);
-
-        for (int i = 0; i < num_cidades; i++) {
-            char *temp;
-            int campo=0;
-            int id_cidade=0;
-            char *nome_cidade= malloc(50* sizeof(char ));
-            char *descricao= malloc(150* sizeof(char ));
-            char *nome_poi= malloc(50 * sizeof(char ));
-            int id_poi=0;
-
-            fgets(line, sizeof(line),fp);
-            last_idx = strlen(line) - 1;
-            if (line[last_idx] == '\n') {
-                line[last_idx] = '\0';
-            }
-            temp= strtok(line,",");
-            while (temp!=NULL){
-                if(campo==0){
-                    id_cidade= atoi(temp);
-                }
-                if(campo==1){
-                    nome_cidade= malloc(strlen(temp)* sizeof(char ));
-                    strcpy(nome_cidade,temp);
-                }
-                if(campo==2){
-                    descricao= malloc(strlen(temp)* sizeof(char ));
-                    strcpy(descricao,temp);
-                }
-                campo++;
-                temp= strtok(NULL,",");
-            }
-            inserir_cidade_lista_global(id_cidade,nome_cidade,descricao);
-            campo=0;
-
-            fgets(line, sizeof(line),fp);
-            last_idx = strlen(line) - 1;
-            if (line[last_idx] == '\n') {
-                line[last_idx] = '\0';
-            }
-            int num_poi=0;
-            sscanf(line, "%d", &num_poi);
-
-            for (int j = 0; j < num_poi; j++) {
-                fgets(line, sizeof(line),fp);
-                last_idx = strlen(line) - 1;
-                if (line[last_idx] == '\n') {
-                    line[last_idx] = '\0';
-                }
-                temp= strtok(line,",");
-                while (temp!=NULL){
-                    if(campo==0){
-                        nome_cidade= malloc(strlen(temp)* sizeof(char ));
-                        strcpy(nome_cidade,temp);
-                    }
-                    if(campo==1){
-                       id_poi = atoi(temp);
-                    }
-                    if(campo==2){
-                        nome_poi= malloc(strlen(temp)* sizeof(char ));
-                        strcpy(nome_poi,temp);
-                    }
-                    campo++;
-                    temp= strtok(NULL,",");
-                }
-                inserir_PoI(nome_cidade,id_poi,nome_poi);
-                nome_cidade="";
-                id_poi=0;
-                nome_poi="";
-                campo=0;
-            }
-            id_cidade=0;
-            nome_cidade="";
-            descricao="";
-            fgets(line, sizeof(line),fp);
-        }
-        fclose(fp);
-    }
-}
-*/
-
-
 
 void imprimir_pois(char *nome_cidade) {
     CIDADE *node = lcidades->head_cidades;
@@ -1267,3 +1184,88 @@ void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPes
         }
     }
 }
+
+void escrever_clientes_viagens_bin(char *filename) {
+    FILE *fp = fopen(filename, "wb");
+
+    if (fp != NULL) {
+        fwrite(&lc->num_clientes, sizeof(int), 1, fp);
+
+        CLIENTES *clientes = lc->head;
+
+        while (clientes != NULL) {
+            fwrite(&clientes->id, sizeof(int), 1, fp);
+            int size_nome = (int) strlen(clientes->nome) + 1;
+            fwrite(&size_nome, sizeof(int), 1, fp);
+            fwrite(clientes->nome, sizeof(char), size_nome, fp);
+            long size_morada = (long) strlen(clientes->morada) + 1;
+            fwrite(&size_morada, sizeof(long), 1, fp);
+            fwrite(clientes->morada, sizeof(char), size_morada, fp);
+            fwrite(&clientes->contacto, sizeof(int), 1, fp);
+            fwrite(&clientes->nif, sizeof(int), 1, fp);
+            fwrite(&clientes->data_nascimento.dia, sizeof(int), 1, fp);
+            fwrite(&clientes->data_nascimento.mes, sizeof(int), 1, fp);
+            fwrite(&clientes->data_nascimento.ano, sizeof(int), 1, fp);
+            fwrite(&clientes->data_registo.dia, sizeof(int), 1, fp);
+            fwrite(&clientes->data_registo.mes, sizeof(int), 1, fp);
+            fwrite(&clientes->data_registo.ano, sizeof(int), 1, fp);
+            fwrite(&clientes->num_viagens, sizeof(int), 1, fp);
+            VIAGEM *viagens = clientes->viagens_arr;
+            while (viagens != NULL) {
+                fwrite(&viagens->id, sizeof(int), 1, fp);
+                int size_pais = (int) strlen(viagens->pais) + 1;
+                fwrite(&size_pais, sizeof(int), size_pais, fp);
+                fwrite(viagens->pais, sizeof(char), size_pais, fp);
+                viagens = viagens->next;
+            }
+            clientes = clientes->next;
+        }
+    } else
+        printf("Erro ao criar ficheiro!!!\n");
+    fclose(fp);
+}
+
+void ler_clientes_viagens_ficheiro_bin(char *filename) {
+    FILE *fp = fopen(filename, "rb");
+    LISTA_CLIENTES *listaClientes = lc;
+    if (fp != NULL) {
+        int num_clientes = 0;
+        fread(&listaClientes->num_clientes, sizeof(int), 1, fp);
+        for (int i = 0; i < num_clientes; i++) {
+            int id_cliente = 0;
+            fread(&id_cliente, sizeof(int), 1, fp);
+            int size_nome;
+            fread(&size_nome, sizeof(int), 1, fp);
+            char nome[50] = "";
+            fread(&nome, size_nome, 1, fp);
+            long size_morada;
+            fread(&size_morada, sizeof(long), 1, fp);
+            char morada[150] = "";
+            fread(&morada, size_morada, 1, fp);
+            int contato = 0, nif = 0;
+            fread(&contato, sizeof(int), 1, fp);
+            fread(&nif, sizeof(int), 1, fp);
+            int dia_nasc = 0, mes_nasc = 0, ano_nasc = 0, dia_reg = 0, mes_reg = 0, ano_reg = 0;
+            fread(&dia_nasc, sizeof(int), 1, fp);
+            fread(&mes_nasc, sizeof(int), 1, fp);
+            fread(&ano_nasc, sizeof(int), 1, fp);
+            fread(&dia_reg, sizeof(int), 1, fp);
+            fread(&mes_reg, sizeof(int), 1, fp);
+            fread(&ano_reg, sizeof(int), 1, fp);
+            int num_viagens = 0;
+            fread(&num_viagens, sizeof(int), 1, fp);
+            inserir_cliente_ordenado(id_cliente, nome, morada, contato, nif, true, dia_nasc, mes_nasc, ano_nasc,
+                                     dia_reg, mes_reg, ano_reg);
+            for (int j = 0; j < num_viagens; j++) {
+                int id_viagem = 0;
+                fread(&id_viagem, sizeof(int), 1, fp);
+                int size_pais = 0;
+                fread(&size_pais, sizeof(int), 1, fp);
+                char pais[50] = "";
+                fread(&pais, size_pais, 1, fp);
+            }
+        }
+    } else
+        printf("Erro ao abrir o ficheiro!!!\n");
+}
+

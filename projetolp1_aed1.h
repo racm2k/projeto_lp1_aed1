@@ -11,7 +11,11 @@
 #include <stdbool.h>
 #include <time.h>
 
-typedef struct data{
+typedef struct ponto {
+    float x, y;
+} COORDS;
+
+typedef struct data {
     int dia;
     int mes;
     int ano;
@@ -26,6 +30,7 @@ typedef struct pontos_interesse{
 typedef struct cidade{
     int id;
     char *nome;
+    COORDS localizacao;
     char *descricao;
     PoI *pontos_interesse;
     int num_PoI;
@@ -42,6 +47,8 @@ typedef struct viagem{
     int id;
     char *pais;
     bool concluida;
+    DATA data_inicio;
+    DATA data_fim;
     int nif_cliente;
     CIDADE *cidades;
     int num_cidades;
@@ -86,8 +93,10 @@ CLIENTES *procurar_cliente_nif(int nif);
 void ordenar_lista_nif();
 void imprimir_ordenado();
 
-void inserir_cidade_numa_viagem(int id_viagem,int id_cidade, char *nome_cidade, char *descricao);
-void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao);
+
+void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade, char *descricao, float x, float y);
+void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao, float x, float y);
+
 CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem,int id_cidade,  char *nome_cidade, const char *nova_descricao);
 void remove_cidade(int id_viagem, int id_cidade);
@@ -111,5 +120,9 @@ void ler_ficheiro_txt_(char *filename);
 void ler_ficheiro_txt_formatado(char *filename);
 void escrever_clientes_ficheiro_txt_formatado(char *filename);
 void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi);
+
+void escrever_clientes_viagens_bin(char *filename);
+
+void ler_clientes_viagens_ficheiro_bin(char *filename);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

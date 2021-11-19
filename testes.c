@@ -16,6 +16,10 @@ int main_testes() {
     lcidades = criar_lista_cidades();
 
 
+//    ler_cidade_ficheiro_txt("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/cidades_pois.txt");
+    ler_ficheiro_txt_formatado("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_formatado.txt");
+    escrever_clientes_viagens_bin("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_bin.bin");
+    ler_clientes_viagens_ficheiro_bin("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_bin.bin");
     /**
      * Testes sobre informaçao dos Clientes
      */
@@ -27,7 +31,6 @@ int main_testes() {
     inserir_cliente_cabeca(3, "Ana", "homeless", 10010, 11111, 2, 4, 1999, 20, 21, 2021);
     inserir_cliente_cabeca(4, "Alfredo", "tua tia", 15150, 434313, 4, 6, 2001, 3, 4, 2005);
     inserir_cliente_cauda(20, "Baguetes", "homeless part2", 10101010, 666666, 6, 8, 2000, 1, 2, 2001);
-    inserir_cliente_cauda(100, "Viana", "best cheacher", 999555421, 123456, 1, 2, 1956, 3, 4, 2005);
     inserir_cliente_cabeca(17, "Joaquim", "tua prima", 69690, 420420, 8, 10, 1998, 5, 6, 1999);
     inserir_cliente_ordenado(15, "Alberto", "tua mae", 42042, 6969, true, 10, 12, 2000, 30, 12, 2222);
     inserir_cliente_ordenado(11, "Alberta", "tua mae", 42042, 6968, false, 20, 7, 2000, 17, 11, 2231);
@@ -123,10 +126,10 @@ int main_testes() {
     // escrever_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
     // ler_ficheiro_txt_("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens.txt");
     // ler_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
-     ler_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
+    // ler_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
     // escrever_cidades_ficheiro_txt("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\cidades_pois.txt");
 
-    // ler_cidade_ficheiro_txt("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\cidades_pois.txt");
+    ler_cidade_ficheiro_txt("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\cidades_pois.txt");
     // imprimir_viagens_cliente(6968);
 
     // remover_PoI_cidade("Porto","Estadio do Dragao");
@@ -135,8 +138,6 @@ int main_testes() {
     // pesquisar_PoI("Porto","Estadio do Dragao");
     // imprimir_clientes();
     // print_HistoricoViagens_cliente(6968,"Porto",0);
-
-    
 
     return 0;
 }
