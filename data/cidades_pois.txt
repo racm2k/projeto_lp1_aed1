@@ -1,11 +1,11 @@
 Num de Cidades: 2
-1, Porto, capital,
+1, Porto, capital, 2.00, 3.00
 Numero Pontos Interesse: 4
 Porto, UFP, 4
 Porto, Clerigos, 3
 Porto, Aliados, 2
 Porto, Estadio do Dragao, 1
 
-2, Braga, uma merda,
+2, Braga, uma merda, 0.00, 1.00
 Numero Pontos Interesse: 0
 

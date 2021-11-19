@@ -32,7 +32,7 @@ typedef struct cidade{
     char *nome;
     COORDS localizacao;
     char *descricao;
-    PoI *pontos_interesse;
+    PoI *head_pontos_interesse;
     int num_PoI;
     struct cidade *next;
 }CIDADE;
@@ -78,8 +78,6 @@ typedef struct lista_clientes{
 
 int mainProjeto();
 void *criar_lista_clientes();
-void *criar_lista_PoI();
-void *criar_lista_viagens();
 void *criar_lista_cidades();
 void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, int brithDay, int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto);
 void imprimir_clientes();
@@ -101,7 +99,7 @@ CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem,int id_cidade,  char *nome_cidade, const char *nova_descricao);
 void remove_cidade(int id_viagem, int id_cidade);
 
-void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida);
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida, int beginDay, int beginMon, int beginYear, int endDay, int endMon, int endYear);
 void edit_viagem(int nif_cliente, int id_viagem,char*novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);
 void remove_viagem(int id_cliente,int id_viagem);
@@ -122,7 +120,8 @@ void escrever_clientes_ficheiro_txt_formatado(char *filename);
 void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi);
 
 void escrever_clientes_viagens_bin(char *filename);
-
 void ler_clientes_viagens_ficheiro_bin(char *filename);
+void escrever_cidades_pois_bin(char *filename);
+void ler_cidades_pois_ficheiro_bin(char *filename);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

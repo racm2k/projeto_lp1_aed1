@@ -1,26 +1,27 @@
 Numero de Clientes: 7
-11; Alberta das flores; tua mae; 42042; 6968; 20/7/2000; 17/11/2231
-Numero de Viagens: 2
+11; Alberta; tua mae; 42042; 6968; 20/7/2000; 17/11/2231
+Numero de viagens: 2
 1, Portugal
 5, Italia
 
 15; Alberto; tua mae; 42042; 6969; 10/12/2000; 30/12/2222
-Numero de Viagens: 1
+Numero de viagens: 1
 2, Espanha
 
-17; Joaquim; tua prima de quatro; 69690; 420420; 8/10/1998; 5/6/1999
-Numero de Viagens: 2
+17; Joaquim; tua prima; 69690; 420420; 8/10/1998; 5/6/1999
+Numero de viagens: 2
 2, Espanha
 3, ahdbahd
 
-4; Alfredo; tua; 15150; 434313; 4/6/2001; 3/4/2005
-Numero de Viagens: 0
+4; Alfredo; tua tia; 15150; 434313; 4/6/2001; 3/4/2005
+Numero de viagens: 0
 
-3; Ana; homeless asdf; 10010; 11111; 2/4/1999; 20/21/2021
-Numero de Viagens: 0
+3; Ana; homeless; 10010; 11111; 2/4/1999; 20/21/2021
+Numero de viagens: 0
 
-1; Diogo; rua123 eqrg; 12345; 99999; 1/2/2000; 10/10/2010
-Numero de Viagens: 0
+1; Diogo; rua123; 12345; 99999; 1/2/2000; 10/10/2010
+Numero de viagens: 0
 
 20; Baguetes; homeless part2; 10101010; 666666; 6/8/2000; 1/2/2001
-Numero de Viagens: 0
+Numero de viagens: 0
+
