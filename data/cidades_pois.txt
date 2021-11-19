@@ -1,20 +1,11 @@
-5
-6,nfhgjr,metyu 
-0
+Num de Cidades: 2
+1, Porto, capital,
+Numero Pontos Interesse: 4
+Porto, UFP, 4
+Porto, Clerigos, 3
+Porto, Aliados, 2
+Porto, Estadio do Dragao, 1
 
-5,asdasdwtwf,asw5j7dasd 
-0
-
-4,Coimbra,asdasd 
-0
-
-1,Porto,Porto 
-4
-Porto,4,UFP
-Porto,3,Clérigos
-Porto,2,Aliados
-Porto,1,Estádio do Dragão
-
-2,Braga,uma merda
-0
+2, Braga, uma merda,
+Numero Pontos Interesse: 0
 

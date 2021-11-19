@@ -103,7 +103,6 @@ CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem,int id_cidade,  char *nome_cidade, const char *nova_descricao);
 void remove_cidade(int id_viagem, int id_cidade);
 
-VIAGEM *create_or_resize_dyn_viagem_array(VIAGEM *viagem_arr, int size, int newsize);
 void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida);
 void edit_viagem(int nif_cliente, int id_viagem,char*novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);

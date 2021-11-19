@@ -979,7 +979,6 @@ void escrever_clientes_ficheiro_txt_formatado(char *filename) {
 
     if (fp != NULL) {
         fprintf(fp, "Numero de Clientes: %d\n", lc->num_clientes);
-
         CLIENTES *c = lc->head;
         while (c != NULL) {
             fprintf(fp, "%d; %s; %s; %d; %d; %d/%d/%d; %d/%d/%d\n",
@@ -1005,24 +1004,23 @@ void escrever_clientes_ficheiro_txt_formatado(char *filename) {
 
 void escrever_cidades_ficheiro_txt(char *filename) {
     FILE *fp = fopen(filename, "w");
-    if (fp != NULL) {
-        fprintf(fp, "%d\n", lcidades->num_cidades);
 
+    if (fp != NULL) {
+        fprintf(fp, "Num de Cidades: %d\n", lcidades->num_cidades);
         CIDADE *cidade = lcidades->cidades;
         if (cidade != NULL) {
             while (cidade != NULL) {
-                fprintf(fp, "%d,%s,%s\n", cidade->id, cidade->nome, cidade->descricao);
+                fprintf(fp, "%d, %s, %s,\n", cidade->id, cidade->nome, cidade->descricao);
                 PoI *poI = cidade->pontos_interesse;
                 if (poI == NULL) {
-                    fprintf(fp, "%d\n", cidade->num_PoI);
+                    fprintf(fp, "Numero Pontos Interesse: %d\n", cidade->num_PoI);
                 } else {
-                    fprintf(fp, "%d\n", cidade->num_PoI);
+                    fprintf(fp, "Numero Pontos Interesse: %d\n", cidade->num_PoI);
                     while (poI != NULL) {
-                        fprintf(fp, "%s,%d,%s\n", cidade->nome, poI->id_PoI, poI->nome);
+                        fprintf(fp, "%s, %s, %d\n", cidade->nome, poI->nome, poI->id_PoI );
                         poI = poI->next;
                     }
                 }
-
                 fprintf(fp, "\n");
                 cidade = cidade->next;
             }
@@ -1031,7 +1029,38 @@ void escrever_cidades_ficheiro_txt(char *filename) {
     fclose(fp);
 }
 
-void ler_cidade_ficheiro_txt(char *filename){
+
+void ler_cidade_ficheiro_txt(char *filename) {
+    FILE *fp = fopen(filename, "r");
+    int num_cidades = 0;
+    int numero_poI = 0;
+
+    if (fp != NULL) {
+        fscanf(fp, "%*s %*s %*s %d\n", &num_cidades);
+
+        int id_cidades = 0;
+        int *id_poI = (int *) malloc(sizeof(int));
+        char *nome_cidade = (char *) malloc(100 * sizeof (char));
+        char *descricao = (char *) malloc(100 * sizeof (char));
+        char ponto_interesse[100];
+
+        for (int i = 0; i < num_cidades; i++) {
+            fscanf(fp, "%d, %99[^,], %99[^,],\n", &id_cidades, nome_cidade, descricao);
+            inserir_cidade_lista_global(id_cidades, nome_cidade, descricao);
+
+            fscanf(fp, "%*s %*s %*s %d\n", &numero_poI);
+
+            for (int j = 0; j < numero_poI; j++) {
+                fscanf(fp, "%99[^,], %99[^,], %d\n",nome_cidade,  ponto_interesse, &id_poI[j]);
+                inserir_PoI(nome_cidade, id_poI[j], ponto_interesse);
+            }
+            imprimir_pois(nome_cidade);
+        }
+        fclose(fp);
+    }
+}
+/*
+void ler_cidade_ficheiro_txt1(char *filename){
     FILE *fp = fopen(filename,"r");
     int num_cidades=0;
     char line[256];
@@ -1121,7 +1150,7 @@ void ler_cidade_ficheiro_txt(char *filename){
         fclose(fp);
     }
 }
-
+*/
 
 void imprimir_pois(char *nome_cidade) {
     CIDADE *node = lcidades->cidades;
