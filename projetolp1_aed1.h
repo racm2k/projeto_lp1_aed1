@@ -158,7 +158,7 @@ void ler_cidade_ficheiro_txt(char *filename);
 
 void ler_ficheiro_txt_(char *filename);
 
-void ler_ficheiro_txt_formatado(char *filename);
+void ler_clientes_ficheiro_txt_formatado(char *filename);
 
 void escrever_clientes_ficheiro_txt_formatado(char *filename);
 
