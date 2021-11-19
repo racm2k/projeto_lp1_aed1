@@ -33,7 +33,7 @@ typedef struct cidade{
 }CIDADE;
 
 typedef struct lista_cidades{
-    CIDADE *cidades;
+    CIDADE *head_cidades;
     int num_cidades;
     int maxNum_cidades;
 }LISTA_CIDADES;
@@ -50,11 +50,6 @@ typedef struct viagem{
     int cap_cidades;
 }VIAGEM;
 
-typedef struct lista_viagens{
-    VIAGEM *head;
-    int num_viagens;
-}LISTA_VIAGENS;
-
 typedef struct clientes{
     int id;
     char *nome;
@@ -69,13 +64,8 @@ typedef struct clientes{
     struct clientes *next;
 }CLIENTES;
 
-typedef struct lista_PoI{
-    PoI *head;
-    int num_PoI;
-}LISTA_PoI;
-
 typedef struct lista_clientes{
-    CLIENTES *head;
+    CLIENTES *head_clientes;
     int num_clientes;
 }LISTA_CLIENTES;
 
@@ -95,7 +85,6 @@ CLIENTES *procurar_cliente_nome(const char *nome);
 CLIENTES *procurar_cliente_nif(int nif);
 void ordenar_lista_nif();
 void imprimir_ordenado();
-
 
 void inserir_cidade_numa_viagem(int id_viagem,int id_cidade, char *nome_cidade, char *descricao);
 void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao);
