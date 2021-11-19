@@ -32,13 +32,13 @@ typedef struct cidade {
     char *nome;
     COORDS localizacao;
     char *descricao;
-    PoI *pontos_interesse;
+    PoI *head_pontos_interesse;
     int num_PoI;
     struct cidade *next;
 } CIDADE;
 
 typedef struct lista_cidades {
-    CIDADE *cidades;
+    CIDADE *head_cidades;
     int num_cidades;
     int maxNum_cidades;
 } LISTA_CIDADES;
@@ -57,10 +57,6 @@ typedef struct viagem {
     int cap_cidades;
 } VIAGEM;
 
-typedef struct lista_viagens {
-    VIAGEM *head;
-    int num_viagens;
-} LISTA_VIAGENS;
 
 typedef struct clientes {
     int id;
@@ -76,13 +72,8 @@ typedef struct clientes {
     struct clientes *next;
 } CLIENTES;
 
-typedef struct lista_PoI {
-    PoI *head;
-    int num_PoI;
-} LISTA_PoI;
-
 typedef struct lista_clientes {
-    CLIENTES *head;
+    CLIENTES *head_clientes;
     int num_clientes;
 } LISTA_CLIENTES;
 
@@ -167,5 +158,9 @@ void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi);
 void escrever_clientes_viagens_bin(char *filename);
 
 void ler_clientes_viagens_ficheiro_bin(char *filename);
+
+void ler_cidades_pois_ficheiro_bin(char *filename);
+
+void escrever_cidades_pois_bin(char *filename);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
