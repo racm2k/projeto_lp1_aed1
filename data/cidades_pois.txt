@@ -1,11 +1,20 @@
-Num de Cidades: 2
-1, Porto, capital, 2.00, 3.00
+Num de Cidades: 5
+6, nfhgjr, metyu , 245.63, 275.46
+Numero Pontos Interesse: 0
+
+5, asdasdwtwf, asw5j7dasd , 654.74, 746.46
+Numero Pontos Interesse: 0
+
+4, Coimbra, asdasd , 765.34, 234.65
+Numero Pontos Interesse: 0
+
+1, Porto, Porto , 534.24, 765.42
 Numero Pontos Interesse: 4
 Porto, UFP, 4
 Porto, Clerigos, 3
 Porto, Aliados, 2
 Porto, Estadio do Dragao, 1
 
-2, Braga, uma merda, 0.00, 1.00
+2, Braga, uma merda, 254.13, 153.60
 Numero Pontos Interesse: 0
 

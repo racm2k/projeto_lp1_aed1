@@ -426,6 +426,49 @@ void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade,
             viagem->cidades = arr_cidades;
             viagem->num_cidades++;
 
+            CIDADE *node = lcidades->head_cidades;
+            if (node == NULL) {
+                CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
+                novo_no->id = id_cidade;
+                novo_no->num_PoI = 0;
+                novo_no->head_pontos_interesse = NULL;
+                novo_no->next = NULL;
+                novo_no->nome = (char *) malloc(sizeof(char));
+                strcpy(novo_no->nome, nome_cidade);
+                novo_no->descricao = (char *) malloc(sizeof(char));
+                strcpy(novo_no->descricao, descricao);
+                novo_no->localizacao.x = x;
+                novo_no->localizacao.y = y;
+                novo_no->next = lcidades->head_cidades;
+                lcidades->head_cidades = novo_no;
+                lcidades->num_cidades++;
+                printf("cidade inserida na lista global!!\n");
+
+                return;
+            } else {
+                while (node != NULL) {
+                    if (strcmp(node->nome, nome_cidade) == 0) {
+                        return;
+                    }
+                    node = node->next;
+                }
+                CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
+                novo_no->id = id_cidade;
+                novo_no->num_PoI = 0;
+                novo_no->head_pontos_interesse = NULL;
+                novo_no->next = NULL;
+                novo_no->nome = (char *) malloc(sizeof(char));
+                strcpy(novo_no->nome, nome_cidade);
+                novo_no->descricao = (char *) malloc(sizeof(char));
+                strcpy(novo_no->descricao, descricao);
+                novo_no->localizacao.x = x;
+                novo_no->localizacao.y = y;
+                novo_no->next = lcidades->head_cidades;
+                lcidades->head_cidades = novo_no;
+                lcidades->num_cidades++;
+                printf("cidade inserida na lista global!!\n");
+
+            }
 
             viagem = viagem->next;
         }
@@ -1336,7 +1379,7 @@ void ler_cidades_pois_ficheiro_bin(char *filename) {
                 int id_ponto_interesse = 0;
                 fread(&id_ponto_interesse, sizeof (int), 1, fp);
             }
-            imprimir_pois(nome_cidade);
+//            imprimir_pois(nome_cidade);
         }
     } else
         printf("Erro ao abrir o ficheiro!!!\n");
