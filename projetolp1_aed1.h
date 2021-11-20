@@ -162,5 +162,13 @@ void ler_clientes_viagens_ficheiro_bin(char *filename);
 void ler_cidades_pois_ficheiro_bin(char *filename);
 
 void escrever_cidades_pois_bin(char *filename);
+void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente,DATA dataMin, DATA dataMax, char *filename);
 
+int isBeforeDate(DATA data1, DATA data2);
+
+void quickSort(VIAGEM array[], int low, int high);
+
+int partition(VIAGEM array[], int low, int high);
+void swap(VIAGEM *a, VIAGEM *b);
+void printArray(VIAGEM array[], int size);
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
