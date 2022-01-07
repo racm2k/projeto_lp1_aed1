@@ -147,7 +147,7 @@ int main_testes() {
 
     DATA dataMin={1,1,2005};
     DATA dataMax={1,1,2020};
-    gerar_relatorio_viagens_cliente_betweenDates(6968,dataMin,dataMax,"/home/racm2k/CLionProjects/projeto_lp1_aed1/data/relatorio_viagens_cliente_6968.txt");
+    gerar_relatorio_viagens_cliente_betweenDates(6968,dataMin,dataMax,"C:\\Users\\ruben\\Documents\\projeto_lp1_aed1\\data\\relatorio_viagens_cliente_6968.txt");
 
     // remover_PoI_cidade("Porto","Estadio do Dragao");
     // edit_PoI("Porto","UFP","UFP Caralho!");

@@ -171,4 +171,8 @@ void quickSort(VIAGEM array[], int low, int high);
 int partition(VIAGEM array[], int low, int high);
 void swap(VIAGEM *a, VIAGEM *b);
 void printArray(VIAGEM array[], int size);
+void createPopulation(CLIENTES *cliente, int id_viagem);
+int check_arrays(int *arr1[], int size, int *arr2[]);
+double dist(COORDS c1, COORDS c2);
+
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

@@ -1305,35 +1305,38 @@ int isBeforeDate(DATA data1, DATA data2) {
 }
 
 VIAGEM *orderByViagem(int nif_cliente) {
-    CLIENTES *clientes=lc->head_clientes;
-    while (clientes!=NULL && clientes->nif!=6968)
-        clientes=clientes->next;
+    CLIENTES *clientes = lc->head_clientes;
+    while (clientes != NULL && clientes->nif != 6968)
+        clientes = clientes->next;
 
-    VIAGEM *viagens_arr=clientes->viagens_arr;
+    VIAGEM *viagens_arr = clientes->viagens_arr;
 
     int n = clientes->num_viagens;
 
     printf("Array de Viagens a ordenar\n");
-
+    printArray(viagens_arr, n);
     quickSort(viagens_arr, 0, n - 1);
 
     printf("Array de viagens ordenado: \n");
+    printArray(viagens_arr, n);
 
     return viagens_arr;
 
 }
 
-void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente,DATA dataMin, DATA dataMax, char *filename) {
-    VIAGEM *viagens_arr=orderByViagem(nif_cliente);
+void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente, DATA dataMin, DATA dataMax, char *filename) {
+    VIAGEM *viagens_arr = orderByViagem(nif_cliente);
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
-    FILE *fp= fopen(filename,"w");
-    if(fp!=NULL){
-        int num_viagens= cliente->num_viagens;
-        fprintf(fp,"Cliente %s com nif [%d]:\n",cliente->nome,nif_cliente);
-        fprintf(fp,"Viagens entre %d/%d/%d e %d/%d/%d :\n",dataMin.dia,dataMin.mes,dataMin.ano,dataMax.dia,dataMax.mes,dataMax.ano);
+    FILE *fp = fopen(filename, "w");
+    if (fp != NULL) {
+        int num_viagens = cliente->num_viagens;
+        fprintf(fp, "Cliente %s com nif [%d]:\n", cliente->nome, nif_cliente);
+        fprintf(fp, "Viagens entre %d/%d/%d e %d/%d/%d :\n", dataMin.dia, dataMin.mes, dataMin.ano, dataMax.dia,
+                dataMax.mes, dataMax.ano);
         for (int i = 0; i < num_viagens; i++) {
-            if(isBeforeDate(viagens_arr[i].data_inicio,dataMin)==-1 && isBeforeDate(viagens_arr[i].data_inicio,dataMax)==1){
-                fprintf(fp,"\t\tViagem ao pais %s\n",viagens_arr[i].pais);
+            if (isBeforeDate(viagens_arr[i].data_inicio, dataMin) == -1 &&
+                isBeforeDate(viagens_arr[i].data_inicio, dataMax) == 1) {
+                fprintf(fp, "\t\tViagem ao pais %s\n", viagens_arr[i].pais);
             }
         }
     }
@@ -1341,8 +1344,6 @@ void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente,DATA dataMin, 
 
 
 // Quick sort in C
-
-#include <stdio.h>
 
 // function to swap elements
 void swap(VIAGEM *a, VIAGEM *b) {
@@ -1363,7 +1364,7 @@ int partition(VIAGEM array[], int low, int high) {
     // traverse each element of the array
     // compare them with the pivot
     for (int j = low; j < high; j++) {
-        if (isBeforeDate(array[j].data_inicio,pivot.data_inicio)==1) {
+        if (isBeforeDate(array[j].data_inicio, pivot.data_inicio) == 1) {
 
             // if element smaller than pivot is found
             // swap it with the greater element pointed by i
@@ -1400,7 +1401,8 @@ void quickSort(VIAGEM array[], int low, int high) {
 // function to print array elements
 void printArray(VIAGEM array[], int size) {
     for (int i = 0; i < size; ++i) {
-        printf("%s  %d/%d/%d", array[i].pais,array[i].data_inicio.dia,array[i].data_inicio.mes,array[i].data_inicio.ano);
+        printf("%s  %d/%d/%d", array[i].pais, array[i].data_inicio.dia, array[i].data_inicio.mes,
+               array[i].data_inicio.ano);
     }
     printf("\n");
 }
