@@ -4,6 +4,8 @@
 
 #include "projetolp1_aed1.h"
 #include "testes.c"
+#include <time.h>
+#include <math.h>
 
 
 int mainProjeto() {
@@ -1405,4 +1407,80 @@ void printArray(VIAGEM array[], int size) {
                array[i].data_inicio.ano);
     }
     printf("\n");
+}
+
+void populacaoInicial(int individuo) {
+    individuo = 2;
+}
+
+double dist(COORDS c1, COORDS c2){
+    return sqrt(pow(c1.x - c2.x, 2) + pow(c1.y - c2.y, 2));
+}
+
+
+void fitness(){
+    /*Determinar Aptidão:
+
+  Aptidão(Trajeto_1) = 1/(dist(0,1) + dist(1,2) + dist(2,3) + dist(3,4) + dist(4,0));
+
+  Aptidão(Trajeto_2) = 1/(dist(4,3) + dist(3,1) + dist(1,0) + dist(0,2) + dist(2,4));
+
+  Aptidão(Trajeto_3) = 1/(dist(2,4) + dist(4,3) + dist(3,1) + dist(1,0) + dist(0,2));*/
+
+}
+
+void createPopulation(CLIENTES *cliente, int id_viagem) {
+    INDIVIDUO *i1 = (INDIVIDUO *) malloc(sizeof(INDIVIDUO));
+    VIAGEM *viagens = cliente->viagens_arr;
+    srand(time(0));
+
+    VIAGEM viagem;
+    for (int i = 0; i < cliente->num_viagens; i++) {
+        if (viagens[i].id == id_viagem) {
+            viagem = viagens[i];
+        }
+    }
+
+    int v[viagem.num_cidades];
+    int P = 4;
+    printf("Trajetos possiveis: \n");
+    for (int k = 0; k < P; k++) {
+        for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
+            v[i] = i;
+        }
+
+        for (int j = 0; j < viagem.num_cidades; j++) { //array random
+            int temp = v[j];
+            int randomIndex = rand() % viagem.num_cidades;
+
+            v[j] = v[randomIndex];
+            v[randomIndex] = temp;
+        }
+
+
+
+
+        for (int i = 0; i < viagem.num_cidades; i++) {
+            printf("%d ", v[i]);
+        }
+        printf("\n");
+
+    }
+
+
+
+}
+
+int check_arrays(int *arr1[], int size, int *arr2[]) {
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        for (int j = i; j < size; j++) {
+            if (arr1[i] == arr2[j])
+                count++;
+        }
+    }
+
+    if (count == size)
+        return 1;
+    return 0;
 }

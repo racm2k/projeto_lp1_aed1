@@ -11,6 +11,8 @@
 #include <stdbool.h>
 #include <time.h>
 
+#define MAX 50
+
 typedef struct ponto {
     float x, y;
 } COORDS;
@@ -76,6 +78,17 @@ typedef struct lista_clientes {
     CLIENTES *head_clientes;
     int num_clientes;
 } LISTA_CLIENTES;
+
+typedef struct individuo{
+    int id_trajeto;
+    int *array_order; // [1,3,5,2,4]
+    struct individuo *pnext;
+} INDIVIDUO;
+
+typedef struct populacao{
+    INDIVIDUO *head;
+    int tamPopulacao;
+} POPULACAO;
 
 int mainProjeto();
 
