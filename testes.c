@@ -7,6 +7,7 @@
 
 LISTA_CLIENTES *lc;
 LISTA_CIDADES *lcidades;
+POPULACAO *populacoes;
 
 int main_testes() {
     lc = NULL;
@@ -107,11 +108,11 @@ int main_testes() {
     inserir_cidade_lista_global(1, "Porto", "capital", 2.0, 3.0);
 */
 
-    inserir_cidade_numa_viagem(1, 2, "Braga", "uma merda", 254.13f, 153.6f);
-    inserir_cidade_numa_viagem(1, 1, "Porto", "Porto ", 534.24f, 765.42f);
-    inserir_cidade_numa_viagem(2, 4, "Coimbra", "asdasd ", 765.345f, 234.654f);
-    inserir_cidade_numa_viagem(1, 5, "asdasdwtwf", "asw5j7dasd ", 654.74f, 746.46f);
-    inserir_cidade_numa_viagem(1, 6, "nfhgjr", "metyu ", 245.63f, 275.46f);
+    inserir_cidade_numa_viagem(1, 2, "Braga", "uma merda",254.13f,153.6f);
+    inserir_cidade_numa_viagem(1, 1, "Porto", "Porto ",534.24f,765.42f);
+    inserir_cidade_numa_viagem(1, 4, "Coimbra", "asdasd ",765.345f,234.654f);
+    inserir_cidade_numa_viagem(1, 5, "asdasdwtwf", "asw5j7dasd ",654.74f,746.46f);
+    inserir_cidade_numa_viagem(1, 6, "nfhgjr", "metyu ",245.63f,275.46f);
 
  //    imprimir_viagens_cliente(6968);
 
@@ -180,6 +181,15 @@ int main_testes() {
     // imprimir_clientes();
     // print_HistoricoViagens_cliente(6968,"Porto",0);
 
+     CLIENTES *c1 = procurar_cliente_nome("Alberta");
+     if (c1 != NULL) {
+         printf("Cliente: id: %d; nome: %s; morada: %s; contacto: %d; NIF: %d; Data Nascimento: %d/%d/%d; Data Registo: %d/%d/%d\n\n",
+                c1->id, c1->nome, c1->morada,
+                c1->contacto, c1->nif, c1->data_nascimento.dia, c1->data_nascimento.mes, c1->data_nascimento.ano,
+                c1->data_registo.dia, c1->data_registo.mes, c1->data_registo.ano);
+     }
+
+    createPopulation(c1,1);
 
     return 0;
 }
