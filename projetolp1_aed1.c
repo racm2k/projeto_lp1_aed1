@@ -23,6 +23,10 @@ void *criar_lista_clientes() {
     return node;
 }
 
+/**
+ * Criar Lista ligada de cidades
+ * @return node lista de cidades criada
+ */
 void *criar_lista_cidades() {
     LISTA_CIDADES *node = (LISTA_CIDADES *) malloc(sizeof(LISTA_CIDADES));
     node->head_cidades = NULL;
@@ -476,6 +480,14 @@ void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade,
     }
 }
 
+/**
+ * Função para inserir uma cidade na lista global de cidades
+ * @param id_cidade  id da cidade
+ * @param nome_cidade nome da cidade
+ * @param descricao descrição da cidade
+ * @param x coordenada x
+ * @param y coordenada y
+ */
 void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao, float x, float y) {
     CIDADE *node = lcidades->head_cidades;
     if (node == NULL) {
@@ -849,7 +861,10 @@ void escrever_clientes_ficheiro_txt(char *filename) {
     fclose(fp);
 }
 
-//so le direito se a morada tiver 2 palavras
+/**
+ * Função para ler clientes e a sua informação de ficheiro txt
+ * @param filename
+ */
 void ler_clientes_ficheiro_txt_formatado(char *filename) {
     FILE *fp = fopen(filename, "r");
     int num_clientes = 0;
@@ -928,6 +943,10 @@ void escrever_clientes_ficheiro_txt_formatado(char *filename) {
     fclose(fp);
 }
 
+/**
+ * Função para escrever as cidades e suas informações para ficheiro txt
+ * @param filename
+ */
 void escrever_cidades_ficheiro_txt(char *filename) {
     FILE *fp = fopen(filename, "w");
 
@@ -957,7 +976,10 @@ void escrever_cidades_ficheiro_txt(char *filename) {
     fclose(fp);
 }
 
-
+/**
+ * Função para ler cidades e a sua informação de ficheiro txt
+ * @param filename
+ */
 void ler_cidade_ficheiro_txt(char *filename) {
     FILE *fp = fopen(filename, "r");
     int num_cidades = 0;
@@ -988,6 +1010,10 @@ void ler_cidade_ficheiro_txt(char *filename) {
     }
 }
 
+/**
+ * Imprimir os pontos de interesse de uma dada cidade
+ * @param nome_cidade nome da cidade a imprimir os pontos de interesse
+ */
 void imprimir_pois(char *nome_cidade) {
     CIDADE *node = lcidades->head_cidades;
     while (node != NULL) {
@@ -1003,7 +1029,11 @@ void imprimir_pois(char *nome_cidade) {
     }
 }
 
-
+/**
+ * Remover ponto de interesse de uma dada cidade
+ * @param nome_cidade nome da cidade a remover o ponto de interesse
+ * @param nome_poi ponto de interesse a ser removido
+ */
 void remover_PoI_cidade(char *nome_cidade, char *nome_poi) {
     CIDADE *node = lcidades->head_cidades;
 
@@ -1039,6 +1069,12 @@ void remover_PoI_cidade(char *nome_cidade, char *nome_poi) {
     }
 }
 
+/**
+ * Editar pontos de interesse de uma dada cidade
+ * @param nome_cidade nome da cidade a editar o ponto de interesse
+ * @param nome_poi nome do ponto de interesse a editar
+ * @param novo_nomePoi novo ponto de interesse
+ */
 void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi) {
     CIDADE *node = lcidades->head_cidades;
 
@@ -1063,7 +1099,12 @@ void edit_PoI(char *nome_cidade, char *nome_poi, char *novo_nomePoi) {
 
 }
 
-
+/**
+ * Pesquisar pontos de interesse de uma dada cidade
+ * @param nome_cidade nome da cidade a ser procurada
+ * @param nome_PoI nome do ponto de interesse a pesquisar
+ * @return
+ */
 PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
     CIDADE *node = lcidades->head_cidades;
     if (node != NULL) {
@@ -1087,6 +1128,12 @@ PoI *pesquisar_PoI(char *nome_cidade, char *nome_PoI) {
     return NULL;
 }
 
+/**
+ * Imprimir o historico de viagens de um dado cliente
+ * @param nif_cliente nif do cliente a pesquisar
+ * @param pesquisa
+ * @param tipoPesquisa (tipoPesquisa == 0 -> pesquisar cidade pelo nome) || (tipoPesquisa == 1 -> pesquisar pontos de interesse)
+ */
 void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPesquisa) {
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
     VIAGEM *viagens = cliente->viagens_arr;
@@ -1119,6 +1166,10 @@ void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPes
     }
 }
 
+/**
+ * Função para escrever as viagens dos clientes para um ficheiro binário
+ * @param filename
+ */
 void escrever_clientes_viagens_bin(char *filename) {
     FILE *fp = fopen(filename, "wb");
 
@@ -1165,6 +1216,10 @@ void escrever_clientes_viagens_bin(char *filename) {
     fclose(fp);
 }
 
+/**
+ * Função para ler as viagens dos clientes de ficheiro binário
+ * @param filename
+ */
 void ler_clientes_viagens_ficheiro_bin(char *filename) {
     FILE *fp = fopen(filename, "rb");
     LISTA_CLIENTES *listaClientes = lc;
@@ -1218,6 +1273,9 @@ void ler_clientes_viagens_ficheiro_bin(char *filename) {
         printf("Erro ao abrir o ficheiro!!!\n");
 }
 
+/**
+ * Função para escrever os pontos de interesse de cada cidade para ficheiro binário
+ */
 void escrever_cidades_pois_bin(char *filename) {
     FILE *fp = fopen(filename, "wb");
 
@@ -1254,6 +1312,10 @@ void escrever_cidades_pois_bin(char *filename) {
     fclose(fp);
 }
 
+/**
+ * Função para ler os pontos de interesse de cada cidade de um ficheiro binário
+ * @param filename
+ */
 void ler_cidades_pois_ficheiro_bin(char *filename) {
     FILE *fp = fopen(filename, "rb");
     LISTA_CIDADES *listaCidades = lcidades;
@@ -1292,6 +1354,12 @@ void ler_cidades_pois_ficheiro_bin(char *filename) {
         printf("Erro ao abrir o ficheiro!!!\n");
 }
 
+/**
+ * Função para comparar 2 dadas datas
+ * @param data1 primeira data a comparar
+ * @param data2 segunda data a comparar
+ * @return
+ */
 int isBeforeDate(DATA data1, DATA data2) {
     int date1 = (data1.ano * 10000) + (data1.mes * 100) + (data1.dia);
     int date2 = (data2.ano * 10000) + (data2.mes * 100) + (data2.dia);
@@ -1304,6 +1372,11 @@ int isBeforeDate(DATA data1, DATA data2) {
         return 0;
 }
 
+/**
+ * Função para ordenar as viagens de um cliente
+ * @param nif_cliente nif do cliente a ordenar as viagens
+ * @return array de viagens ordenado
+ */
 VIAGEM *orderByViagem(int nif_cliente) {
     CLIENTES *clientes=lc->head_clientes;
     while (clientes!=NULL && clientes->nif!=6968)
@@ -1323,6 +1396,13 @@ VIAGEM *orderByViagem(int nif_cliente) {
 
 }
 
+/**
+ * Gerar relátorio das viagens de um cliente entre 2 datas
+ * @param nif_cliente nif do cliente a gerar relatorio
+ * @param dataMin data minima para comparar
+ * @param dataMax data maxima para comparar
+ * @param filename
+ */
 void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente,DATA dataMin, DATA dataMax, char *filename) {
     VIAGEM *viagens_arr=orderByViagem(nif_cliente);
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
@@ -1339,10 +1419,6 @@ void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente,DATA dataMin, 
     }
 }
 
-
-// Quick sort in C
-
-#include <stdio.h>
 
 // function to swap elements
 void swap(VIAGEM *a, VIAGEM *b) {
