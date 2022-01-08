@@ -12,7 +12,6 @@
 #include <time.h>
 
 #define MAX 50
-#define P 4
 
 typedef struct ponto {
     float x, y;
@@ -83,11 +82,12 @@ typedef struct lista_clientes {
 typedef struct individuo{
     int id_trajeto;
     int *array_order; // [1,3,5,2,4]
-  //  int *data;
+    int aptidao;
+    VIAGEM  *apt;
 } INDIVIDUO;
 
 typedef struct populacao{
-    INDIVIDUO *head;
+    INDIVIDUO *trajetos;
     int tamPopulacao;
 } POPULACAO;
 
@@ -95,6 +95,13 @@ typedef struct aptidao{
     int id;
     int valor_aptidao;
 }APTIDAO;
+
+typedef struct ag{
+    int numPops;
+    int nif_cliente;
+    int id_viagem;
+    POPULACAO *head;
+}ALGORITMO;
 
 int mainProjeto();
 void *criar_lista_clientes();
@@ -160,7 +167,7 @@ void quickSort(VIAGEM array[], int low, int high);
 int partition(VIAGEM array[], int low, int high);
 void swap(VIAGEM *a, VIAGEM *b);
 void printArray(VIAGEM array[], int size);
-int **createPopulation(CLIENTES *cliente, int id_viagem);
+int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops);
 int check_arrays(int *arr1[], int size, int *arr2[]);
 double dist(COORDS c1, COORDS c2);
 INDIVIDUO *novaMatrix(int row, int col);

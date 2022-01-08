@@ -189,11 +189,11 @@ int main_testes() {
                 c1->data_registo.dia, c1->data_registo.mes, c1->data_registo.ano);
      }
 
-    createPopulation(c1,1);
+    createPopulation(c1,1, 4);
 
-     VIAGEM * viagem = pesquisa_viagem_cliente(c1->nif,1);
-     int **matrix = allocate_board(P,viagem->num_cidades);
-    fitness(matrix,viagem,c1->nif);
+    // VIAGEM * viagem = pesquisa_viagem_cliente(c1->nif,1);
+    // int **matrix = allocate_board(populacoes->tamPopulacao,viagem->num_cidades);
+   // fitness(matrix,viagem,c1->nif);
     return 0;
 }
 
