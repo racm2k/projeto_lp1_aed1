@@ -82,8 +82,7 @@ typedef struct lista_clientes {
 typedef struct individuo{
     int id_trajeto;
     int *array_order; // [1,3,5,2,4]
-    int aptidao;
-    VIAGEM  *apt;
+    float aptidao;
 } INDIVIDUO;
 
 typedef struct populacao{
@@ -91,17 +90,13 @@ typedef struct populacao{
     int tamPopulacao;
 } POPULACAO;
 
-typedef struct aptidao{
-    int id;
-    int valor_aptidao;
-}APTIDAO;
-
 typedef struct ag{
     int numPops;
     int nif_cliente;
     int id_viagem;
     POPULACAO *head;
 }ALGORITMO;
+
 
 int mainProjeto();
 void *criar_lista_clientes();
@@ -174,7 +169,8 @@ INDIVIDUO *novaMatrix(int row, int col);
 void printMatrix(INDIVIDUO *matrix);
 int **allocate_board(int Rows, int Cols);
 void free_board(int **board, int Rows);
-void fitness(int **matrix, VIAGEM *v, int nif_cliente);
+void fitness(VIAGEM *v, int nif_cliente);
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem);
+CIDADE pesquisa_cidade_fitness(VIAGEM *v , int index_cidade);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

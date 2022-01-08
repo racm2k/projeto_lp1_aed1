@@ -182,18 +182,12 @@ int main_testes() {
     // print_HistoricoViagens_cliente(6968,"Porto",0);
 
      CLIENTES *c1 = procurar_cliente_nome("Alberta");
-     if (c1 != NULL) {
-         printf("Cliente: id: %d; nome: %s; morada: %s; contacto: %d; NIF: %d; Data Nascimento: %d/%d/%d; Data Registo: %d/%d/%d\n\n",
-                c1->id, c1->nome, c1->morada,
-                c1->contacto, c1->nif, c1->data_nascimento.dia, c1->data_nascimento.mes, c1->data_nascimento.ano,
-                c1->data_registo.dia, c1->data_registo.mes, c1->data_registo.ano);
-     }
 
     createPopulation(c1,1, 4);
+     VIAGEM * viagem = pesquisar_viagem(1);
 
-    // VIAGEM * viagem = pesquisa_viagem_cliente(c1->nif,1);
     // int **matrix = allocate_board(populacoes->tamPopulacao,viagem->num_cidades);
-   // fitness(matrix,viagem,c1->nif);
+   fitness(viagem,c1->nif);
     return 0;
 }
 
