@@ -191,6 +191,9 @@ int main_testes() {
 
     createPopulation(c1,1);
 
+     VIAGEM * viagem = pesquisa_viagem_cliente(c1->nif,1);
+     int **matrix = allocate_board(P,viagem->num_cidades);
+    fitness(matrix,viagem,c1->nif);
     return 0;
 }
 

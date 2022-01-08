@@ -1406,8 +1406,8 @@ VIAGEM *orderByViagem(int nif_cliente) {
  * @param dataMax data maxima para comparar
  * @param filename
  */
-void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente,DATA dataMin, DATA dataMax, char *filename) {
-    VIAGEM *viagens_arr=orderByViagem(nif_cliente);
+void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente, DATA dataMin, DATA dataMax, char *filename) {
+    VIAGEM *viagens_arr = orderByViagem(nif_cliente);
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
     FILE *fp = fopen(filename, "w");
     if (fp != NULL) {
@@ -1416,8 +1416,9 @@ void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente,DATA dataMin, 
         fprintf(fp, "Viagens entre %d/%d/%d e %d/%d/%d :\n", dataMin.dia, dataMin.mes, dataMin.ano, dataMax.dia,
                 dataMax.mes, dataMax.ano);
         for (int i = 0; i < num_viagens; i++) {
-            if(isBeforeDate(viagens_arr[i].data_inicio,dataMin)==-1 && isBeforeDate(viagens_arr[i].data_inicio,dataMax)==1){
-                fprintf(fp,"\t\tViagem ao pais %s\n",viagens_arr[i].pais);
+            if (isBeforeDate(viagens_arr[i].data_inicio, dataMin) == -1 &&
+                isBeforeDate(viagens_arr[i].data_inicio, dataMax) == 1) {
+                fprintf(fp, "\t\tViagem ao pais %s\n", viagens_arr[i].pais);
             }
         }
     }
@@ -1488,22 +1489,38 @@ void printArray(VIAGEM array[], int size) {
     printf("\n");
 }
 
-double dist(COORDS c1, COORDS c2){
+double dist(COORDS c1, COORDS c2) {
     return sqrt(pow(c1.x - c2.x, 2) + pow(c1.y - c2.y, 2));
 }
 
-void fitness(){
-    /*Determinar Aptidão:
+int **allocate_board(int Rows, int Cols)
+{
+    // allocate Rows rows, each row is a pointer to int
+    int **board = (int **)malloc(Rows * sizeof(int *));
+    int row;
 
-  Aptidão(Trajeto_1) = 1/(dist(0,1) + dist(1,2) + dist(2,3) + dist(3,4) + dist(4,0));
+    // for each row allocate Cols ints
+    for (row = 0; row < Rows; row++) {
+        board[row] = (int *)malloc(Cols * sizeof(int));
+    }
 
-  Aptidão(Trajeto_2) = 1/(dist(4,3) + dist(3,1) + dist(1,0) + dist(0,2) + dist(2,4));
-
-  Aptidão(Trajeto_3) = 1/(dist(2,4) + dist(4,3) + dist(3,1) + dist(1,0) + dist(0,2));*/
-
+    return board;
 }
 
-void createPopulation(CLIENTES *cliente, int id_viagem) {
+void free_board(int **board, int Rows)
+{
+    int row;
+
+    // first free each row
+    for (row = 0; row < Rows; row++) {
+        free(board[row]);
+    }
+
+    // Eventually free the memory of the pointers to the rows
+    free(board);
+}
+
+int **createPopulation(CLIENTES *cliente, int id_viagem) {
     VIAGEM *viagens = cliente->viagens_arr;
     srand(time(0));
     VIAGEM viagem;
@@ -1515,14 +1532,12 @@ void createPopulation(CLIENTES *cliente, int id_viagem) {
     }
 
     int v[viagem.num_cidades];
-    int P = 4;
-    INDIVIDUO *cd =(INDIVIDUO *) malloc(P * sizeof (INDIVIDUO));
-    int matrix[P][viagem.num_cidades];
+    int **matrix = allocate_board(P,viagem.num_cidades);
     printf("Trajetos possiveis: \n");
     for (int k = 0; k < P; k++) {
         //INDIVIDUO *cd =(INDIVIDUO *) malloc(sizeof (INDIVIDUO));
         for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
-            v[i] = i;
+            v[i] = i+1;
         }
 
         for (int j = 0; j < viagem.num_cidades; j++) { //array random
@@ -1533,33 +1548,86 @@ void createPopulation(CLIENTES *cliente, int id_viagem) {
             v[randomIndex] = temp;
         }
 
-        int *arr = (int *) malloc(viagem.num_cidades * sizeof (int));
+        int *arr = (int *) malloc(viagem.num_cidades * sizeof(int));
 
-        for (int i = 0; i < viagem.num_cidades; i++) {
+        for (int i = 0; i <viagem.num_cidades; i++) {
             printf("%d ", v[i]);
             matrix[k][i] = v[i];
             arr[i] = v[i];
 
         }
-        cd[k].array_order = arr;
-        cd[k].id_trajeto = k;
+        //cd[k].array_order = arr;
+        //cd[k].id_trajeto = k;
 
         printf("\n");
     }
 
     printf("\nMatrix: \n");
     for (int x = 0; x < P; x++) {
-      // printf("%d - ", cd[x].id_trajeto);
+         printf("%d - ", x);
         for (int z = 0; z < viagem.num_cidades; z++) {
-          //  printf("%d ", cd[x].array_order[z]);
+              //printf("%d ", cd[x].array_order[z]);
             printf("%d ", matrix[x][z]);
         }
-     printf("\n");
+        printf("\n");
+
     }
+    return matrix;
 }
 
-/*
-INDIVIDUO *novaMatrix(int row, int col){
+CIDADE * pesquisa_cidade_fitness(int nif_cliente, int id_viagem, int id_cidade){
+    CLIENTES * c1 = procurar_cliente_nif(nif_cliente);
+    VIAGEM * v1 = c1->viagens_arr;
+    for (int i = 0; i < c1->num_viagens; ++i) {
+        if(v1->id == id_viagem){
+            CIDADE * cidades = v1->cidades;
+                int count = 0;
+            while(cidades != NULL){
+                if(count == id_cidade){
+                    return cidades;
+                }
+                count++;
+                cidades = cidades->next;
+            }
+        }
+    }
+    return NULL;
+}
+
+VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem){
+    VIAGEM *viagem;
+    CLIENTES * cliente = procurar_cliente_nif(nif_cliente);
+    VIAGEM * viagens = cliente->viagens_arr;
+    for (int i = 0; i < cliente->num_viagens; i++) {
+        if (viagens[i].id == id_viagem) {
+            viagem = &viagens[i];
+        }
+    }
+    return viagem;
+}
+
+void fitness(int **matrix, VIAGEM *v, int nif_cliente) {
+    APTIDAO *apt = (APTIDAO *) malloc(P * sizeof (APTIDAO));
+    CIDADE * arr = (CIDADE *) malloc(P * sizeof(CIDADE));
+    int aux=0;
+    for(int i = 0; i < P; i++){
+        for(int j = 0; j < v->num_cidades; j++){
+            arr[j] = *(pesquisa_cidade_fitness(nif_cliente,v->id,j));
+            printf("%d",arr[j].id);
+        }
+    }
+    /*Determinar Aptidão:
+
+  Aptidão(Trajeto_1) = 1/(dist(0,1) + dist(1,2) + dist(2,3) + dist(3,4) + dist(4,0));
+
+  Aptidão(Trajeto_2) = 1/(dist(4,3) + dist(3,1) + dist(1,0) + dist(0,2) + dist(2,4));
+
+  Aptidão(Trajeto_3) = 1/(dist(2,4) + dist(4,3) + dist(3,1) + dist(1,0) + dist(0,2));*/
+
+}
+
+
+/*INDIVIDUO *novaMatrix(int row, int col){
     INDIVIDUO *mat = (INDIVIDUO *) malloc(sizeof (INDIVIDUO));
     mat->id_trajeto = col;
     mat->array_order = row;

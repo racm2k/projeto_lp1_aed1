@@ -12,6 +12,7 @@
 #include <time.h>
 
 #define MAX 50
+#define P 4
 
 typedef struct ponto {
     float x, y;
@@ -90,6 +91,11 @@ typedef struct populacao{
     int tamPopulacao;
 } POPULACAO;
 
+typedef struct aptidao{
+    int id;
+    int valor_aptidao;
+}APTIDAO;
+
 int mainProjeto();
 void *criar_lista_clientes();
 void *criar_lista_PoI();
@@ -154,10 +160,14 @@ void quickSort(VIAGEM array[], int low, int high);
 int partition(VIAGEM array[], int low, int high);
 void swap(VIAGEM *a, VIAGEM *b);
 void printArray(VIAGEM array[], int size);
-void createPopulation(CLIENTES *cliente, int id_viagem);
+int **createPopulation(CLIENTES *cliente, int id_viagem);
 int check_arrays(int *arr1[], int size, int *arr2[]);
 double dist(COORDS c1, COORDS c2);
 INDIVIDUO *novaMatrix(int row, int col);
 void printMatrix(INDIVIDUO *matrix);
+int **allocate_board(int Rows, int Cols);
+void free_board(int **board, int Rows);
+void fitness(int **matrix, VIAGEM *v, int nif_cliente);
+VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
