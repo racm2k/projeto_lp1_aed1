@@ -1526,6 +1526,8 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     VIAGEM viagem;
     populacoes = (POPULACAO *) malloc(sizeof (POPULACAO));
     populacoes->tamPopulacao = numPops;
+    INDIVIDUO *cd =(INDIVIDUO *) malloc(numPops * sizeof (INDIVIDUO));
+    populacoes->trajetos = (INDIVIDUO *) malloc(numPops * sizeof (INDIVIDUO));
 
     for (int i = 0; i < cliente->num_viagens; i++) {
         if (viagens[i].id == id_viagem) {
@@ -1537,7 +1539,7 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     int **matrix = allocate_board(numPops,viagem.num_cidades);
     printf("Trajetos possiveis: \n");
     for (int k = 0; k < numPops; k++) {
-        //INDIVIDUO *cd =(INDIVIDUO *) malloc(sizeof (INDIVIDUO));
+       // INDIVIDUO *cd =(INDIVIDUO *) malloc(sizeof (INDIVIDUO));
         for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
             v[i] = i+1;
         }
@@ -1553,14 +1555,20 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
         int *arr = (int *) malloc(viagem.num_cidades * sizeof(int));
 
         for (int i = 0; i <viagem.num_cidades; i++) {
-            printf("%d ", v[i]);
+           // printf("%d ", v[i]);
             matrix[k][i] = v[i];
             arr[i] = v[i];
 
         }
-        //cd[k].array_order = arr;
-        //cd[k].id_trajeto = k;
+        cd[k].array_order = arr;
+        cd[k].id_trajeto = k;
 
+        populacoes->trajetos[k] = cd[k];
+
+        printf("Id_trajeto: %d - ", populacoes->trajetos[k].id_trajeto);
+        for (int i = 0; i < viagem.num_cidades; i++) {
+            printf("%d ", populacoes->trajetos[k].array_order[i]);
+        }
         printf("\n");
     }
 
@@ -1568,7 +1576,7 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     for (int x = 0; x < numPops; x++) {
          printf("%d - ", x);
         for (int z = 0; z < viagem.num_cidades; z++) {
-              //printf("%d ", cd[x].array_order[z]);
+            //  printf("arr: %d ", cd[x].array_order[z]);
             printf("%d ", matrix[x][z]);
         }
         printf("\n");
@@ -1620,11 +1628,6 @@ VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem){
     }
 }*/
 
-void fitness2(int **matrix) {
-    for (int i = 0; i < matrix; ++i) {
-
-    }
-}
 
 /*INDIVIDUO *novaMatrix(int row, int col){
     INDIVIDUO *mat = (INDIVIDUO *) malloc(sizeof (INDIVIDUO));
