@@ -82,7 +82,7 @@ typedef struct lista_clientes {
 typedef struct individuo{
     int id_trajeto;
     int *array_order; // [1,3,5,2,4]
-    struct individuo *pnext;
+  //  int *data;
 } INDIVIDUO;
 
 typedef struct populacao{
@@ -157,5 +157,7 @@ void printArray(VIAGEM array[], int size);
 void createPopulation(CLIENTES *cliente, int id_viagem);
 int check_arrays(int *arr1[], int size, int *arr2[]);
 double dist(COORDS c1, COORDS c2);
+INDIVIDUO *novaMatrix(int row, int col);
+void printMatrix(INDIVIDUO *matrix);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

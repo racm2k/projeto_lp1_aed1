@@ -1488,14 +1488,9 @@ void printArray(VIAGEM array[], int size) {
     printf("\n");
 }
 
-void populacaoInicial(int individuo) {
-    individuo = 2;
-}
-
 double dist(COORDS c1, COORDS c2){
     return sqrt(pow(c1.x - c2.x, 2) + pow(c1.y - c2.y, 2));
 }
-
 
 void fitness(){
     /*Determinar Aptidão:
@@ -1509,11 +1504,10 @@ void fitness(){
 }
 
 void createPopulation(CLIENTES *cliente, int id_viagem) {
-    INDIVIDUO *i1 = (INDIVIDUO *) malloc(sizeof(INDIVIDUO));
     VIAGEM *viagens = cliente->viagens_arr;
     srand(time(0));
-
     VIAGEM viagem;
+
     for (int i = 0; i < cliente->num_viagens; i++) {
         if (viagens[i].id == id_viagem) {
             viagem = viagens[i];
@@ -1522,8 +1516,11 @@ void createPopulation(CLIENTES *cliente, int id_viagem) {
 
     int v[viagem.num_cidades];
     int P = 4;
+    INDIVIDUO *cd =(INDIVIDUO *) malloc(P * sizeof (INDIVIDUO));
+    int matrix[P][viagem.num_cidades];
     printf("Trajetos possiveis: \n");
     for (int k = 0; k < P; k++) {
+        //INDIVIDUO *cd =(INDIVIDUO *) malloc(sizeof (INDIVIDUO));
         for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
             v[i] = i;
         }
@@ -1536,19 +1533,44 @@ void createPopulation(CLIENTES *cliente, int id_viagem) {
             v[randomIndex] = temp;
         }
 
-
-
+        int *arr = (int *) malloc(viagem.num_cidades * sizeof (int));
 
         for (int i = 0; i < viagem.num_cidades; i++) {
             printf("%d ", v[i]);
-        }
-        printf("\n");
+            matrix[k][i] = v[i];
+            arr[i] = v[i];
 
+        }
+        cd[k].array_order = arr;
+        cd[k].id_trajeto = k;
+
+        printf("\n");
     }
 
-
-
+    printf("\nMatrix: \n");
+    for (int x = 0; x < P; x++) {
+      // printf("%d - ", cd[x].id_trajeto);
+        for (int z = 0; z < viagem.num_cidades; z++) {
+          //  printf("%d ", cd[x].array_order[z]);
+            printf("%d ", matrix[x][z]);
+        }
+     printf("\n");
+    }
 }
+
+/*
+INDIVIDUO *novaMatrix(int row, int col){
+    INDIVIDUO *mat = (INDIVIDUO *) malloc(sizeof (INDIVIDUO));
+    mat->id_trajeto = col;
+    mat->array_order = row;
+
+    mat->data = (int *) malloc(row * col * sizeof (int));
+    for (int i = 0; i < row * col; i++) {
+        mat->data[i] = 0;
+    }
+
+    return mat;
+}*/
 
 int check_arrays(int *arr1[], int size, int *arr2[]) {
     int count = 0;
