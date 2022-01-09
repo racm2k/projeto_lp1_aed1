@@ -87,14 +87,17 @@ typedef struct individuo{
 
 typedef struct populacao{
     INDIVIDUO *trajetos;
-    int tamPopulacao;
+    int numTrajetos;
     struct populacao *pnext;
 } POPULACAO;
 
 typedef struct ag{
-    int numPops;
+    int P;
     int nif_cliente;
     int id_viagem;
+    int E; // elitismo
+    int G; // num geracoes
+    int N; // num cidades de cada individuo
     POPULACAO *head;
 }ALGORITMO;
 
@@ -163,7 +166,7 @@ void quickSort(VIAGEM array[], int low, int high);
 int partition(VIAGEM array[], int low, int high);
 void swap(VIAGEM *a, VIAGEM *b);
 void printArray(VIAGEM array[], int size);
-void createPopulation(CLIENTES *cliente, int id_viagem, int numPops);
+POPULACAO *createPopulation(int nif_cliente, int id_viagem, int numPops);
 int check_arrays(int *arr1[], int size, int *arr2[]);
 double dist(COORDS c1, COORDS c2);
 INDIVIDUO *novaMatrix(int row, int col);
@@ -173,9 +176,11 @@ void free_board(int **board, int Rows);
 void fitness(VIAGEM *v, int nif_cliente);
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem);
 CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int index_cidade);
-void cruzamento();
+float* parentSelection(VIAGEM *v1);
 void swap_float(float* xp, float* yp);
 void selectionSort(float number[], int n);
 void printArray_float(float arr[], int size);
+void orderArray(float *arr);
+void algoritmo(ALGORITMO algoritmo);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

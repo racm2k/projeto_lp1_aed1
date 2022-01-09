@@ -1496,13 +1496,14 @@ void free_board(int **board, int Rows) {
  * @param id_viagem id da viagem
  * @param numPops num de populaçoes a criar
  */
-void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
+POPULACAO *createPopulation(int nif_cliente, int id_viagem, int numTrajetos) {
+    POPULACAO *populacao=(POPULACAO*) malloc(sizeof(POPULACAO));
+    CLIENTES *cliente= procurar_cliente_nif(nif_cliente);
     VIAGEM *viagens = cliente->viagens_arr;
     srand(time(0));
     VIAGEM viagem;
-    populacoes = (POPULACAO *) malloc(sizeof(POPULACAO));
-    populacoes->trajetos = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
-    populacoes->tamPopulacao = numPops;
+    populacao->trajetos = (INDIVIDUO *) malloc(numTrajetos * sizeof(INDIVIDUO));
+    populacao->numTrajetos = numTrajetos;
 
     for (int i = 0; i < cliente->num_viagens; i++) {
         if (viagens[i].id == id_viagem) {
@@ -1512,14 +1513,14 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     }
 
     int v[viagem.num_cidades];
-    int **matrix = allocate_board(numPops, viagem.num_cidades);
+    int **matrix = allocate_board(numTrajetos, viagem.num_cidades);
     printf("\nTrajetos possiveis: \n");
 
-    INDIVIDUO *cd = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
+    INDIVIDUO *cd = (INDIVIDUO *) malloc(numTrajetos * sizeof(INDIVIDUO));
     for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
         v[i] = i + 1;
     }
-    for (int k = 0; k < numPops; k++) {
+    for (int k = 0; k < numTrajetos; k++) {
         for (int j = 0; j < viagem.num_cidades; j++) { //array random
             int temp = v[j];
             int randomIndex = rand() % viagem.num_cidades;
@@ -1539,17 +1540,17 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
         cd[k].array_order = arr;
         cd[k].id_trajeto = k;
 
-        populacoes->trajetos[k] = cd[k];
+        populacao->trajetos[k] = cd[k];
 
-        printf("Id_trajeto: %d - ", populacoes->trajetos[k].id_trajeto);
+        printf("Id_trajeto: %d - ", populacao->trajetos[k].id_trajeto);
         for (int i = 0; i < viagem.num_cidades; i++) {
-            printf("%d ", populacoes->trajetos[k].array_order[i]);
+            printf("%d ", populacao->trajetos[k].array_order[i]);
         }
         printf("\n");
     }
 
     printf("\nMatrix: \n");
-    for (int x = 0; x < numPops; x++) {
+    for (int x = 0; x < numTrajetos; x++) {
          printf("%d - ", x);
         for (int z = 0; z < viagem.num_cidades; z++) {
             printf("%d ", matrix[x][z]);
@@ -1557,6 +1558,7 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
         printf("\n");
     }
     printf("\n");
+    return populacao;
 }
 
 /**
@@ -1615,7 +1617,7 @@ double dist(COORDS c1, COORDS c2) {
 void fitness(VIAGEM *v, int nif_cliente) {
     CIDADE *arr = (CIDADE *) malloc(v->num_cidades * sizeof(CIDADE));
     INDIVIDUO *trajetos = populacoes->trajetos;
-    for (int i = 0; i < populacoes->tamPopulacao; i++) {
+    for (int i = 0; i < populacoes->numTrajetos; i++) {
         float aux = 0;
 
         for (int j = 0; j < v->num_cidades; j++) {
@@ -1647,6 +1649,24 @@ int check_arrays(int *arr1[], int size, int *arr2[]) {
     return 0;
 }
 
+/*void cruzamento(VIAGEM *v1) {
+    CIDADE *arr = (CIDADE *) malloc(v1->num_cidades * sizeof(CIDADE));
+    INDIVIDUO *trajetos = populacoes->trajetos;
+    float maior_apt = 0.0f;
+    float maior_apt2 = 0.0f;
+    INDIVIDUO *aux = populacoes->trajetos;
+    for (int i = 0; i < populacoes->tamPopulacao; i++) {
+        //printf("DEBUG Trajeto: %d Aptidao: %f\n\n", i, trajetos[i].aptidao);
+        if (trajetos[0].aptidao < trajetos[i].aptidao) {
+            aux[0].aptidao = trajetos[i].aptidao;
+            printf("Maior Aptidao: %f\n", aux[0].aptidao);
+        }else{
+            if(trajetos[0].aptidao > trajetos[i].aptidao){
+                //printf("Maior Aptidao: %f\n",trajetos[0].aptidao);
+            }
+        }
+    }
+}*/
 
 void swap_float(float* xp, float* yp)
 {
@@ -1678,30 +1698,39 @@ void printArray_float(float arr[], int size){
     printf("\n");
 }
 
+void orderArray(float *arr){
 
-void cruzamento(){
+    selectionSort(arr,populacoes->numTrajetos);
+    printArray_float(arr,populacoes->numTrajetos);
+}
+
+float* parentSelection(VIAGEM *v1){
     INDIVIDUO *trajetos = populacoes->trajetos;
-
-    float maior_apt[2][2];
-    maior_apt[0][1]=0.0f;
-    maior_apt[1][1]=0.0f;
-    int indx1=0;
-
-    for (int i = 0; i < populacoes->tamPopulacao; i++) {
-        if(trajetos[i].aptidao > maior_apt[0][1]){
-            maior_apt[0][1] = trajetos[i].aptidao;
-            maior_apt[0][0]=(float)i;
-            indx1=i;
-        }
+    float *arr=(float*) malloc(populacoes->numTrajetos * sizeof(float));
+    for (int i = 0; i < populacoes->numTrajetos; i++) {
+        arr[i]=trajetos[i].aptidao;
     }
-    printf("Melhor Trajeto[%d] = %f\n",(int)maior_apt[0][0], maior_apt[0][1]);
-    for (int i = 0; i < populacoes->tamPopulacao; i++) {
-        if(trajetos[i].aptidao > maior_apt[1][1] && i!=indx1){
-            maior_apt[1][1] = trajetos[i].aptidao;
-            maior_apt[1][0]= (float)i;
-        }
+
+    orderArray(arr);
+    float*aux=(float *) malloc(alg.E* sizeof(float ));
+    for (int i = 0; i < alg.E; i++) {
+        aux[i]=arr[i];
+    }
+    return aux;
+}
+
+
+void algoritmo(ALGORITMO algoritmo){
+    algoritmo.head=(POPULACAO*) malloc(sizeof(POPULACAO));
+    algoritmo.head=createPopulation(algoritmo.nif_cliente,algoritmo.id_viagem,algoritmo.P);
+    VIAGEM *viagem= pesquisa_viagem_cliente(algoritmo.nif_cliente,algoritmo.id_viagem);
+    for (int i = 0; i < algoritmo.G; i++) {
+
+        fitness(viagem,algoritmo.nif_cliente);
+        float *arr=(float*) malloc(algoritmo.E * sizeof(float));
+        arr=parentSelection(viagem);
+
     }
     printf("Segundo Melhor Trajeto[%d] = %f\n",(int)maior_apt[1][0], maior_apt[1][1]);
-
 }
 
