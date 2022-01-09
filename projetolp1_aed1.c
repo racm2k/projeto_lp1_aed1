@@ -1645,7 +1645,7 @@ int check_arrays(int *arr1[], int size, int *arr2[]) {
     if (count == size)
         return 1;
     return 0;
-}*/
+}
 
 /*void cruzamento(VIAGEM *v1) {
     CIDADE *arr = (CIDADE *) malloc(v1->num_cidades * sizeof(CIDADE));
@@ -1708,23 +1708,26 @@ void orderArray(float *arr){
 void cruzamento(VIAGEM *v1){
     CIDADE *arr = (CIDADE *) malloc(v1->num_cidades * sizeof(CIDADE));
     INDIVIDUO *trajetos = populacoes->trajetos;
-    INDIVIDUO *aux = populacoes->trajetos; //ordenado aptidao
 
-    float maior_apt = 0.0f;
-    float maior_apt2 = 0.0f;
-
-    for (int i = 0; i < populacoes->tamPopulacao; i++) {
-        if(trajetos[i].aptidao > trajetos[i + 1].aptidao && trajetos[i].aptidao > maior_apt){
-            maior_apt = trajetos[i].aptidao;
-            printf("Trajeto_apt1 = %f\n", maior_apt);
-        }
-    }
+    float maior_apt[2][2];
+    maior_apt[0][1]=0.0f;
+    maior_apt[1][1]=0.0f;
+    int indx1=0;
 
     for (int i = 0; i < populacoes->tamPopulacao; i++) {
-        if(trajetos[i].aptidao > trajetos[i + 1].aptidao && trajetos[i].aptidao < maior_apt && trajetos[i].aptidao >= maior_apt2){
-            maior_apt2 = trajetos[i].aptidao;
-            printf("Trajeto_apt2 = %f\n", maior_apt2);
+        if(trajetos[i].aptidao > maior_apt[0][1]){
+            maior_apt[0][1] = trajetos[i].aptidao;
+            maior_apt[0][0]=(float)i;
+            indx1=i;
+
         }
     }
-
+    printf("Melhor Trajeto[%d] = %f\n",(int)maior_apt[0][0], maior_apt[0][1]);
+    for (int i = 0; i < populacoes->tamPopulacao; i++) {
+        if(trajetos[i].aptidao > maior_apt[1][1] && i!=indx1){
+            maior_apt[1][1] = trajetos[i].aptidao;
+            maior_apt[1][0]= (float)i;
+        }
+    }
+    printf("Segundo Melhor Trajeto[%d] = %f\n",(int)maior_apt[1][0], maior_apt[1][1]);
 }
