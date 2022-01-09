@@ -395,90 +395,51 @@ void imprimir_ordenado() {
  * @param nome_cidade nome da cidade inserida
  * @param descricao descricao da cidade inserida
  */
-void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade, char *descricao, float x, float y) {
+void inserir_cidade_numa_viagem(int id_viagem,char *nome_cidade, char *descricao, float x, float y) {
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
 
-    while (viagem != NULL) {
-        if (viagem->id == id_viagem) {
-
-            if (viagem->num_cidades == viagem->maxNum_cidades) {
-                if (viagem->maxNum_cidades == 0) {
-                    viagem->maxNum_cidades = 2;
-                } else {
-                    viagem->maxNum_cidades *= 2;
-                }
-
-                viagem->cidades = (CIDADE *) realloc(viagem->cidades, viagem->maxNum_cidades * sizeof(CIDADE));
-            }
-            CIDADE *arr_cidades = viagem->cidades;
-            for (int i = 0; i < viagem->num_cidades; i++) {
-                if (arr_cidades[i].id == id_cidade) {
-                    printf("Cidade já existente!!\n");
-                    return;
-                }
-            }
 
 
-            arr_cidades[viagem->num_cidades].nome = (char *) malloc(50 * sizeof(char));
-            strcpy(arr_cidades[viagem->num_cidades].nome, nome_cidade);
-            arr_cidades[viagem->num_cidades].descricao = (char *) malloc(50 * sizeof(char));
-            strcpy(arr_cidades[viagem->num_cidades].descricao, descricao);
-            arr_cidades[viagem->num_cidades].id = id_cidade;
-            arr_cidades[viagem->num_cidades].localizacao.x = x;
-            arr_cidades[viagem->num_cidades].localizacao.y = y;
-            arr_cidades[viagem->num_cidades].head_pontos_interesse = NULL;
-            arr_cidades[viagem->num_cidades].num_PoI = 0;
-            arr_cidades[viagem->num_cidades].next = NULL;
-            printf("cidade inserida na viagem!!\n");
-            viagem->cidades = arr_cidades;
-            viagem->num_cidades++;
-
-            CIDADE *node = lcidades->head_cidades;
-            if (node == NULL) {
-                CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
-                novo_no->id = id_cidade;
-                novo_no->num_PoI = 0;
-                novo_no->head_pontos_interesse = NULL;
-                novo_no->next = NULL;
-                novo_no->nome = (char *) malloc(sizeof(char));
-                strcpy(novo_no->nome, nome_cidade);
-                novo_no->descricao = (char *) malloc(sizeof(char));
-                strcpy(novo_no->descricao, descricao);
-                novo_no->localizacao.x = x;
-                novo_no->localizacao.y = y;
-                novo_no->next = lcidades->head_cidades;
-                lcidades->head_cidades = novo_no;
-                lcidades->num_cidades++;
-                printf("cidade inserida na lista global!!\n");
-
+    CIDADE *cidades=viagem->cidades;
+    if(cidades==NULL){
+        CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
+        novo_no->id = viagem->num_cidades+1;
+        novo_no->num_PoI = 0;
+        novo_no->head_pontos_interesse = NULL;
+        novo_no->next = NULL;
+        novo_no->nome = (char *) malloc(sizeof(char));
+        strcpy(novo_no->nome, nome_cidade);
+        novo_no->descricao = (char *) malloc(sizeof(char));
+        strcpy(novo_no->descricao, descricao);
+        novo_no->localizacao.x = x;
+        novo_no->localizacao.y = y;
+        novo_no->next=viagem->cidades;
+        viagem->cidades=novo_no;
+        viagem->num_cidades++;
+        return;
+    }else{
+        while (cidades!=NULL){
+            if(strcmp(cidades->nome,nome_cidade)==0){
+                printf("cidade ja existente!!\n");
                 return;
-            } else {
-                while (node != NULL) {
-                    if (strcmp(node->nome, nome_cidade) == 0) {
-                        return;
-                    }
-                    node = node->next;
-                }
-                CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
-                novo_no->id = id_cidade;
-                novo_no->num_PoI = 0;
-                novo_no->head_pontos_interesse = NULL;
-                novo_no->next = NULL;
-                novo_no->nome = (char *) malloc(sizeof(char));
-                strcpy(novo_no->nome, nome_cidade);
-                novo_no->descricao = (char *) malloc(sizeof(char));
-                strcpy(novo_no->descricao, descricao);
-                novo_no->localizacao.x = x;
-                novo_no->localizacao.y = y;
-                novo_no->next = lcidades->head_cidades;
-                lcidades->head_cidades = novo_no;
-                lcidades->num_cidades++;
-                printf("cidade inserida na lista global!!\n");
-
             }
-
-            viagem = viagem->next;
+            cidades=cidades->next;
         }
+
+        CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
+        novo_no->id = viagem->num_cidades+1;
+        novo_no->num_PoI = 0;
+        novo_no->head_pontos_interesse = NULL;
+        novo_no->next = NULL;
+        novo_no->nome = (char *) malloc(sizeof(char));
+        strcpy(novo_no->nome, nome_cidade);
+        novo_no->descricao = (char *) malloc(sizeof(char));
+        strcpy(novo_no->descricao, descricao);
+        novo_no->localizacao.x = x;
+        novo_no->localizacao.y = y;
+        novo_no->next=viagem->cidades;
+        viagem->cidades=novo_no;
+        viagem->num_cidades++;
     }
 }
 
@@ -678,10 +639,9 @@ void imprimir_viagens_cliente(int nif) {
            cliente->num_viagens);
     for (int i = 0; i < cliente->num_viagens; i++) {
         printf("ID: %d\tPais: %s\tNum Cidades: %d\n", current[i].id, current[i].pais, current[i].num_cidades);
-        if (current[i].cidades != NULL) {
-            for (int j = 0; j < current[i].num_cidades; j++) {
-                printf(" Cidade: %s\tDescricao: %s\n", current[i].cidades[j].nome, current[i].cidades[j].descricao);
-            }
+        while (current[i].cidades != NULL) {
+            printf("Cidade: %s Descricao: %s\n",current[i].cidades->nome,current[i].cidades->descricao);
+        current[i].cidades=current[i].cidades->next;
         }
     }
 }
@@ -1515,18 +1475,18 @@ void free_board(int **board, int Rows) {
     free(board);
 }
 
-int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
+void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     VIAGEM *viagens = cliente->viagens_arr;
     srand(time(0));
     VIAGEM viagem;
     populacoes = (POPULACAO *) malloc(sizeof(POPULACAO));
     populacoes->trajetos = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
     populacoes->tamPopulacao = numPops;
-    INDIVIDUO *cd = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
 
     for (int i = 0; i < cliente->num_viagens; i++) {
         if (viagens[i].id == id_viagem) {
             viagem = viagens[i];
+            break;
         }
     }
 
@@ -1534,11 +1494,11 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     int **matrix = allocate_board(numPops, viagem.num_cidades);
     printf("Trajetos possiveis: \n");
 
+    INDIVIDUO *cd = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
+    for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
+        v[i] = i + 1;
+    }
     for (int k = 0; k < numPops; k++) {
-        for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
-            v[i] = i + 1;
-        }
-
         for (int j = 0; j < viagem.num_cidades; j++) { //array random
             int temp = v[j];
             int randomIndex = rand() % viagem.num_cidades;
@@ -1581,22 +1541,21 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     return matrix;
 }
 
-CIDADE pesquisa_cidade_fitness(VIAGEM *v , int index_cidade) {
-    CIDADE cid1;
+CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int id_cidade) {
     CIDADE *cidades = v->cidades;
-    int count = 0;
+    CIDADE *aux=(CIDADE*) malloc(sizeof(CIDADE));
     while (cidades != NULL) {
-        if (count == index_cidade) {
-            cid1 = (*cidades);
+        if (cidades->id == id_cidade) {
+            aux=cidades;
+            break;
         }
-        count++;
         cidades = cidades->next;
     }
-    return cid1;
+    return aux;
 }
 
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem) {
-    VIAGEM *viagem;
+    VIAGEM *viagem=(VIAGEM*) malloc(sizeof(VIAGEM));
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
     VIAGEM *viagens = cliente->viagens_arr;
     for (int i = 0; i < cliente->num_viagens; i++) {
@@ -1614,17 +1573,19 @@ void fitness(VIAGEM *v, int nif_cliente) {
         float aux = 0;
 
         for (int j = 0; j < v->num_cidades; j++) {
-            arr[j] = pesquisa_cidade_fitness(v, trajetos[i].array_order[j]);
-            printf("penis %s\n",arr[j].nome);
+
+            arr[j] = *(pesquisa_cidade_fitness(v, trajetos[i].array_order[j]));
+            printf("%s ",arr[j].nome);
         }
-//        aux += (float) dist(arr[v->num_cidades - 1].localizacao, arr[0].localizacao);
-//        for (int j = 0; j < v->num_cidades - 1; j++) {
-//            aux += (float) dist(arr[j].localizacao, arr[j + 1].localizacao);
-//        }
-//        aux = 1 / aux;
-//        printf("%f\n", aux);
-//        trajetos[i].aptidao = aux;
-//        printf("Trajeto: %d Aptidao: %f\n", i, trajetos[i].aptidao);
+        printf("\n");
+        aux += (float) dist(arr[v->num_cidades - 1].localizacao, arr[0].localizacao);
+        for (int j = 0; j < v->num_cidades - 1; j++) {
+            aux += (float) dist(arr[j].localizacao, arr[j + 1].localizacao);
+        }
+        aux = 1 / aux;
+        printf("%f\n", aux);
+        trajetos[i].aptidao = aux;
+        printf("Trajeto: %d Aptidao: %f\n", i, trajetos[i].aptidao);
     }
 }
 

@@ -119,7 +119,7 @@ void ordenar_lista_nif();
 void imprimir_ordenado();
 
 
-void inserir_cidade_numa_viagem(int id_viagem, int id_cidade, char *nome_cidade, char *descricao, float x, float y);
+void inserir_cidade_numa_viagem(int id_viagem,char *nome_cidade, char *descricao, float x, float y);
 void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descricao, float x, float y);
 CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem, int id_cidade, char *nome_cidade, const char *nova_descricao);
@@ -162,7 +162,7 @@ void quickSort(VIAGEM array[], int low, int high);
 int partition(VIAGEM array[], int low, int high);
 void swap(VIAGEM *a, VIAGEM *b);
 void printArray(VIAGEM array[], int size);
-int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops);
+void createPopulation(CLIENTES *cliente, int id_viagem, int numPops);
 int check_arrays(int *arr1[], int size, int *arr2[]);
 double dist(COORDS c1, COORDS c2);
 INDIVIDUO *novaMatrix(int row, int col);
@@ -171,6 +171,6 @@ int **allocate_board(int Rows, int Cols);
 void free_board(int **board, int Rows);
 void fitness(VIAGEM *v, int nif_cliente);
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem);
-CIDADE pesquisa_cidade_fitness(VIAGEM *v , int index_cidade);
+CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int index_cidade);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
