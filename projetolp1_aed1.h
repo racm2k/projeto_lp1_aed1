@@ -172,5 +172,10 @@ void free_board(int **board, int Rows);
 void fitness(VIAGEM *v, int nif_cliente);
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem);
 CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int index_cidade);
+void cruzamento(VIAGEM *v1);
+void swap_float(float* xp, float* yp);
+void selectionSort(float number[], int n);
+void printArray_float(float arr[], int size);
+void orderArray(float *arr);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

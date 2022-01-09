@@ -395,15 +395,14 @@ void imprimir_ordenado() {
  * @param nome_cidade nome da cidade inserida
  * @param descricao descricao da cidade inserida
  */
-void inserir_cidade_numa_viagem(int id_viagem,char *nome_cidade, char *descricao, float x, float y) {
+void inserir_cidade_numa_viagem(int id_viagem, char *nome_cidade, char *descricao, float x, float y) {
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
 
 
-
-    CIDADE *cidades=viagem->cidades;
-    if(cidades==NULL){
+    CIDADE *cidades = viagem->cidades;
+    if (cidades == NULL) {
         CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
-        novo_no->id = viagem->num_cidades+1;
+        novo_no->id = viagem->num_cidades + 1;
         novo_no->num_PoI = 0;
         novo_no->head_pontos_interesse = NULL;
         novo_no->next = NULL;
@@ -413,21 +412,21 @@ void inserir_cidade_numa_viagem(int id_viagem,char *nome_cidade, char *descricao
         strcpy(novo_no->descricao, descricao);
         novo_no->localizacao.x = x;
         novo_no->localizacao.y = y;
-        novo_no->next=viagem->cidades;
-        viagem->cidades=novo_no;
+        novo_no->next = viagem->cidades;
+        viagem->cidades = novo_no;
         viagem->num_cidades++;
         return;
-    }else{
-        while (cidades!=NULL){
-            if(strcmp(cidades->nome,nome_cidade)==0){
+    } else {
+        while (cidades != NULL) {
+            if (strcmp(cidades->nome, nome_cidade) == 0) {
                 printf("cidade ja existente!!\n");
                 return;
             }
-            cidades=cidades->next;
+            cidades = cidades->next;
         }
 
         CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
-        novo_no->id = viagem->num_cidades+1;
+        novo_no->id = viagem->num_cidades + 1;
         novo_no->num_PoI = 0;
         novo_no->head_pontos_interesse = NULL;
         novo_no->next = NULL;
@@ -437,8 +436,8 @@ void inserir_cidade_numa_viagem(int id_viagem,char *nome_cidade, char *descricao
         strcpy(novo_no->descricao, descricao);
         novo_no->localizacao.x = x;
         novo_no->localizacao.y = y;
-        novo_no->next=viagem->cidades;
-        viagem->cidades=novo_no;
+        novo_no->next = viagem->cidades;
+        viagem->cidades = novo_no;
         viagem->num_cidades++;
     }
 }
@@ -640,8 +639,8 @@ void imprimir_viagens_cliente(int nif) {
     for (int i = 0; i < cliente->num_viagens; i++) {
         printf("ID: %d\tPais: %s\tNum Cidades: %d\n", current[i].id, current[i].pais, current[i].num_cidades);
         while (current[i].cidades != NULL) {
-            printf("Cidade: %s Descricao: %s\n",current[i].cidades->nome,current[i].cidades->descricao);
-        current[i].cidades=current[i].cidades->next;
+            printf("Cidade: %s Descricao: %s\n", current[i].cidades->nome, current[i].cidades->descricao);
+            current[i].cidades = current[i].cidades->next;
         }
     }
 }
@@ -1535,12 +1534,12 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
 //    }
 }
 
-CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int id_cidade) {
+CIDADE *pesquisa_cidade_fitness(VIAGEM *v, int id_cidade) {
     CIDADE *cidades = v->cidades;
-    CIDADE *aux=(CIDADE*) malloc(sizeof(CIDADE));
+    CIDADE *aux = (CIDADE *) malloc(sizeof(CIDADE));
     while (cidades != NULL) {
         if (cidades->id == id_cidade) {
-            aux=cidades;
+            aux = cidades;
             break;
         }
         cidades = cidades->next;
@@ -1549,7 +1548,7 @@ CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int id_cidade) {
 }
 
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem) {
-    VIAGEM *viagem=(VIAGEM*) malloc(sizeof(VIAGEM));
+    VIAGEM *viagem = (VIAGEM *) malloc(sizeof(VIAGEM));
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
     VIAGEM *viagens = cliente->viagens_arr;
     for (int i = 0; i < cliente->num_viagens; i++) {
@@ -1569,7 +1568,7 @@ void fitness(VIAGEM *v, int nif_cliente) {
         for (int j = 0; j < v->num_cidades; j++) {
 
             arr[j] = *(pesquisa_cidade_fitness(v, trajetos[i].array_order[j]));
-            printf("%s ",arr[j].nome);
+            printf("%s ", arr[j].nome);
         }
         printf("\n");
         aux += (float) dist(arr[v->num_cidades - 1].localizacao, arr[0].localizacao);
@@ -1577,9 +1576,9 @@ void fitness(VIAGEM *v, int nif_cliente) {
             aux += (float) dist(arr[j].localizacao, arr[j + 1].localizacao);
         }
         aux = 1 / aux;
-        printf("%f\n", aux);
+        //printf("%f\n", aux);
         trajetos[i].aptidao = aux;
-        printf("Trajeto: %d Aptidao: %f\n", i, trajetos[i].aptidao);
+        printf("Trajeto: %d Aptidao: %f\n\n", i, trajetos[i].aptidao);
     }
 }
 
@@ -1601,7 +1600,7 @@ double dist(COORDS c1, COORDS c2) {
     return mat;
 }*/
 
-int check_arrays(int *arr1[], int size, int *arr2[]) {
+/*int check_arrays(int *arr1[], int size, int *arr2[]) {
     int count = 0;
     for (int i = 0; i < size; i++) {
         for (int j = i; j < size; j++) {
@@ -1613,4 +1612,62 @@ int check_arrays(int *arr1[], int size, int *arr2[]) {
     if (count == size)
         return 1;
     return 0;
+}*/
+
+/*void cruzamento(VIAGEM *v1) {
+    CIDADE *arr = (CIDADE *) malloc(v1->num_cidades * sizeof(CIDADE));
+    INDIVIDUO *trajetos = populacoes->trajetos;
+    float maior_apt = 0.0f;
+    float maior_apt2 = 0.0f;
+    INDIVIDUO *aux = populacoes->trajetos;
+    for (int i = 0; i < populacoes->tamPopulacao; i++) {
+        //printf("DEBUG Trajeto: %d Aptidao: %f\n\n", i, trajetos[i].aptidao);
+        if (trajetos[0].aptidao < trajetos[i].aptidao) {
+            aux[0].aptidao = trajetos[i].aptidao;
+            printf("Maior Aptidao: %f\n", aux[0].aptidao);
+        }else{
+            if(trajetos[0].aptidao > trajetos[i].aptidao){
+                //printf("Maior Aptidao: %f\n",trajetos[0].aptidao);
+            }
+        }
+    }
+}*/
+
+void swap_float(float* xp, float* yp)
+{
+    float temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+
+// Function to perform Selection Sort
+void selectionSort(float number[], int n)
+{
+    int i, j = 0;
+    float a;
+    for (i = 0; i < n; ++i)
+    {
+        for (j = i + 1; j < n; ++j)
+        {
+            if (number[i] < number[j])
+            {
+                a = number[i];
+                number[i] = number[j];
+                number[j] = a;
+            }
+        }
+    }
+}
+void printArray_float(float arr[], int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+        printf("%f ", arr[i]);
+    printf("\n");
+}
+
+void orderArray(float *arr){
+
+    selectionSort(arr,populacoes->tamPopulacao);
+    printArray_float(arr,populacoes->tamPopulacao);
 }
