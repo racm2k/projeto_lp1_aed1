@@ -176,6 +176,5 @@ void cruzamento(VIAGEM *v1);
 void swap_float(float* xp, float* yp);
 void selectionSort(float number[], int n);
 void printArray_float(float arr[], int size);
-void orderArray(float *arr);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H

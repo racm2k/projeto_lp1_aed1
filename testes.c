@@ -195,7 +195,6 @@ int main_testes() {
         printf("%f\n",trajetos[i].aptidao);
         arr[i] = trajetos[i].aptidao;
     }
-    orderArray(arr);
 //    CIDADE *cidade=pesquisa_cidade_fitness(viagem,2);
 //    printf("%s %d\n",viagem->pais,viagem->id);
     return 0;

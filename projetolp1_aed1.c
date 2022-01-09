@@ -1645,7 +1645,7 @@ int check_arrays(int *arr1[], int size, int *arr2[]) {
     if (count == size)
         return 1;
     return 0;
-}*/
+}
 
 /*void cruzamento(VIAGEM *v1) {
     CIDADE *arr = (CIDADE *) malloc(v1->num_cidades * sizeof(CIDADE));
@@ -1674,16 +1674,12 @@ void swap_float(float* xp, float* yp)
 }
 
 // Function to perform Selection Sort
-void selectionSort(float number[], int n)
-{
+void selectionSort(float number[], int n){
     int i, j = 0;
     float a;
-    for (i = 0; i < n; ++i)
-    {
-        for (j = i + 1; j < n; ++j)
-        {
-            if (number[i] < number[j])
-            {
+    for (i = 0; i < n; ++i){
+        for (j = i + 1; j < n; ++j){
+            if (number[i] < number[j]){
                 a = number[i];
                 number[i] = number[j];
                 number[j] = a;
@@ -1691,19 +1687,15 @@ void selectionSort(float number[], int n)
         }
     }
 }
-void printArray_float(float arr[], int size)
-{
+
+
+void printArray_float(float arr[], int size){
     int i;
     for (i = 0; i < size; i++)
         printf("%f ", arr[i]);
     printf("\n");
 }
 
-void orderArray(float *arr){
-
-    selectionSort(arr,populacoes->tamPopulacao);
-    printArray_float(arr,populacoes->tamPopulacao);
-}
 
 void cruzamento(VIAGEM *v1){
     INDIVIDUO *trajetos = populacoes->trajetos;
