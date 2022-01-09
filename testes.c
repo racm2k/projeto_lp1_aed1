@@ -13,7 +13,6 @@ int main_testes() {
     lc = NULL;
     lc = criar_lista_clientes();
 
-
     lcidades = NULL;
     lcidades = criar_lista_cidades();
 
@@ -111,9 +110,8 @@ int main_testes() {
     inserir_cidade_numa_viagem(1, "Braga", "uma merda",254.13f,153.6f);
     inserir_cidade_numa_viagem(1, "Porto", "Porto ",534.24f,765.42f);
     inserir_cidade_numa_viagem(1, "Coimbra", "asdasd ",765.345f,234.654f);
-    inserir_cidade_numa_viagem(1, "Penafiel", "Casa do Semaforo",654.74f,746.46f);
-    inserir_cidade_numa_viagem(1, "Arouca", "Arroz",245.63f,275.46f);
-    inserir_cidade_numa_viagem(1,"Canelas","bom",350.76f,123.67f);
+    inserir_cidade_numa_viagem(1, "Arouca", "melhor equipa ",654.74f,746.46f);
+    inserir_cidade_numa_viagem(1, "Penafiel", "casa do semaforo ",245.63f,275.46f);
 
  //    imprimir_viagens_cliente(6968);
 
@@ -184,7 +182,7 @@ int main_testes() {
 
      CLIENTES *c1 = procurar_cliente_nome("Alberta");
 
-    createPopulation(c1,1, 10);
+    createPopulation(c1,1, 4);
     VIAGEM * viagem = pesquisa_viagem_cliente(6968,1);
 //    imprimir_viagens_cliente(6968);
     // int **matrix = allocate_board(populacoes->tamPopulacao,viagem->num_cidades);
