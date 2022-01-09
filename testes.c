@@ -187,12 +187,24 @@ int main_testes() {
      alg.nif_cliente=c1->nif;
      alg.id_viagem=viagem->id;
      alg.E=2;
-     alg.G=2;
+     alg.G=1;
      alg.N=viagem->num_cidades;
 
     algoritmo(alg);
+//    fitness(viagem,c1->nif);
+//    imprimir_viagens_cliente(6968);
+    // int **matrix = allocate_board(populacoes->tamPopulacao,viagem->num_cidades);
 
 
+//    INDIVIDUO *trajetos = populacoes->trajetos;
+//    float * arr = (float *) malloc (sizeof (float) * populacoes->tamPopulacao);
+//    for (int i = 0; i < populacoes->tamPopulacao ; i++) {
+//        printf("%f\n",trajetos[i].aptidao);
+//        arr[i] = trajetos[i].aptidao;
+//    }
+//    orderArray(arr);
+//    CIDADE *cidade=pesquisa_cidade_fitness(viagem,2);
+//    printf("%s %d\n",viagem->pais,viagem->id);
     return 0;
 }
 

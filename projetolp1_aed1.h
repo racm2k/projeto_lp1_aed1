@@ -176,11 +176,11 @@ void free_board(int **board, int Rows);
 void fitness(VIAGEM *v, int nif_cliente, POPULACAO *populacao);
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem);
 CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int index_cidade);
-float* parentSelection(VIAGEM *v1, POPULACAO *populacao);
+INDIVIDUO *parentSelection(VIAGEM *v1,POPULACAO *populacao,ALGORITMO algoritmo);
 void swap_float(float* xp, float* yp);
-void selectionSort(float number[], int n);
-void printArray_float(float arr[], int size);
-void orderArray(float *arr, POPULACAO *populacao);
+void selectionSort(INDIVIDUO *number, int n);
+void printArray_trajetos(INDIVIDUO arr[], int size);
+void orderArray(INDIVIDUO *trajetos,POPULACAO *populacao);
 void algoritmo(ALGORITMO algoritmo);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
