@@ -1377,7 +1377,7 @@ void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente, DATA dataMin,
 
 
 /**
- * Funçao para dar swap aos valores de a e b
+ * Swap aos valores de a e b
  * @param a apontador para a
  * @param b apontador para b
  */
@@ -1388,42 +1388,41 @@ void swap(VIAGEM *a, VIAGEM *b) {
 }
 
 /**
- * Funçao para usar no quicksort que ajuda a ordenar os elementos do array
+ * Funçao para
  * @param array
  * @param low
  * @param high
  * @return
  */
-int partition(VIAGEM array[], int low, int high) { // function to find the partition position
-
-    VIAGEM pivot = array[high]; //pega ultima posiçao do array
-
-    int i = (low - 1); //aponta para o > elemento
+int partition(VIAGEM array[], int low, int high) {
+    VIAGEM pivot = array[high];
+    int i = (low - 1);
 
     for (int j = low; j < high; j++) {
-        if (isBeforeDate(array[j].data_inicio, pivot.data_inicio) == 1) { //comparar os elem do array com a ult posicao
-            i++; //se for menor, trocar com o pivot
-
+        if (isBeforeDate(array[j].data_inicio, pivot.data_inicio) == 1) {
+            i++;
             swap(&array[i], &array[j]);
         }
     }
-    swap(&array[i + 1], &array[high]); // swap pivo com maior elem
+
+    swap(&array[i + 1], &array[high]);
 
     return (i + 1);
 }
 
 /**
- * Algoritmo para ordenar do menor para o maior
+ *
  * @param array
  * @param low
  * @param high
  */
-void quickSort(VIAGEM array[], int low, int high) { //pivo centro, < esquerda, > direita
+void quickSort(VIAGEM array[], int low, int high) {
     if (low < high) {
         int pi = partition(array, low, high);
-        quickSort(array, low, pi - 1); //para os da esquerda
 
-        quickSort(array, pi + 1, high); //para os da direita
+        quickSort(array, low, pi - 1);
+
+        quickSort(array, pi + 1, high);
     }
 }
 
@@ -1447,7 +1446,6 @@ void printArray(VIAGEM array[], int size) {
  * @return
  */
 int **allocate_board(int Rows, int Cols) {
-    // allocate Rows rows, each row is a pointer to int
     int **board = (int **) malloc(Rows * sizeof(int *));
     int row;
 
@@ -1469,14 +1467,15 @@ void free_board(int **board, int Rows) {
         free(board[row]);
     }
 
-    free(board); // Eventually free the memory of the pointers to the rows
+    free(board);
 }
 
 /**
- * Funçao para gerar aleatoriamente uma populaçao inicial
- * @param cliente cliente a que pertence a viagem
- * @param id_viagem id da viagem
- * @param numPops num de populaçoes a criar
+ * Funçao para criar aleatoriamente uma populaçao inicial
+ * @param nif_cliente nif do cliente
+ * @param id_viagem  id da viagem
+ * @param numTrajetos num de trajetos de uma populaçao
+ * @return populaçao
  */
 POPULACAO *createPopulation(int nif_cliente, int id_viagem, int numTrajetos) {
     POPULACAO *populacao = (POPULACAO *) malloc(sizeof(POPULACAO));
@@ -1486,7 +1485,6 @@ POPULACAO *createPopulation(int nif_cliente, int id_viagem, int numTrajetos) {
     VIAGEM viagem;
     populacao->trajetos = (INDIVIDUO *) malloc(numTrajetos * sizeof(INDIVIDUO));
     populacao->numTrajetos = numTrajetos;
-
 
     for (int i = 0; i < cliente->num_viagens; i++) {
         if (viagens[i].id == id_viagem) {
@@ -1652,23 +1650,21 @@ int check_arrays(int *arr1[], int size, int *arr2[]) {
 }*/
 
 /**
- * Funçao para dar swap aos valores do x e y
+ * Funçao para dar swap a 2 posiçoes (x e y)
  * @param x apontador para x
  * @param y apontador para y
  */
-void swap_float(float* x, float* y){
+void swap_float(float *x, float *y) {
     float temp = *x;
     *x = *y;
     *y = temp;
 }
 
-// Function to perform Selection Sort
 /**
- * Algoritmo de selection sort
- * @param number
+ *
+ * @param trajeto
  * @param n
  */
-void selectionSort(float number[], int n){
 void selectionSort(INDIVIDUO *trajeto, int n) {
     int i, j = 0;
     INDIVIDUO a;
@@ -1683,14 +1679,12 @@ void selectionSort(INDIVIDUO *trajeto, int n) {
     }
 }
 
-void printArray_trajetos(INDIVIDUO arr[], int size) {
-
 /**
- * Funçao para dar print ao array de floats
+ * Funçao para imprimir o array de trajetos
  * @param arr array
  * @param size tamanho do array
  */
-void printArray_float(float arr[], int size){
+void printArray_trajetos(INDIVIDUO arr[], int size) {
     int i;
     for (i = 0; i < size; i++) {
         printf("%f ", arr[i].aptidao);
@@ -1699,20 +1693,22 @@ void printArray_float(float arr[], int size){
 }
 
 /**
- * Funçao para ordenar um array usando o algoritmo de selectionSort
- * @param arr array
- * @param populacao
+ * Funçao para ordenar o array de trajetos
+ * @param trajetos um individuo
+ * @param populacao populaçao
  */
-void orderArray(float *arr, POPULACAO *populacao){
-    selectionSort(arr,populacao->numTrajetos);
-    printArray_float(arr,populacao->numTrajetos);
-}
 void orderArray(INDIVIDUO *trajetos, POPULACAO *populacao) {
-
     selectionSort(trajetos, populacao->numTrajetos);
     printArray_trajetos(trajetos, populacao->numTrajetos);
 }
 
+/**
+ * Funçao para selecionar os 2 melhores individuos(aptidoes) do array de trajetos
+ * @param v1 apontador para a viagem
+ * @param populacao populaçao
+ * @param algoritmo parametros para a funçao algoritmo
+ * @return
+ */
 INDIVIDUO *parentSelection(VIAGEM *v1, POPULACAO *populacao, ALGORITMO algoritmo) {
     INDIVIDUO *trajetos = populacao->trajetos;
     INDIVIDUO *parents=(INDIVIDUO*) malloc(algoritmo.E* sizeof(INDIVIDUO));
@@ -1727,6 +1723,12 @@ INDIVIDUO *parentSelection(VIAGEM *v1, POPULACAO *populacao, ALGORITMO algoritmo
     return parents;
 }
 
+/**
+ * Funçao para fazer o cruzamento entre 2 individuos
+ * @param trajeto1 trajeto1
+ * @param trajeto2 trajeto2
+ * @param algoritmo parametros para a funçao algoritmo
+ */
 void cruzamento_pais(INDIVIDUO trajeto1, INDIVIDUO trajeto2, ALGORITMO algoritmo){
     INDIVIDUO *aux=(INDIVIDUO*) malloc(sizeof(INDIVIDUO));
     aux->array_order=(int*) malloc(algoritmo.N* sizeof(int));
@@ -1737,17 +1739,6 @@ void cruzamento_pais(INDIVIDUO trajeto1, INDIVIDUO trajeto2, ALGORITMO algoritmo
         aux->array_order[i]=trajeto1.array_order[i];
     }
 
-/**
- * Funçao para escolher os pares de individuos que seram os pais
- * @param v1 array com
- * @param populacao
- * @return
- */
-float *parentSelection(VIAGEM *v1, POPULACAO *populacao){
-    INDIVIDUO *trajetos = populacao->trajetos;
-    float *arr=(float*) malloc(populacao->numTrajetos * sizeof(float));
-    for (int i = 0; i < populacao->numTrajetos; i++) {
-        arr[i]=trajetos[i].aptidao;
     for (int i = 0; i < algoritmo.N; i++) {
         for (int j = 0; j < algoritmo.N/2; j++) {
             if(trajeto2.array_order[i]==aux->array_order[j])
@@ -1764,17 +1755,12 @@ float *parentSelection(VIAGEM *v1, POPULACAO *populacao){
         printf("%d ",aux->array_order[i]);
     }
 
-/**
- * Funçao para correr o algoritmo genetico
- * @param algoritmo
- */
-void algoritmo(ALGORITMO algoritmo){
-    algoritmo.head=(POPULACAO*) malloc(sizeof(POPULACAO));
-    algoritmo.head=createPopulation(algoritmo.nif_cliente,algoritmo.id_viagem,algoritmo.P);
-    VIAGEM *viagem= pesquisa_viagem_cliente(algoritmo.nif_cliente,algoritmo.id_viagem);
-
 }
 
+/**
+ * Funçao que testa o algoritmo genetico
+ * @param algoritmo parametros para a funçao algoritmo
+ */
 void algoritmo(ALGORITMO algoritmo) {
     algoritmo.head = (POPULACAO *) malloc(sizeof(POPULACAO));
     algoritmo.head = createPopulation(algoritmo.nif_cliente, algoritmo.id_viagem, algoritmo.P);
@@ -1784,7 +1770,5 @@ void algoritmo(ALGORITMO algoritmo) {
         INDIVIDUO *parents=(INDIVIDUO*) malloc(algoritmo.E* sizeof(INDIVIDUO));
         parents=parentSelection(viagem, algoritmo.head,algoritmo);
         cruzamento_pais(parents[0],parents[1],algoritmo);
-
     }
 }
-
