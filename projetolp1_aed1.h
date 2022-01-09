@@ -173,14 +173,14 @@ INDIVIDUO *novaMatrix(int row, int col);
 void printMatrix(INDIVIDUO *matrix);
 int **allocate_board(int Rows, int Cols);
 void free_board(int **board, int Rows);
-void fitness(VIAGEM *v, int nif_cliente);
+void fitness(VIAGEM *v, int nif_cliente, POPULACAO *populacao);
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem);
 CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int index_cidade);
-float* parentSelection(VIAGEM *v1);
+float* parentSelection(VIAGEM *v1, POPULACAO *populacao);
 void swap_float(float* xp, float* yp);
 void selectionSort(float number[], int n);
 void printArray_float(float arr[], int size);
-void orderArray(float *arr);
+void orderArray(float *arr, POPULACAO *populacao);
 void algoritmo(ALGORITMO algoritmo);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
