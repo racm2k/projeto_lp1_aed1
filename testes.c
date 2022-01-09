@@ -13,7 +13,6 @@ int main_testes() {
     lc = NULL;
     lc = criar_lista_clientes();
 
-
     lcidades = NULL;
     lcidades = criar_lista_cidades();
 
@@ -111,8 +110,8 @@ int main_testes() {
     inserir_cidade_numa_viagem(1, "Braga", "uma merda",254.13f,153.6f);
     inserir_cidade_numa_viagem(1, "Porto", "Porto ",534.24f,765.42f);
     inserir_cidade_numa_viagem(1, "Coimbra", "asdasd ",765.345f,234.654f);
-    inserir_cidade_numa_viagem(1, "asdasdwtwf", "asw5j7dasd ",654.74f,746.46f);
-    inserir_cidade_numa_viagem(1, "nfhgjr", "metyu ",245.63f,275.46f);
+    inserir_cidade_numa_viagem(1, "Arouca", "melhor equipa ",654.74f,746.46f);
+    inserir_cidade_numa_viagem(1, "Penafiel", "casa do semaforo ",245.63f,275.46f);
 
  //    imprimir_viagens_cliente(6968);
 
@@ -190,6 +189,8 @@ int main_testes() {
    fitness(viagem,c1->nif);
 //    CIDADE *cidade=pesquisa_cidade_fitness(viagem,2);
 //    printf("%s %d\n",viagem->pais,viagem->id);
+    cruzamento(viagem);
+
     return 0;
 }
 

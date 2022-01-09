@@ -397,10 +397,8 @@ void imprimir_ordenado() {
  */
 void inserir_cidade_numa_viagem(int id_viagem,char *nome_cidade, char *descricao, float x, float y) {
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
-
-
-
     CIDADE *cidades=viagem->cidades;
+
     if(cidades==NULL){
         CIDADE *novo_no = (CIDADE *) malloc(sizeof(CIDADE));
         novo_no->id = viagem->num_cidades+1;
@@ -493,11 +491,8 @@ void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descric
         lcidades->head_cidades = novo_no;
         lcidades->num_cidades++;
         printf("cidade inserida na lista global!!\n");
-
     }
-
 }
-
 
 /**
  * Pesquisa de cidade
@@ -535,9 +530,9 @@ CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade) {
  * @param nova_descricao nova descricao da cidade
  */
 void edit_cidade(int id_viagem, int id_cidade, char *nome_cidade, const char *nova_descricao) {
-
     CIDADE *current = pesquisar_cidade_nome(id_viagem, nome_cidade);
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
+
     if (current != NULL) {
         for (int i = 0; i < viagem->num_cidades; i++) {
             if (current[i].id == id_cidade) {
@@ -715,7 +710,6 @@ void remove_viagem(int nif_cliente, int id_viagem) {
         current = NULL;
         clientes->num_viagens--;
     } else {
-
         for (int i = 0; i < clientes->num_viagens; i++) {
             if (current[i].id == id_viagem) {
                 id = i;
@@ -738,8 +732,8 @@ void remove_viagem(int nif_cliente, int id_viagem) {
  * @param nome_poI
  */
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI) {
-
     CIDADE *current = lcidades->head_cidades;
+
     while (current != NULL) {
         if (strcmp(current->nome, nome_cidade) == 0)
             break;
@@ -763,7 +757,6 @@ void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI) {
         return;
     } else {
         while (node != NULL) {
-
             if (strcmp(node->nome, nome_poI) == 0) {
                 printf("ERRO -> inserir_poi(): Ja existe um poi com esse nome!! poi nao foi introduzido\n");
                 return;
@@ -844,7 +837,6 @@ void ler_clientes_ficheiro_txt_formatado(char *filename) {
         int dia_registo = 0, mes_registo = 0, ano_registo = 0;
         int dia_inicio = 0, mes_inicio = 0, ano_inicio = 0, dia_fim = 0, mes_fim = 0, ano_fim = 0;
         char pais[100];
-
 
         for (int i = 0; i < num_clientes; i++) {
             fscanf(fp, "%d; %99[^;]; %99[^;]; %d; %d; %d/%d/%d; %d/%d/%d\n", &id_clientes, nome, morada, &contacto,
@@ -1100,6 +1092,7 @@ void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPes
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
     VIAGEM *viagens = cliente->viagens_arr;
     printf("Historico do Cliente %s com id [%d]:\n", cliente->nome, cliente->nif);
+
     if (viagens != NULL) {
         while (viagens != NULL && viagens->concluida) {
             if (tipoPesquisa == 0) {
@@ -1122,7 +1115,6 @@ void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPes
                     }
                 }
             }
-
             viagens = viagens->next;
         }
     }
@@ -1356,7 +1348,6 @@ VIAGEM *orderByViagem(int nif_cliente) {
     printArray(viagens_arr, n);
 
     return viagens_arr;
-
 }
 
 /**
@@ -1385,17 +1376,25 @@ void gerar_relatorio_viagens_cliente_betweenDates(int nif_cliente, DATA dataMin,
 }
 
 
-// Quick sort in C
-
-// function to swap elements
+/**
+ * Swap aos valores de a e b
+ * @param a apontador para a
+ * @param b apontador para b
+ */
 void swap(VIAGEM *a, VIAGEM *b) {
     VIAGEM t = *a;
     *a = *b;
     *b = t;
 }
 
-// function to find the partition position
-int partition(VIAGEM array[], int low, int high) {
+/**
+ *
+ * @param array
+ * @param low
+ * @param high
+ * @return
+ */
+int partition(VIAGEM array[], int low, int high) { // function to find the partition position
 
     // select the rightmost element as pivot
     VIAGEM pivot = array[high];
@@ -1424,6 +1423,12 @@ int partition(VIAGEM array[], int low, int high) {
     return (i + 1);
 }
 
+/**
+ *
+ * @param array
+ * @param low
+ * @param high
+ */
 void quickSort(VIAGEM array[], int low, int high) {
     if (low < high) {
 
@@ -1440,7 +1445,11 @@ void quickSort(VIAGEM array[], int low, int high) {
     }
 }
 
-// function to print array elements
+/**
+ * Funçao para imprimir o array
+ * @param array array de elementos a imprimir
+ * @param size tamanho do array
+ */
 void printArray(VIAGEM array[], int size) {
     for (int i = 0; i < size; ++i) {
         printf("%s  %d/%d/%d", array[i].pais, array[i].data_inicio.dia, array[i].data_inicio.mes,
@@ -1449,32 +1458,44 @@ void printArray(VIAGEM array[], int size) {
     printf("\n");
 }
 
-
+/**
+ * Funçao para criar uma matrix
+ * @param Rows linhas da matrix
+ * @param Cols colunas da matrix
+ * @return
+ */
 int **allocate_board(int Rows, int Cols) {
     // allocate Rows rows, each row is a pointer to int
     int **board = (int **) malloc(Rows * sizeof(int *));
     int row;
 
-    // for each row allocate Cols ints
     for (row = 0; row < Rows; row++) {
-        board[row] = (int *) malloc(Cols * sizeof(int));
+        board[row] = (int *) malloc(Cols * sizeof(int)); //para cada linha alocar memoria para as col
     }
-
     return board;
 }
 
+/**
+ * Funçao para libertar uma matrix
+ * @param board matrix criada
+ * @param Rows linhas da matrix
+ */
 void free_board(int **board, int Rows) {
     int row;
 
-    // first free each row
-    for (row = 0; row < Rows; row++) {
+    for (row = 0; row < Rows; row++) { //percorre as linhas da matrix e da free
         free(board[row]);
     }
 
-    // Eventually free the memory of the pointers to the rows
-    free(board);
+    free(board); // Eventually free the memory of the pointers to the rows
 }
 
+/**
+ * Funçao para gerar aleatoriamente uma populaçao inicial
+ * @param cliente cliente a que pertence a viagem
+ * @param id_viagem id da viagem
+ * @param numPops num de populaçoes a criar
+ */
 void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     VIAGEM *viagens = cliente->viagens_arr;
     srand(time(0));
@@ -1492,7 +1513,7 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
 
     int v[viagem.num_cidades];
     int **matrix = allocate_board(numPops, viagem.num_cidades);
-    printf("Trajetos possiveis: \n");
+    printf("\nTrajetos possiveis: \n");
 
     INDIVIDUO *cd = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
     for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
@@ -1513,8 +1534,8 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
             //  printf("%d ", v[i]);
             matrix[k][i] = v[i];
             arr[i] = v[i];
-
         }
+
         cd[k].array_order = arr;
         cd[k].id_trajeto = k;
 
@@ -1524,7 +1545,6 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
         for (int i = 0; i < viagem.num_cidades; i++) {
             printf("%d ", populacoes->trajetos[k].array_order[i]);
         }
-
         printf("\n");
     }
 
@@ -1532,18 +1552,23 @@ void createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     for (int x = 0; x < numPops; x++) {
          printf("%d - ", x);
         for (int z = 0; z < viagem.num_cidades; z++) {
-              //printf("%d ", cd[x].array_order[z]);
             printf("%d ", matrix[x][z]);
         }
         printf("\n");
-
     }
-    return matrix;
+    printf("\n");
 }
 
+/**
+ * Funçao para pesquisar a cidade para usarmos na funçao de calcular a aptidao de cada populaçao
+ * @param v apontador para as viagens
+ * @param id_cidade id da cidade
+ * @return cidade encontrada
+ */
 CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int id_cidade) {
     CIDADE *cidades = v->cidades;
     CIDADE *aux=(CIDADE*) malloc(sizeof(CIDADE));
+
     while (cidades != NULL) {
         if (cidades->id == id_cidade) {
             aux=cidades;
@@ -1554,6 +1579,12 @@ CIDADE *pesquisa_cidade_fitness(VIAGEM *v , int id_cidade) {
     return aux;
 }
 
+/**
+ * Funçao para pesquisar as viagens de um dado cliente
+ * @param nif_cliente nif do cliente para procurar a viagem
+ * @param id_viagem id da viagem
+ * @return viagem encontrada
+ */
 VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem) {
     VIAGEM *viagem=(VIAGEM*) malloc(sizeof(VIAGEM));
     CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
@@ -1566,6 +1597,21 @@ VIAGEM *pesquisa_viagem_cliente(int nif_cliente, int id_viagem) {
     return viagem;
 }
 
+/**
+ * Funçao para calcular a distancia entre 2 coordenadas
+ * @param c1 coordenada 1
+ * @param c2 coordenada 2
+ * @return distancia entre as 2 coordenadas
+ */
+double dist(COORDS c1, COORDS c2) {
+    return sqrt(pow(c1.x - c2.x, 2) + pow(c1.y - c2.y, 2));
+}
+
+/**
+ * Funçao para calcular a aptidao de cada individuo numa dada populaçao
+ * @param v apontador para a viagem
+ * @param nif_cliente nif do cliente
+ */
 void fitness(VIAGEM *v, int nif_cliente) {
     CIDADE *arr = (CIDADE *) malloc(v->num_cidades * sizeof(CIDADE));
     INDIVIDUO *trajetos = populacoes->trajetos;
@@ -1573,7 +1619,6 @@ void fitness(VIAGEM *v, int nif_cliente) {
         float aux = 0;
 
         for (int j = 0; j < v->num_cidades; j++) {
-
             arr[j] = *(pesquisa_cidade_fitness(v, trajetos[i].array_order[j]));
             printf("%s ",arr[j].nome);
         }
@@ -1583,29 +1628,10 @@ void fitness(VIAGEM *v, int nif_cliente) {
             aux += (float) dist(arr[j].localizacao, arr[j + 1].localizacao);
         }
         aux = 1 / aux;
-        printf("%f\n", aux);
         trajetos[i].aptidao = aux;
-        printf("Trajeto: %d Aptidao: %f\n", i, trajetos[i].aptidao);
+        printf("Trajeto: %d -> Aptidao: %f\n\n", i, trajetos[i].aptidao);
     }
 }
-
-double dist(COORDS c1, COORDS c2) {
-    return sqrt(pow(c1.x - c2.x, 2) + pow(c1.y - c2.y, 2));
-}
-
-
-/*INDIVIDUO *novaMatrix(int row, int col){
-    INDIVIDUO *mat = (INDIVIDUO *) malloc(sizeof (INDIVIDUO));
-    mat->id_trajeto = col;
-    mat->array_order = row;
-
-    mat->data = (int *) malloc(row * col * sizeof (int));
-    for (int i = 0; i < row * col; i++) {
-        mat->data[i] = 0;
-    }
-
-    return mat;
-}*/
 
 int check_arrays(int *arr1[], int size, int *arr2[]) {
     int count = 0;
@@ -1619,4 +1645,28 @@ int check_arrays(int *arr1[], int size, int *arr2[]) {
     if (count == size)
         return 1;
     return 0;
+}
+
+void cruzamento(VIAGEM *v1){
+    CIDADE *arr = (CIDADE *) malloc(v1->num_cidades * sizeof(CIDADE));
+    INDIVIDUO *trajetos = populacoes->trajetos;
+    INDIVIDUO *aux = populacoes->trajetos; //ordenado aptidao
+
+    float maior_apt = 0.0f;
+    float maior_apt2 = 0.0f;
+
+    for (int i = 0; i < populacoes->tamPopulacao; i++) {
+        if(trajetos[i].aptidao > trajetos[i + 1].aptidao && trajetos[i].aptidao > maior_apt){
+            maior_apt = trajetos[i].aptidao;
+            printf("Trajeto_apt1 = %f\n", maior_apt);
+        }
+    }
+
+    for (int i = 0; i < populacoes->tamPopulacao; i++) {
+        if(trajetos[i].aptidao > trajetos[i + 1].aptidao && trajetos[i].aptidao < maior_apt && trajetos[i].aptidao >= maior_apt2){
+            maior_apt2 = trajetos[i].aptidao;
+            printf("Trajeto_apt2 = %f\n", maior_apt2);
+        }
+    }
+
 }
