@@ -8,7 +8,7 @@
 LISTA_CLIENTES *lc;
 LISTA_CIDADES *lcidades;
 POPULACAO *populacoes;
-
+ALGORITMO alg;
 int main_testes() {
     lc = NULL;
     lc = criar_lista_clientes();
@@ -181,13 +181,19 @@ int main_testes() {
     // print_HistoricoViagens_cliente(6968,"Porto",0);
 
      CLIENTES *c1 = procurar_cliente_nome("Alberta");
+     VIAGEM *viagem= pesquisa_viagem_cliente(c1->nif,1);
+     alg.P=4;
+     alg.nif_cliente=c1->nif;
+     alg.id_viagem=viagem->id;
+     alg.E=2;
+     alg.G=2;
+     alg.N=viagem->num_cidades;
 
-    createPopulation(c1,1, 4);
-    VIAGEM * viagem = pesquisa_viagem_cliente(6968,1);
+    algoritmo(alg);
+
 //    imprimir_viagens_cliente(6968);
     // int **matrix = allocate_board(populacoes->tamPopulacao,viagem->num_cidades);
-   fitness(viagem,c1->nif);
-    cruzamento(viagem);
+
 
 //    INDIVIDUO *trajetos = populacoes->trajetos;
 //    float * arr = (float *) malloc (sizeof (float) * populacoes->tamPopulacao);
