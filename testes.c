@@ -26,13 +26,13 @@ int main_testes() {
 
     ///INSERIR CLIENTES
 
-     inserir_cliente_cabeca(1, "Diogo", "rua123", 12345, 99999, 1, 2, 2000, 10, 10, 2010);
-     inserir_cliente_cabeca(3, "Ana", "homeless", 10010, 11111, 2, 4, 1999, 20, 21, 2021);
-     inserir_cliente_cabeca(4, "Alfredo", "tua tia", 15150, 434313, 4, 6, 2001, 3, 4, 2005);
-     inserir_cliente_cauda(20, "Baguetes", "homeless part2", 10101010, 666666, 6, 8, 2000, 1, 2, 2001);
-     inserir_cliente_cabeca(17, "Joaquim", "tua prima", 69690, 420420, 8, 10, 1998, 5, 6, 1999);
-     inserir_cliente_ordenado(15, "Alberto", "tua mae", 42042, 6969, true, 10, 12, 2000, 30, 12, 2222);
-     inserir_cliente_ordenado(11, "Alberta", "tua mae", 42042, 6968, false, 20, 7, 2000, 17, 11, 2231);
+    inserir_cliente_cabeca(1, "Diogo", "rua123", 12345, 99999, 1, 2, 2000, 10, 10, 2010);
+    inserir_cliente_cabeca(3, "Ana", "homeless", 10010, 11111, 2, 4, 1999, 20, 21, 2021);
+    inserir_cliente_cabeca(4, "Alfredo", "tua tia", 15150, 434313, 4, 6, 2001, 3, 4, 2005);
+    inserir_cliente_cauda(20, "Baguetes", "homeless part2", 10101010, 666666, 6, 8, 2000, 1, 2, 2001);
+    inserir_cliente_cabeca(17, "Joaquim", "tua prima", 69690, 420420, 8, 10, 1998, 5, 6, 1999);
+    inserir_cliente_ordenado(15, "Alberto", "tua mae", 42042, 6969, true, 10, 12, 2000, 30, 12, 2222);
+    inserir_cliente_ordenado(11, "Alberta", "tua mae", 42042, 6968, false, 20, 7, 2000, 17, 11, 2231);
 
 //          imprimir_clientes();
 
@@ -104,9 +104,9 @@ int main_testes() {
 
     ///INSERIR CIDADE
     // inserir na estrutura para as inserçoes manuais
-  /*  inserir_cidade_lista_global(2, "Braga", "uma merda", 0.0, 1.0);
-    inserir_cidade_lista_global(1, "Porto", "capital", 2.0, 3.0);
-*/
+    /*  inserir_cidade_lista_global(2, "Braga", "uma merda", 0.0, 1.0);
+      inserir_cidade_lista_global(1, "Porto", "capital", 2.0, 3.0);
+  */
 
     inserir_cidade_numa_viagem(1, 2, "Braga", "uma merda",254.13f,153.6f);
     inserir_cidade_numa_viagem(1, 1, "Porto", "Porto ",534.24f,765.42f);
@@ -114,13 +114,13 @@ int main_testes() {
     inserir_cidade_numa_viagem(1, 5, "asdasdwtwf", "asw5j7dasd ",654.74f,746.46f);
     inserir_cidade_numa_viagem(1, 6, "nfhgjr", "metyu ",245.63f,275.46f);
 
- //    imprimir_viagens_cliente(6968);
+    //    imprimir_viagens_cliente(6968);
 
     ///PESQUISAR CIDADE
 //    pesquisar_cidade_nome(1,"Porto");
 
     ///EDITAR CIDADE
-   // edit_cidade(1,1,"Porto","BEST CITY IN DA WORLDS");
+    // edit_cidade(1,1,"Porto","BEST CITY IN DA WORLDS");
     //imprimir
 
     ///REMOVER CIDADE
@@ -158,7 +158,7 @@ int main_testes() {
     printf("\nTestes para ler/escrever para ficheiros txt e binario:\n");
     ///LER E ESCREVER PARA FICHEIRO TXT E BINARIO
 //    ler_clientes_ficheiro_txt_formatado("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_formatado.txt");
-  //  escrever_clientes_ficheiro_txt_formatado("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_formatado.txt");
+    //  escrever_clientes_ficheiro_txt_formatado("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_formatado.txt");
 //    escrever_clientes_viagens_bin("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_bin.bin");
 //    escrever_cidades_ficheiro_txt("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/cidades_pois.txt");
 //    ler_clientes_viagens_ficheiro_bin("/home/racm2k/CLionProjects/projeto_lp1_aed1/data/clientes_viagens_bin.bin");
@@ -181,15 +181,13 @@ int main_testes() {
     // imprimir_clientes();
     // print_HistoricoViagens_cliente(6968,"Porto",0);
 
-     CLIENTES *c1 = procurar_cliente_nome("Alberta");
+    CLIENTES *c1 = procurar_cliente_nome("Alberta");
 
     createPopulation(c1,1, 4);
-     VIAGEM * viagem = pesquisar_viagem(1);
-
+    //VIAGEM * viagem = pesquisar_viagem(1);
+    //printf("OLA BOM DIA ");
     // int **matrix = allocate_board(populacoes->tamPopulacao,viagem->num_cidades);
-   fitness(viagem,c1->nif);
+    //fitness(viagem,c1->nif);
+    
     return 0;
 }
-
-
-

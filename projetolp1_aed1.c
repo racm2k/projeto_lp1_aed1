@@ -724,7 +724,7 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
         for (int i = 0; i < clientes->num_viagens; i++) {
             if (viagens != NULL) {
                 if (viagens[i].id == id_viagem) {
-                    printf("Viagem encontrada!!\t ID_viagem: %d\t Pais: %s\n", viagens->id, viagens->pais);
+                    printf("\nViagem encontrada!!\t ID_viagem: %d\t Pais: %s\n", viagens->id, viagens->pais);
                     return &viagens[i];
                 }
             }
@@ -1519,10 +1519,10 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     VIAGEM *viagens = cliente->viagens_arr;
     srand(time(0));
     VIAGEM viagem;
-    populacoes = (POPULACAO *) malloc(sizeof (POPULACAO));
+    populacoes = (POPULACAO *) malloc(sizeof(POPULACAO));
+    populacoes->trajetos = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
     populacoes->tamPopulacao = numPops;
-    INDIVIDUO *cd =(INDIVIDUO *) malloc(numPops * sizeof (INDIVIDUO));
-    populacoes->trajetos = (INDIVIDUO *) malloc(numPops * sizeof (INDIVIDUO));
+    INDIVIDUO *cd = (INDIVIDUO *) malloc(numPops * sizeof(INDIVIDUO));
 
     for (int i = 0; i < cliente->num_viagens; i++) {
         if (viagens[i].id == id_viagem) {
@@ -1533,10 +1533,10 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
     int v[viagem.num_cidades];
     int **matrix = allocate_board(numPops, viagem.num_cidades);
     printf("Trajetos possiveis: \n");
+
     for (int k = 0; k < numPops; k++) {
-       // INDIVIDUO *cd =(INDIVIDUO *) malloc(sizeof (INDIVIDUO));
         for (int i = 0; i < viagem.num_cidades; i++) { //array inicial
-            v[i] = i+1;
+            v[i] = i + 1;
         }
 
         for (int j = 0; j < viagem.num_cidades; j++) { //array random
@@ -1549,8 +1549,8 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
 
         int *arr = (int *) malloc(viagem.num_cidades * sizeof(int));
 
-        for (int i = 0; i <viagem.num_cidades; i++) {
-           // printf("%d ", v[i]);
+        for (int i = 0; i < viagem.num_cidades; i++) {
+            //  printf("%d ", v[i]);
             matrix[k][i] = v[i];
             arr[i] = v[i];
 
@@ -1564,6 +1564,7 @@ int **createPopulation(CLIENTES *cliente, int id_viagem, int numPops) {
         for (int i = 0; i < viagem.num_cidades; i++) {
             printf("%d ", populacoes->trajetos[k].array_order[i]);
         }
+
         printf("\n");
     }
 
@@ -1614,7 +1615,7 @@ void fitness(VIAGEM *v, int nif_cliente) {
 
         for (int j = 0; j < v->num_cidades; j++) {
             arr[j] = pesquisa_cidade_fitness(v, trajetos[i].array_order[j]);
-            printf("%s\n",arr[j].nome);
+            printf("penis %s\n",arr[j].nome);
         }
 //        aux += (float) dist(arr[v->num_cidades - 1].localizacao, arr[0].localizacao);
 //        for (int j = 0; j < v->num_cidades - 1; j++) {
