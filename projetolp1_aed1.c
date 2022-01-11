@@ -1767,8 +1767,24 @@ void algoritmo(ALGORITMO algoritmo) {
     VIAGEM *viagem = pesquisa_viagem_cliente(algoritmo.nif_cliente, algoritmo.id_viagem);
     for (int i = 0; i < algoritmo.G; i++) {
         fitness(viagem, algoritmo.nif_cliente, algoritmo.head);
+        searchApt(0.000420,algoritmo.head);
         INDIVIDUO *parents=(INDIVIDUO*) malloc(algoritmo.E* sizeof(INDIVIDUO));
         parents=parentSelection(viagem, algoritmo.head,algoritmo);
         cruzamento_pais(parents[0],parents[1],algoritmo);
+
+    }
+}
+/**
+ * Função que dado um valor para a aptidão, escolhida pelo utilizador, retorna uma mensagem que difere caso o valor seja maior ou menor
+ * @param aptidao valor numérico para usar nas comparações
+ * @param populacao população que contém os trajetos, bem como, as suas aptidões
+ */
+void searchApt(double aptidao, POPULACAO *populacao){
+    for(int i = 0; i < populacao->numTrajetos; i++){
+        if(populacao->trajetos[i].aptidao > aptidao){
+            printf("Valor da aptidao %f com id %d maior que valor aptidao escolhido %f\n", populacao->trajetos[i].aptidao,populacao->trajetos[i].id_trajeto,aptidao);
+        }else{
+            printf("Valor da aptidao %f com id %d inferior ao valor da aptidao escolhido %f\n",populacao->trajetos[i].aptidao,populacao->trajetos[i].id_trajeto,aptidao);
+        }
     }
 }

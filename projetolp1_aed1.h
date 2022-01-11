@@ -182,5 +182,6 @@ void selectionSort(INDIVIDUO *number, int n);
 void printArray_trajetos(INDIVIDUO arr[], int size);
 void orderArray(INDIVIDUO *trajetos,POPULACAO *populacao);
 void algoritmo(ALGORITMO algoritmo);
+void searchApt(double aptidao, POPULACAO *populacao);
 
 #endif //PROJETO_LP1_AED1_PROJETOLP1_AED1_H
