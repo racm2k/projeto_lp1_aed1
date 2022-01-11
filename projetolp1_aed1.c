@@ -1388,40 +1388,54 @@ void swap(VIAGEM *a, VIAGEM *b) {
 }
 
 /**
- * Funçao para
- * @param array
- * @param low
- * @param high
+ * Funcao que pega no ultimo elemento do array e torna-o pivot
+ * coloca o pivot na posicao correta e coloca tudo o que é menor á sua esquerda
+ * e tudo o que é maior á sua direita, neste caso datas, e vai repetindo recursivamente
+ * criando particoes dentro de particoes.
+ * @param array array de viagens
+ * @param low indice de começo
+ * @param high indice de fim
  * @return
  */
 int partition(VIAGEM array[], int low, int high) {
     VIAGEM pivot = array[high];
     int i = (low - 1);
 
+    /**
+     * ciclo que ordena o array por datas, da mais antiga para a mais recente
+     */
     for (int j = low; j < high; j++) {
         if (isBeforeDate(array[j].data_inicio, pivot.data_inicio) == 1) {
             i++;
             swap(&array[i], &array[j]);
         }
     }
-
-    swap(&array[i + 1], &array[high]);
+    /**
+     * coloca o pivot na posicao correta
+     */
+    swap(&array[i + 1], &pivot);
 
     return (i + 1);
 }
 
 /**
- *
- * @param array
- * @param low
- * @param high
+ *  Funcao que implementa o algoritmo de ordenacao QuickSort
+ * @param array array de viagens do cliente
+ * @param low indice de começo
+ * @param high indice de fim
  */
 void quickSort(VIAGEM array[], int low, int high) {
     if (low < high) {
+
+        /**
+         * guarda em pi o indice do pivot
+         */
         int pi = partition(array, low, high);
 
+        /*
+         * executa o algoritmo para a particao á esquerda e á direita do indice do pivot
+         */
         quickSort(array, low, pi - 1);
-
         quickSort(array, pi + 1, high);
     }
 }
@@ -1650,36 +1664,6 @@ int check_arrays(int *arr1[], int size, int *arr2[]) {
 }*/
 
 /**
- * Funçao para dar swap a 2 posiçoes (x e y)
- * @param x apontador para x
- * @param y apontador para y
- */
-void swap_float(float *x, float *y) {
-    float temp = *x;
-    *x = *y;
-    *y = temp;
-}
-
-/**
- *
- * @param trajeto
- * @param n
- */
-void selectionSort(INDIVIDUO *trajeto, int n) {
-    int i, j = 0;
-    INDIVIDUO a;
-    for (i = 0; i < n; i++) {
-        for (j = i + 1; j < n; j++) {
-            if (trajeto[i].aptidao < trajeto[j].aptidao) {
-                a = trajeto[i];
-                trajeto[i] = trajeto[j];
-                trajeto[j] = a;
-            }
-        }
-    }
-}
-
-/**
  * Funçao para imprimir o array de trajetos
  * @param arr array
  * @param size tamanho do array
@@ -1698,8 +1682,72 @@ void printArray_trajetos(INDIVIDUO arr[], int size) {
  * @param populacao populaçao
  */
 void orderArray(INDIVIDUO *trajetos, POPULACAO *populacao) {
-    selectionSort(trajetos, populacao->numTrajetos);
+    quickSort_trajetos(trajetos,0, populacao->numTrajetos-1);
     printArray_trajetos(trajetos, populacao->numTrajetos);
+}
+
+/**
+ * Swap aos valores de a e b
+ * @param a apontador para a
+ * @param b apontador para b
+ */
+void swap_trajetos(INDIVIDUO *a, INDIVIDUO *b) {
+    INDIVIDUO t = *a;
+    *a = *b;
+    *b = t;
+}
+
+/**
+ * Funcao que pega no ultimo elemento do array e torna-o pivot
+ * coloca o pivot na posicao correta e coloca tudo o que é maior á sua esquerda
+ * e tudo o que é menor á sua direita, neste caso datas, e vai repetindo recursivamente
+ * criando particoes dentro de particoes.
+ * @param array array de trajetos
+ * @param low indice de começo
+ * @param high indice de fim
+ * @return
+ */
+int partition_trajetos(INDIVIDUO array[], int low, int high) {
+    INDIVIDUO pivot = array[high];
+    int i = (low - 1);
+
+    /**
+     * ciclo que ordena o array por aptidao, da mais apta para a menos apta
+     */
+    for (int j = low; j < high; j++) {
+        if (array[j].aptidao>pivot.aptidao) {
+            i++;
+            swap_trajetos(&array[i], &array[j]);
+        }
+    }
+    /**
+     * coloca o pivot na posicao correta
+     */
+    swap_trajetos(&array[i + 1], &array[high]);
+
+    return (i + 1);
+}
+
+/**
+ *  Funcao que implementa o algoritmo de ordenacao QuickSort
+ * @param array array de trajetos da viagem
+ * @param low indice de começo
+ * @param high indice de fim
+ */
+void quickSort_trajetos(INDIVIDUO array[], int low, int high) {
+    if (low < high) {
+
+        /**
+         * guarda em pi o indice do pivot
+         */
+        int pi = partition_trajetos(array, low, high);
+
+        /*
+         * executa o algoritmo para a particao á esquerda e á direita do indice do pivot
+         */
+        quickSort_trajetos(array, low, pi - 1);
+        quickSort_trajetos(array, pi + 1, high);
+    }
 }
 
 /**
@@ -1774,6 +1822,7 @@ void algoritmo(ALGORITMO algoritmo) {
 
     }
 }
+
 /**
  * Função que dado um valor para a aptidão, escolhida pelo utilizador, retorna uma mensagem que difere caso o valor seja maior ou menor
  * @param aptidao valor numérico para usar nas comparações
