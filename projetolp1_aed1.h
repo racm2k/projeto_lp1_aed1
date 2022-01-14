@@ -49,7 +49,6 @@ typedef struct lista_cidades {
 typedef struct viagem {
     int id;
     char *pais;
-    bool concluida;
     DATA data_inicio;
     DATA data_fim;
     int nif_cliente;
@@ -128,7 +127,7 @@ void inserir_cidade_lista_global(int id_viagem ,char *nome_cidade, char *descric
 CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem, char *nome_cidade, const char *nova_descricao);
 void remove_cidade(int id_viagem, char *nome_cidade);
-void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida, int beginDay, int beginMon, int beginYear,
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, int beginDay, int beginMon, int beginYear,
                int endDay, int endMon, int endYear);
 void edit_viagem(int nif_cliente, int id_viagem, char *novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);
