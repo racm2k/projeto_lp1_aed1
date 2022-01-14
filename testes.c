@@ -26,6 +26,7 @@ int main_testes() {
 
     /**
      * Testes sobre informaçao dos Clientes
+     * Requisito 1.a
      */
 
     printf("*********Testes dos Clientes:*********\n");
@@ -64,11 +65,12 @@ int main_testes() {
     }
 */
     ///ORDENAR LISTA LIGADA PELO NIF
-   /*  ordenar_lista_nif();
-     imprimir_ordenado();*/
+    // ordenar_lista_nif();
+    // imprimir_ordenado();
 
     /**
       * Testes sobre Viagens
+      * Requisito 1.b
       */
 
     printf("\n*********Testes das Viagens:*********\n");
@@ -109,6 +111,7 @@ int main_testes() {
 
     /**
      * Testes sobre Cidades das Cidades
+     * Requisito 1.c
      */
 
     printf("\n*********Testes das Cidades:*********\n");
@@ -140,6 +143,7 @@ int main_testes() {
 
     /**
       * Testes sobre Pontos de Interesse das Cidades
+      * Requisito 1.d
       */
 
     printf("\n***********Testes dos Pontos de Interesse das Cidades:************\n");
@@ -165,6 +169,7 @@ int main_testes() {
     //pesquisar_PoI("Porto","Estadio do Dragao");
 
     /**
+     * Requisito 1.f
       * Testes Ler/Escrever para ficheiro txt e binario
       */
 
@@ -181,11 +186,22 @@ int main_testes() {
     //ler_cidades_pois_ficheiro_bin("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\cidades_pois_bin.bin");
     //imprimir_viagens_cliente(6968);
 
+    /**
+     *  Requisito 1.e
+     */
+    print_HistoricoViagens_cliente(6968, "UFP", 1);
+
+    /**
+     * Requisito 1.g
+     */
     ///GERAÇÃO DE RELATORIOS
     DATA dataMin = {1, 1, 2005};
     DATA dataMax = {1, 1, 2020};
     gerar_relatorio_viagens_cliente_betweenDates(6968, dataMin, dataMax,"C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\relatorio_viagens_cliente_6968.txt");
 
+    /**
+     * Requisito 2
+     */
 
     // remover_PoI_cidade("Porto","Estadio do Dragao");
     // edit_PoI("Porto","UFP","UFP Caralho!");

@@ -49,7 +49,6 @@ typedef struct lista_cidades {
 typedef struct viagem {
     int id;
     char *pais;
-    bool concluida;
     DATA data_inicio;
     DATA data_fim;
     int nif_cliente;
