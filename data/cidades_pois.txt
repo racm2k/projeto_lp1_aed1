@@ -1,11 +1,11 @@
 Num de Cidades: 5
-6, nfhgjr, metyu , 245.63, 275.46
+1, Penafiel, casa do semaforo , 245.63, 275.46
 Numero Pontos Interesse: 0
 
-5, asdasdwtwf, asw5j7dasd , 654.74, 746.46
+1, Arouca, melhor equipa , 654.74, 746.46
 Numero Pontos Interesse: 0
 
-4, Coimbra, asdasd , 765.34, 234.65
+1, Coimbra, asdasd , 765.34, 234.65
 Numero Pontos Interesse: 0
 
 1, Porto, Porto , 534.24, 765.42
@@ -15,6 +15,6 @@ Porto, Clerigos, 3
 Porto, Aliados, 2
 Porto, Estadio do Dragao, 1
 
-2, Braga, uma merda, 254.13, 153.60
+1, Braga, uma merda, 254.13, 153.60
 Numero Pontos Interesse: 0
 

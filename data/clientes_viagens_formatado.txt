@@ -1,17 +1,26 @@
 Numero de Clientes: 7
 11; Alberta; tua mae; 42042; 6968; 20/7/2000; 17/11/2231
-Numero de viagens: 2
-1, Portugal, 5/11/2022, 12/11/2022
-5, Italia, 21/12/2022, 1/1/2023
+Numero de viagens: 11
+1; Portugal; 5/11/2022; 12/11/2022
+3; Italia; 21/12/2022; 1/1/2023
+2; Espanha; 15/6/2000; 1/1/2023
+4; Franca; 27/7/2007; 1/1/2023
+6; Belgica; 21/2/2015; 1/1/2023
+7; Alemanha; 13/12/2016; 1/1/2023
+8; Kazaquistao; 7/8/2010; 1/1/2023
+9; Paquistao; 9/11/2017; 1/1/2023
+10; Africa do Sul; 21/12/2022; 1/1/2023
+11; Zimbabwe; 14/11/2015; 1/1/2023
+12; Mongolia; 6/11/1999; 1/1/2023
 
 15; Alberto; tua mae; 42042; 6969; 10/12/2000; 30/12/2222
 Numero de viagens: 1
-2, Espanha, 10/10/2021, 20/10/2021
+2; Espanha; 10/10/2021; 20/10/2021
 
 17; Joaquim; tua prima; 69690; 420420; 8/10/1998; 5/6/1999
 Numero de viagens: 2
-2, Espanha, 15/11/2021, 15/5/2022
-3, ahdbahd, 19/8/2022, 5/11/2022
+2; Espanha; 15/11/2021; 15/5/2022
+3; ahdbahd; 19/8/2022; 5/11/2022
 
 4; Alfredo; tua tia; 15150; 434313; 4/6/2001; 3/4/2005
 Numero de viagens: 0
