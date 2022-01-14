@@ -28,7 +28,7 @@ int main_testes() {
      * Testes sobre informaçao dos Clientes
      */
 
-    printf("\nTestes dos Clientes:\n");
+    printf("*********Testes dos Clientes:*********\n");
 
     ///INSERIR CLIENTES
 
@@ -71,7 +71,7 @@ int main_testes() {
       * Testes sobre Viagens
       */
 
-    printf("\nTestes das Viagens:\n");
+    printf("\n*********Testes das Viagens:*********\n");
 
     ///INSERIR VIAGEM
 
@@ -111,7 +111,7 @@ int main_testes() {
      * Testes sobre Cidades das Cidades
      */
 
-    printf("\nTestes das Cidades:\n");
+    printf("\n*********Testes das Cidades:*********\n");
 
     ///INSERIR CIDADE
     // inserir na estrutura para as inserçoes manuais
@@ -142,7 +142,7 @@ int main_testes() {
       * Testes sobre Pontos de Interesse das Cidades
       */
 
-    printf("\nTestes dos Pontos de Interesse das Cidades:\n");
+    printf("\n***********Testes dos Pontos de Interesse das Cidades:************\n");
 
     ///INSERIR PONTOS DE INTERESSE
 
@@ -168,8 +168,7 @@ int main_testes() {
       * Testes Ler/Escrever para ficheiro txt e binario
       */
 
-    printf("\nTestes para ler/escrever para ficheiros txt e binario:\n");
-
+    printf("\n*********Testes para ler/escrever para ficheiros txt e binario:*********\n");
     ///LER E ESCREVER PARA FICHEIRO TXT E BINARIO
     //ler_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
     //escrever_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
