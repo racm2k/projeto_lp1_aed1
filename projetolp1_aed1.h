@@ -128,11 +128,11 @@ void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descric
 CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade);
 void edit_cidade(int id_viagem, int id_cidade, char *nome_cidade, const char *nova_descricao);
 void remove_cidade(int id_viagem, int id_cidade);
-void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida, int beginDay, int beginMon, int beginYear,
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, int beginDay, int beginMon, int beginYear,
                int endDay, int endMon, int endYear);
 void edit_viagem(int nif_cliente, int id_viagem, char *novo_pais);
 VIAGEM *pesquisar_viagem(int id_viagem);
-void remove_viagem(int id_cliente, int id_viagem);
+void remove_viagem(int nif_cliente, int id_viagem);
 
 void imprimir_pois(char *nome_cidade);
 void remover_PoI_cidade(char *nome_cidade, char *nome_poi);

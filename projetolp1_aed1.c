@@ -19,8 +19,8 @@ int mainProjeto() {
  * @return node lista de clientes criada
  */
 void *criar_lista_clientes() {
-    LISTA_CLIENTES *node = (LISTA_CLIENTES *) malloc(sizeof(LISTA_CLIENTES));
-    node->head_clientes = NULL;
+    LISTA_CLIENTES *node = (LISTA_CLIENTES *) malloc(sizeof(LISTA_CLIENTES)); //alocar espaço memoria para lista clientes
+    node->head_clientes = NULL; //cabeça aponta para null
     node->num_clientes = 0;
     return node;
 }
@@ -50,9 +50,9 @@ void *criar_lista_cidades() {
  */
 void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int nif, int brithDay,
                             int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto) {
-    CLIENTES *node = lc->head_clientes;
+    CLIENTES *node = lc->head_clientes; //node aponta para cabeça da lista
     if (node == NULL) {
-        CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
+        CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES)); //novo no do tipo cliente
 
         novo_no->id = id;
         novo_no->nome = (char *) malloc(50 * sizeof(char));
@@ -86,7 +86,7 @@ void inserir_cliente_cabeca(int id, char *nome, char *morada, int contacto, int 
             node = node->next;
         }
 
-        CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES));
+        CLIENTES *novo_no = (CLIENTES *) malloc(sizeof(CLIENTES)); //aloca espaço memoria para o cliente
 
         novo_no->id = id;
         novo_no->nome = (char *) malloc(50 * sizeof(char));
@@ -125,7 +125,7 @@ void imprimir_clientes() {
                l->data_registo.dia, l->data_registo.mes, l->data_registo.ano);
         l = l->next;
     }
-    printf("**************FIM DE LISTA**********\n");
+    printf("**************FIM DE LISTA**********\n\n");
 }
 
 /**
@@ -142,20 +142,20 @@ void imprimir_clientes() {
  */
 void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int nif, int brithDay,
                            int birthMon, int birthYear, int diaRegisto, int mesRegisto, int anoRegisto) {
-    CLIENTES *current = lc->head_clientes, *ant = NULL;
+    CLIENTES *current = lc->head_clientes, *ant = NULL; //current aponta cabeça
 
-    if (current == NULL) {
+    if (current == NULL) { //se n existir nenhum cliente ainda
         inserir_cliente_cabeca(id, nome, morada, contacto, nif, brithDay, birthMon, birthYear, diaRegisto, mesRegisto,
                                anoRegisto);
         return;
     }
 
-    while (current->next != NULL) {
+    while (current->next != NULL) { //enquanto n for null
         if (current->id == id || current->nif == nif) {
             printf("ERRO -> inserir_cliente_cauda(): Ja existe um cliente com esse id/nif!! Cliente nao foi introduzido\n");
             return;
         }
-        current = current->next;
+        current = current->next; //e aponta para o proximo
     }
 
     ant = (CLIENTES *) malloc(sizeof(CLIENTES));
@@ -197,7 +197,7 @@ void inserir_cliente_cauda(int id, char *nome, char *morada, int contacto, int n
 void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, int nif, bool insNome,
                               int brithDay, int birthMon, int birthYear, int diaRegisto, int mesRegisto,
                               int anoRegisto) {
-    CLIENTES *c = (CLIENTES *) malloc(sizeof(CLIENTES));
+    CLIENTES *c = (CLIENTES *) malloc(sizeof(CLIENTES)); //alocar espaço memoria para novo cliente
     c->id = id;
     c->nome = (char *) malloc(50 * sizeof(char));
     strcpy(c->nome, nome);
@@ -216,12 +216,12 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
     c->maxNum_viagens = 0;
     c->next = NULL;
 
-    if (lc->head_clientes == NULL || lc->num_clientes == 0) {
-        lc->head_clientes = c;
+    if (lc->head_clientes == NULL || lc->num_clientes == 0) { //se cabeça estiver vazia e num clientes = 0
+        lc->head_clientes = c; //adiciona o novo cliente
         lc->num_clientes++;
         return;
     } else {
-        CLIENTES *current = lc->head_clientes, *ant = NULL;
+        CLIENTES *current = lc->head_clientes, *ant = NULL; //se n tiver vazia, current aponta para cabeça
 
         while (current->next != NULL) {
             if (current->id == id || current->nif == nif) {
@@ -234,8 +234,8 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
 
         if (insNome == true) {  // INSERIR ORDENADO PELO NOME
             while (current != NULL && strcmp(nome, current->nome) > 0) {//enquanto n chegar sitio certo NOME
-                ant = current;
-                current = current->next;
+                ant = current;              //ant fica com o valor do current
+                current = current->next;    //current aponta para o prox
             }
             if (current == lc->head_clientes) {//cabeça
                 c->next = current;
@@ -270,22 +270,22 @@ void inserir_cliente_ordenado(int id, char *nome, char *morada, int contacto, in
  * Remover cliente
  * @param id id do cliente
  */
-void remover_cliente(int id) {
-    if (lc->head_clientes == NULL) {
+void remover_cliente(int id) {  //recebe id
+    if (lc->head_clientes == NULL) { //se houver clientes
         printf("A lista esta vazia!!");
         return;
     }
 
-    CLIENTES *anterior = NULL, *current = lc->head_clientes;
+    CLIENTES *anterior = NULL, *current = lc->head_clientes; //current aponta cabeça
 
-    while (current != NULL && current->id != id) {
-        anterior = current;
-        current = current->next;
+    while (current != NULL && current->id != id) { //enquanto current !=null e os ids forem diferentes
+        anterior = current;         //anterior fica com o valor do current
+        current = current->next;    //e o current aponta para o prox
     }
 
-    if (current == lc->head_clientes) {
-        lc->head_clientes = lc->head_clientes->next;
-        free(current);
+    if (current == lc->head_clientes) {             //se o current for a cabeça
+        lc->head_clientes = lc->head_clientes->next; //a cabeça passa a ser o 2 elemento da lista
+        free(current);                               //damos free
         lc->num_clientes--;
         return;
     }
@@ -313,12 +313,12 @@ CLIENTES *procurar_cliente_nome(const char *nome) {
         return 0;
     }
 
-    for (int i = 0; i < lc->num_clientes; i++) {
-        if (strcmp(current->nome, nome) == 0) {
+    for (int i = 0; i < lc->num_clientes; i++) {    //enquanto i < q o num de clientes
+        if (strcmp(current->nome, nome) == 0) {     //se os nomes forem iguais
             printf("Encontramos o cliente!! Nome: %s\n", nome);
             return current;
         }
-        current = current->next;
+        current = current->next;        //se n forem iguais avança para o prox
     }
     printf("Nao encontramos o cliente pedido!!\n");
     return 0;
@@ -337,12 +337,12 @@ CLIENTES *procurar_cliente_nif(int nif) {
         return 0;
     }
 
-    for (int i = 0; i < lc->num_clientes; i++) {
+    for (int i = 0; i < lc->num_clientes; i++) {    //enquanto < q num de clientes
         if (current->nif == nif) {
             printf("Encontramos o cliente!! Nif: %d\n", nif);
             return current;
         }
-        current = current->next;
+        current = current->next;    ////se n forem iguais avança para o prox
     }
     printf("Nao encontramos o cliente pedido!!\n");
     return 0;
@@ -352,7 +352,7 @@ CLIENTES *procurar_cliente_nif(int nif) {
  * Ordenar lista ligada por nif
  */
 void ordenar_lista_nif() {
-    CLIENTES *current = lc->head_clientes, *nova = NULL;
+    CLIENTES *current = lc->head_clientes, *nova = NULL;    //current aponta para a cabeça
     int aux;
 
     if (current == NULL) {
@@ -360,18 +360,18 @@ void ordenar_lista_nif() {
         return;
     }
 
-    while (current != NULL) {
-        nova = current->next;
+    while (current != NULL) {   //enquanto o current != null
+        nova = current->next;   //o novo fica com o valor do seguinte do current
 
         while (nova != NULL) {
             if (current->nif > nova->nif) {  //se o nif for > q o nif da nova
-                aux = current->nif;        //guardo o valor do nif na variavel temp
+                aux = current->nif;        //guardo o valor do nif na variavel aux
                 current->nif = nova->nif;   //e mete no meu current nif a variavel q estava no nova
-                nova->nif = aux;           //ponho no nova a variavel q estava no temp q era o current nif
+                nova->nif = aux;           //ponho no nova a variavel q estava no aux q era o current nif
             }
-            nova = nova->next;
+            nova = nova->next;  //passa para a prox
         }
-        current = current->next;
+        current = current->next; //passa para a prox
     }
 }
 
@@ -389,11 +389,11 @@ void imprimir_ordenado() {
 
 /**
  * Funcao para inserir uma cidade numa viagem
- *
  * @param id_viagem id da viagem onde vamos inserir a cidade
- * @param id_cidade id da cidade escolhido para identificacao
  * @param nome_cidade nome da cidade inserida
  * @param descricao descricao da cidade inserida
+ * @param x coordenada da cidade
+ * @param y coordenada da cidade
  */
 void inserir_cidade_numa_viagem(int id_viagem, char *nome_cidade, char *descricao, float x, float y) {
     VIAGEM *viagem = pesquisar_viagem(id_viagem);
@@ -495,19 +495,20 @@ void inserir_cidade_lista_global(int id_cidade, char *nome_cidade, char *descric
 }
 
 /**
- * Pesquisa de cidade
- * @param cidade nome da cidade a ser pesquisada
- * @return array das head_cidades pesquisada
+ * Funçao para pesquisar de cidade
+ * @param id_viagem id da viagem
+ * @param cidade cidade a procurar
+ * @return
  */
 CIDADE *pesquisar_cidade_nome(int id_viagem, char *cidade) {
-    CLIENTES *clientes = lc->head_clientes;
+    CLIENTES *clientes = lc->head_clientes; //clientes recebe a lista ligada de clientes
 
     if (clientes == NULL) {
         printf("Lista de Clientes Vazia!!\n");
         return NULL;
     }
 
-    VIAGEM *viagem = pesquisar_viagem(id_viagem);
+    VIAGEM *viagem = pesquisar_viagem(id_viagem);   //pesquisa a viagem com aquele id
     if (viagem != NULL) {
         CIDADE *arr_cidades = viagem->cidades;
         for (int i = 0; i < viagem->num_cidades; i++) {
@@ -571,36 +572,41 @@ void remove_cidade(int id_viagem, int id_cidade) {
     }
 }
 
-/**
- * Funcao para adicionar uma viagem a um cliente
- * @param nif nif do cliente
- * @param id_viagem id escolhido para a viagem
- * @param pais_destino pais de destino da viagem
- */
-void
-inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida, int beginDay, int beginMon, int beginYear,
+ /**
+  * Funcao para adicionar uma viagem a um cliente
+  * @param nif nif do cliente
+  * @param id_viagem id escolhido para a viagem
+  * @param pais_destino pais de destino da viagem
+  * @param beginDay dia de inicio da viagem
+  * @param beginMon mes da viagem
+  * @param beginYear ano da viagem
+  * @param endDay dia de fim
+  * @param endMon mes em que acaba a viagem
+  * @param endYear ano em que acaba a viagem
+  */
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, int beginDay, int beginMon, int beginYear,
                int endDay, int endMon, int endYear) {
-    CLIENTES *cliente = procurar_cliente_nif(nif);
+    CLIENTES *cliente = procurar_cliente_nif(nif); //procura pelo cliente atraves do nif
 
-    while (cliente != NULL) {
-        if (cliente->nif == nif) {
-            if (cliente->num_viagens == cliente->maxNum_viagens) {
-                if (cliente->maxNum_viagens == 0) {
-                    cliente->maxNum_viagens = 2;
+    while (cliente != NULL) {   //enquanto houver clientes
+        if (cliente->nif == nif) { //se nifs iguais
+            if (cliente->num_viagens == cliente->maxNum_viagens) { //se o num viagens = ao num max de viagens (realloc)
+                if (cliente->maxNum_viagens == 0) { //se o num max foss 0
+                    cliente->maxNum_viagens = 2;    //passava para 2
                 } else {
-                    cliente->maxNum_viagens *= 2;
+                    cliente->maxNum_viagens *= 2;   //senao multiplica
                 }
                 cliente->viagens_arr = (VIAGEM *) realloc(cliente->viagens_arr,
                                                           cliente->maxNum_viagens * sizeof(VIAGEM));
             }
-            VIAGEM *arr_viagens = cliente->viagens_arr;
-            for (int i = 0; i < cliente->num_viagens; i++) {
-                if (arr_viagens[i].id == id_viagem) {
+            VIAGEM *arr_viagens = cliente->viagens_arr; //array de viagens aponta para o viagens_arr
+            for (int i = 0; i < cliente->num_viagens; i++) {    //enquanto n chegar ao num viagens do cliente
+                if (arr_viagens[i].id == id_viagem) {           //se ids iguais
                     printf("Viagem ja existente!!\n");
                     return;
                 }
             }
-            arr_viagens[cliente->num_viagens].id = id_viagem;
+            arr_viagens[cliente->num_viagens].id = id_viagem;   //senao guarda os valores no array de viagens
             arr_viagens[cliente->num_viagens].pais = (char *) malloc(50 * sizeof(char));
             strcpy(arr_viagens[cliente->num_viagens].pais, pais_destino);
             arr_viagens[cliente->num_viagens].nif_cliente = nif;
@@ -613,13 +619,12 @@ inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida, int
             arr_viagens[cliente->num_viagens].data_fim.mes = endMon;
             arr_viagens[cliente->num_viagens].data_fim.ano = endYear;
             arr_viagens[cliente->num_viagens].maxNum_cidades = 0;
-            arr_viagens[cliente->num_viagens].concluida = isConcluida;
             arr_viagens[cliente->num_viagens].next = NULL;
             cliente->viagens_arr = arr_viagens;
             cliente->num_viagens++;
             return;
         }
-        cliente = cliente->next;
+        cliente = cliente->next;    //passa para o prox
     }
 }
 
@@ -628,9 +633,9 @@ inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida, int
  * @param nif nif do cliente
  */
 void imprimir_viagens_cliente(int nif) {
-    CLIENTES *cliente = procurar_cliente_nif(nif);
-    VIAGEM *current = cliente->viagens_arr;
-    printf("Cliente id[%d]\tNome: %s\tNIF: %d\tNumero de Viagens: %d\n", cliente->id, cliente->nome, cliente->nif,
+    CLIENTES *cliente = procurar_cliente_nif(nif);  //pesquisa o cliente pelo nif
+    VIAGEM *current = cliente->viagens_arr;         //o current aponta para o array de viagens
+    printf("\nCliente id[%d]\tNome: %s\tNIF: %d\tNumero de Viagens: %d\n", cliente->id, cliente->nome, cliente->nif,
            cliente->num_viagens);
     for (int i = 0; i < cliente->num_viagens; i++) {
         printf("ID: %d\tPais: %s\tNum Cidades: %d\n", current[i].id, current[i].pais, current[i].num_cidades);
@@ -648,14 +653,14 @@ void imprimir_viagens_cliente(int nif) {
  * @param novo_pais alteracao a ser feita
  */
 void edit_viagem(int nif_cliente, int id_viagem, char *novo_pais) {
-    CLIENTES *cliente = procurar_cliente_nif(nif_cliente);
-    VIAGEM *current = cliente->viagens_arr;
+    CLIENTES *cliente = procurar_cliente_nif(nif_cliente); //procura cliente pelo nif
+    VIAGEM *current = cliente->viagens_arr; //current aponta para array de viagens
 
-    if (current != NULL) {
-        for (int i = 0; i < cliente->num_viagens; i++) {
+    if (current != NULL) {  //enquanto current != null
+        for (int i = 0; i < cliente->num_viagens; i++) {    //e for < q num de cidades do cliente
 
-            if (current[i].id == id_viagem) {
-                strcpy(current[i].pais, novo_pais);
+            if (current[i].id == id_viagem) {   //se ids forem ==
+                strcpy(current[i].pais, novo_pais); //pomos o novo pais na variavel pais do current
                 return;
             }
         }
@@ -668,7 +673,7 @@ void edit_viagem(int nif_cliente, int id_viagem, char *novo_pais) {
  * @return Se existir, retorna a estrutura da viagem procurada, senao retorna NULL
  */
 VIAGEM *pesquisar_viagem(int id_viagem) {
-    CLIENTES *clientes = lc->head_clientes;
+    CLIENTES *clientes = lc->head_clientes; //clientes aponta para a cabeça da lista
     if (clientes == NULL) {
         printf("Lista de Clientes vazia!!\n");
         return NULL;
@@ -691,11 +696,12 @@ VIAGEM *pesquisar_viagem(int id_viagem) {
 }
 
 /**
- * Funcao para remover uma viagem enviando o seu id por parametro
+ * Funcao para remover uma viagem enviando o seu id e nif do cliente por parametro
+ * @param nif_cliente nif do cliente
  * @param id_viagem id da viagem a remover
  */
 void remove_viagem(int nif_cliente, int id_viagem) {
-    CLIENTES *clientes = procurar_cliente_nif(nif_cliente);
+    CLIENTES *clientes = procurar_cliente_nif(nif_cliente); //procuramos cliente pelo nif
     if (clientes == NULL) {
         printf("Cliente nao existe!!\n");
         return;
@@ -706,18 +712,18 @@ void remove_viagem(int nif_cliente, int id_viagem) {
  * inicializamos a -1 para, caso nao haja uma viagem com o id que queremos remover,
  * dá fail na verificacao abaixo e nao elimina nenhuma posicao por engano
 */
-    if (clientes->num_viagens == 1 && current->id == id_viagem) {
-        current = NULL;
+    if (clientes->num_viagens == 1 && current->id == id_viagem) { //se so houver 1 viagem e os ids fores iguais
+        current = NULL; //current aponta para null
         clientes->num_viagens--;
     } else {
-        for (int i = 0; i < clientes->num_viagens; i++) {
-            if (current[i].id == id_viagem) {
-                id = i;
+        for (int i = 0; i < clientes->num_viagens; i++) { //enquanto i < num viagens
+            if (current[i].id == id_viagem) {   //se os ids forem iguais
+                id = i; //o id passa a ser o i
             }
         }
-        if (id >= 0) {
-            for (int i = id; i < clientes->num_viagens; i++) {
-                current[i] = current[i + 1];
+        if (id >= 0) {  //se id>=0
+            for (int i = id; i < clientes->num_viagens; i++) {  //e enquanto nao chegarmos a ultima viagem do cliente
+                current[i] = current[i + 1];    //a posiçao do current fica +1
             }
             printf("Viagem removida!!\n");
             clientes->num_viagens--;
@@ -732,18 +738,18 @@ void remove_viagem(int nif_cliente, int id_viagem) {
  * @param nome_poI
  */
 void inserir_PoI(char *nome_cidade, int id_poI, char *nome_poI) {
-    CIDADE *current = lcidades->head_cidades;
+    CIDADE *current = lcidades->head_cidades;   //current aponta cabeça da lista de cidades
 
     while (current != NULL) {
-        if (strcmp(current->nome, nome_cidade) == 0)
+        if (strcmp(current->nome, nome_cidade) == 0)    //se os nomes forem iguais
             break;
         current = current->next;
     }
 
-    PoI *node = current->head_pontos_interesse;
+    PoI *node = current->head_pontos_interesse; //node fica a apontar para a cabeça da lista de poI
 
     if (node == NULL) {
-        PoI *novo_no = (PoI *) malloc(sizeof(PoI));
+        PoI *novo_no = (PoI *) malloc(sizeof(PoI)); //alocamos espaço para um novo no
 
         novo_no->id_PoI = id_poI;
         novo_no->nome = (char *) malloc(50 * sizeof(char));
@@ -851,7 +857,7 @@ void ler_clientes_ficheiro_txt_formatado(char *filename) {
             for (int j = 0; j < num_viagens; j++) {
                 fscanf(fp, "%d, %s, %d/%d/%d, %d/%d/%d\n", &id_viagens[j], pais, &dia_inicio, &mes_inicio, &ano_inicio,
                        &dia_fim, &mes_fim, &ano_fim);
-                inserir_viagem(nif, id_viagens[j], pais, true, dia_inicio, mes_inicio, ano_inicio, dia_fim, mes_fim,
+                inserir_viagem(nif, id_viagens[j], pais, dia_inicio, mes_inicio, ano_inicio, dia_fim, mes_fim,
                                ano_fim);
             }
             imprimir_viagens_cliente(nif);
@@ -1220,7 +1226,7 @@ void ler_clientes_viagens_ficheiro_bin(char *filename) {
                 fread(&mesFim, sizeof(int), 1, fp);
                 fread(&anoFim, sizeof(int), 1, fp);
 
-                inserir_viagem(nif, id_viagem, pais, true, diaInicio, mesInicio, anoInicio, diaFim, mesFim, anoFim);
+                inserir_viagem(nif, id_viagem, pais, diaInicio, mesInicio, anoInicio, diaFim, mesFim, anoFim);
             }
         }
     } else
