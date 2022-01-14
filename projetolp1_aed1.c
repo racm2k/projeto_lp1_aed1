@@ -1150,8 +1150,7 @@ void print_HistoricoViagens_cliente(int nif_cliente, char *pesquisa, int tipoPes
                 CIDADE *cidades = viagens[i].cidades;
                 if (cidades != NULL) {
                     while (cidades != NULL) {
-                        //no 2 parametro nao tamos a mandar os poI FIX!!
-                        PoI *poI = pesquisar_PoI(pesquisa, cidades->nome);
+                        PoI *poI = pesquisar_PoI(pesquisa, cidades->head_pontos_interesse->nome);
                         if (poI != NULL) {
                             printf("Viagem ao pais %s e visitou o PoI %s\n", viagens[i].pais, poI->nome);
                             return;
@@ -1466,7 +1465,7 @@ int partition(VIAGEM *array, int low, int high) {
 }
 
 /**
- *  Funcao que implementa o algoritmo de ordenacao QuickSort
+ * Funcao que implementa o algoritmo de ordenacao QuickSort
  * @param array array de viagens do cliente
  * @param low indice de começo
  * @param high indice de fim

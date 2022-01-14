@@ -133,8 +133,8 @@ int main_testes() {
     edit_cidade(1, "Porto", "BEST CITY IN DA WORLDS");
 
     ///REMOVER CIDADE
-    remove_cidade(1, "Coimbra");
-    imprimir_viagens_cliente(6968);
+    //remove_cidade(1, "Coimbra");
+    //imprimir_viagens_cliente(6968);
 
 
     /**
@@ -170,8 +170,8 @@ int main_testes() {
       */
 
     printf("\n*********Testes para ler/escrever para ficheiros txt e binario:*********\n");
-    ///LER E ESCREVER PARA FICHEIRO TXT E BINARIO
 
+    ///LER E ESCREVER PARA FICHEIRO TXT E BINARIO
     //escrever_clientes_ficheiro_txt_formatado("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_formatado.txt");
     //escrever_clientes_viagens_bin("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\clientes_viagens_bin.bin");
     //escrever_cidades_pois_bin("C:\\Users\\diogo\\OneDrive\\Ambiente de Trabalho\\projeto_lp1_aed1\\data\\cidades_pois_bin.bin");
@@ -180,7 +180,7 @@ int main_testes() {
     /**
      *  Requisito 1.e
      */
-    print_HistoricoViagens_cliente(6968, "Porto", 1);
+    print_HistoricoViagens_cliente(6968, "Arouca", 1);
 
     /**
      * Requisito 1.g
