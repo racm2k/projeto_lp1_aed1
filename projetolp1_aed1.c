@@ -613,7 +613,7 @@ void remove_cidade(int id_viagem, char *nome_cidade) {
  * @param id_viagem id escolhido para a viagem
  * @param pais_destino pais de destino da viagem
  */
-void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida, int beginDay, int beginMon, int beginYear,
+void inserir_viagem(int nif, int id_viagem, char *pais_destino, int beginDay, int beginMon, int beginYear,
                int endDay, int endMon, int endYear) {
     CLIENTES *cliente = procurar_cliente_nif(nif);
 
@@ -648,7 +648,6 @@ void inserir_viagem(int nif, int id_viagem, char *pais_destino, bool isConcluida
             arr_viagens[cliente->num_viagens].data_fim.mes = endMon;
             arr_viagens[cliente->num_viagens].data_fim.ano = endYear;
             arr_viagens[cliente->num_viagens].maxNum_cidades = 0;
-            arr_viagens[cliente->num_viagens].concluida = isConcluida;
             arr_viagens[cliente->num_viagens].next = NULL;
             cliente->viagens_arr = arr_viagens;
             cliente->num_viagens++;
@@ -887,7 +886,7 @@ void ler_clientes_ficheiro_txt_formatado(char *filename) {
             for (int j = 0; j < num_viagens; j++) {
                 fscanf(fp, "%d; %99[^;]; %d/%d/%d; %d/%d/%d\n", &id_viagens, pais, &dia_inicio, &mes_inicio, &ano_inicio,
                        &dia_fim, &mes_fim, &ano_fim);
-                inserir_viagem(nif, id_viagens, pais, true, dia_inicio, mes_inicio, ano_inicio, dia_fim, mes_fim,
+                inserir_viagem(nif, id_viagens, pais, dia_inicio, mes_inicio, ano_inicio, dia_fim, mes_fim,
                                ano_fim);
             }
             imprimir_viagens_cliente(nif);
@@ -1255,9 +1254,9 @@ void ler_clientes_viagens_ficheiro_bin(char *filename) {
                 fread(&mesFim, sizeof(int), 1, fp);
                 fread(&anoFim, sizeof(int), 1, fp);
 
-                inserir_viagem(nif, id_viagem, pais, true, diaInicio, mesInicio, anoInicio, diaFim, mesFim, anoFim);
+                inserir_viagem(nif, id_viagem, pais, diaInicio, mesInicio, anoInicio, diaFim, mesFim, anoFim);
             }
-        }
+        }       //WHAT A GREAT I HAVE TO SAY
     } else
         printf("Erro ao abrir o ficheiro!!!\n");
 }
@@ -1450,7 +1449,7 @@ int partition(VIAGEM array[], int low, int high) {
     /**
      * coloca o pivot na posicao correta
      */
-    swap(&array[i + 1], &pivot);
+    swap(&array[i + 1], &array[high]);
 
     return (i + 1);
 }
@@ -1484,7 +1483,7 @@ void quickSort(VIAGEM array[], int low, int high) {
  */
 void printArray(VIAGEM array[], int size) {
     for (int i = 0; i < size; ++i) {
-        printf("%s  %d/%d/%d", array[i].pais, array[i].data_inicio.dia, array[i].data_inicio.mes,
+        printf("%s  %d/%d/%d ", array[i].pais, array[i].data_inicio.dia, array[i].data_inicio.mes,
                array[i].data_inicio.ano);
     }
     printf("\n");

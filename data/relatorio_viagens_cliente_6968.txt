@@ -2,10 +2,7 @@ Cliente Alberta com nif [6968]:
 Viagens entre 1/1/2005 e 1/1/2020 :
 		Viagem ao pais Franca
 		Viagem ao pais Kazaquistao
-		Viagem ao pais Kazaquistao
+		Viagem ao pais Belgica
 		Viagem ao pais Zimbabwe
-		Viagem ao pais Zimbabwe
-		Viagem ao pais Zimbabwe
-		Viagem ao pais Zimbabwe
-		Viagem ao pais Zimbabwe
-		Viagem ao pais Zimbabwe
+		Viagem ao pais Alemanha
+		Viagem ao pais Paquistao
